@@ -311,6 +311,7 @@ c.url.searchengines = {
     "lc": "https://dict.leo.org/chinesisch-deutsch/{}",
     "le": "https://dict.leo.org/german-english/{}",
     "lf": "https://dict.leo.org/französisch-deutsch/{}",
+    "li": "https://dict.leo.org/italienisch-deutsch/{}",
     "mel": "http://melpa.org/#/?q={}",
     "py": "https://docs.python.org/3/search.html?q={}",
     "ug": "https://www.ultimate-guitar.com/search.php?search_type=title&value={}",
@@ -321,9 +322,9 @@ c.url.searchengines = {
 }
 
 # Aliases
-c.aliases[
-    "ssh-tunnel"
-] = "config-cycle --temp content.proxy socks://localhost:4711 system"
+c.aliases["ssh-tunnel"] = (
+    "config-cycle --temp content.proxy socks://localhost:4711 system"
+)
 
 ## Miscellaneous settings
 # Start page
