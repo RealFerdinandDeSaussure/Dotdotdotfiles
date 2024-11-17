@@ -270,6 +270,7 @@ assign [app_id="Firefox"] $ws2
 assign [app_id="discord"] $ws3
 assign [app_id="zoom"] $ws3
 assign [class="Signal"] $ws3
+assign [app_id="com.rtosta.zapzap"] $ws3
 assign [app_id="Microsoft Teams - Preview"] $ws3
 assign [app_id="LibreOffice" window_type="splash"] $ws5
 assign [app_id="(?i).*libreoffice.*"] $ws5
