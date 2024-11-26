@@ -63,7 +63,7 @@ function dotool -a cmd
     else
         switch $cmd
             case type key
-                 $cmd --clearmodifiers "$argv[2..]"
+                xdotool --clearmodifiers "$argv[2..]"
             case superup
                 xdotool keyup Super
         end

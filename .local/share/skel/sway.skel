@@ -367,7 +367,7 @@ mode $mode_insert {
         bindsym Ctrl+c $execno $i3scriptsdir/pass_get -fxm; mode "default"
         bindsym Shift+c $execno $i3scriptsdir/pass_get -f; mode "default"
         bindsym Ctrl+Shift+c $execno $i3scriptsdir/pass_get -fm; mode "default"
-
+        bindsym t $execno $i3scriptsdir/totp_get; mode "default"
 
         bindsym Escape mode "default"
         bindsym $mod+i mode "default"
