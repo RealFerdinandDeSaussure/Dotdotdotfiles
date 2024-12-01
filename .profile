@@ -68,4 +68,3 @@ export FZF_ALT_C_COMMAND=$FZF_DEFAULT_COMMAND
 export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
  
 test -f ${HOME}/.profile_local && source ${HOME}/.profile_local
-export PASSWORD_STORE_PASS_MAIL="random/posteo.de"
