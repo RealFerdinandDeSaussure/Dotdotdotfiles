@@ -13,6 +13,6 @@ host            posteo.de
 port            465
 from            {{{MAIL_ADDRESS}}}
 user            {{{MAIL_ADDRESS}}}
-passwordeval    "pass show random/posteo | head -n 1"
+passwordeval    "pass show {{{PASSWORD_STORE_PASS_MAIL}}} | head -n 1"
 
 account default : posteo
