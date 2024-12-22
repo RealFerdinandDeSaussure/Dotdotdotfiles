@@ -1,4 +1,4 @@
-function renew_ctop
+function renew_cotp
     if [ -z "$argv" ]
         echo "Specify the Aegis encrypted database file to import." >&2
         return 1
