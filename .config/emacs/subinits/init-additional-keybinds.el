@@ -98,12 +98,14 @@
   "k"               'kill-this-buffer
   "K"               'kill-buffer-and-window
   "q"               'find-file
-  "v"             'evil-window-split
-  "s"             'evil-window-vsplit
-  "S"             (general-l
-                    (evil-window-vsplit) (evil-window-right 1))
-  "V"             (general-l
-                    (evil-window-split) (evil-window-down 1)))
+  "Q"               'project-find-file
+  "C-q"             'project-switch-project
+  "v"               'evil-window-split
+  "s"               'evil-window-vsplit
+  "S"               (general-l
+                        (evil-window-vsplit) (evil-window-right 1))
+  "V"               (general-l
+                        (evil-window-split) (evil-window-down 1)))
 
 ;; insert state keybinds
 (general-def
@@ -127,10 +129,15 @@
                      (interactive "P")
                      (°evil-search-visual-selection 'backward count)))
 
-;; isearch keybinds
-(general-def
-  :keymaps          'isearch-mode-map
-  "C-S-s"           'isearch-repeat-backward)
+;; eglot keybinds
+(general-goleader
+  :states         'motion
+  :keymaps        'eglot-mode-map
+  "="             'eglot-format-buffer)
+(general-goleader
+  :states          'visual
+  :keymaps         'eglot-mode-map
+  "="              'eglot-format)
 
 ;;  evil-ex and minibuffer keybinds
 (general-def
@@ -178,6 +185,11 @@
   :states           'motion
   :keymaps          'Info-mode-map
   "n"               'Info-goto-node)
+
+;; isearch keybinds
+(general-def
+  :keymaps          'isearch-mode-map
+  "C-S-s"           'isearch-repeat-backward)
 
 ;; (emacs-)lisp keybindings
 (general-leader

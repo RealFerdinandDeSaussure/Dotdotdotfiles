@@ -143,25 +143,15 @@ If DOWN is non-nil, then add lines below instead."
                    ((eq side 'right)
                     `(,nl "\"\"\"")))))))
 
-;; language server
-(use-package eglot
-  :hook ((python-mode go-mode) . eglot-ensure)
-  :init
-  (setq eglot-workspace-configuration
-        '(:pyright (:plugins (:pycodestyle (:enabled nil)))))
-  :general
-  (general-goleader
-    :states         'motion
-    :keymaps        'eglot-mode-map
-    "="             'eglot-format-buffer)
-  (general-goleader
-    :states          'visual
-    :keymaps         'eglot-mode-map
-    "="              'eglot-format)
-  :config
-  (evil-collection-eglot-setup)
-  (setq eglot-stay-out-of '(flymake))
-  (setq flymake-diagnostic-functions (list #'eglot-flymake-backend)))
+;; language server (eglot)
+(setq eglot-workspace-configuration
+      '(:pyright (:plugins (:pycodestyle (:enabled nil)))))
+(dolist (mode '(python go))
+  (add-hook
+    (°concat-symbols mode '-mode-hook)
+    (lambda ()
+      (call-interactively #'eglot)
+      (setq flymake-diagnostic-functions (list #'eglot-flymake-backend)))))
 
 ;; autocompletion
 (use-package company
@@ -209,13 +199,6 @@ If DOWN is non-nil, then add lines below instead."
                        (project-root (project-current)) (file-name-as-directory ".git") "index.lock")))
       (when (yes-or-no-p (concat "Really delete " index-file "?"))
         (delete-file index-file)))))
-
-(use-package project
-  :general
-  (general-leader
-    :keymaps         'motion
-    "Q"              'project-find-file
-    "C-q"            'project-switch-project))
 
 (use-package quickrun
   :general

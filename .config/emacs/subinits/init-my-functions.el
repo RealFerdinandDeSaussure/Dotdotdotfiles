@@ -236,7 +236,7 @@ Start eshell if it isn't running already."
   "Run pytest."
   (interactive)
   (let ((old-py-path (getenv "PYTHONPATH"))
-        (new-py-path (projectile-project-root)))
+        (new-py-path (project-root (project-current))))
     (setenv "PYTHONPATH" new-py-path)
     (quickrun :source `((:command . "pytest")
                         (:default-directory . ,new-py-path)
