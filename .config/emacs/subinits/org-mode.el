@@ -211,4 +211,4 @@ no children at all."
     (visual-line-mode)
     (setq-local display-line-numbers 'visual)))
 
-(provide 'init-org-mode)
+(provide 'org-mode)

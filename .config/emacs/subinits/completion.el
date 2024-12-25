@@ -43,4 +43,4 @@
   :init
   (setq completion-styles '(hotfuzz)))
 
-(provide 'init-completion)
+(provide 'completion)

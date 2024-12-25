@@ -26,7 +26,7 @@
 .config/emacs/snippets/mu4e-compose-mode/work
 !.config/emacs/subinits
 !.config/emacs/subinits/*
-.config/emacs/subinits/init-mu4e.el
+.config/emacs/subinits/mu4e.el
 .config/emacs/subinits/custom*
 !.config/emacs/themes
 !.config/emacs/themes/base16-env-theme.el

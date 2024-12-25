@@ -21,17 +21,17 @@
     (setq auto-save-list-file-prefix
       emacs-tmp-dir)
 
-(require 'init-package-management)
+(require 'package-management)
 
 (run-hooks '°pre-init-custom-hook) ; everything even earlier can go directly into custom-file
 
 ;; require essential custom functions
-(require 'init-my-essential-functions)
+(require 'my-essential-functions)
 
 ;; setup gui early to avoid modeline troubles
-(require 'init-gui-setup)
+(require 'gui-setup)
 
-(require 'init-evil-general)
+(require 'evil-general)
 
 ;; set up autoloads for all non-essential custom functions
 (setq generated-autoload-file (expand-file-name "custom-autoloads.el" emacs-subinit-dir))
@@ -46,20 +46,20 @@
 (load generated-autoload-file)
 
 ;; load up org-mode with workarounds
-(require 'init-org-mode)
+(require 'org-mode)
 
 ;; mu4e (lazily so emacs still runs without it)
 (unless (require 'init-mu4e nil t)
   (message "Error loading mu4e."))
 
-(require 'init-completion)
+(require 'completion)
 
-(require 'init-general-programming)
+(require 'general-programming)
 
-(require 'init-language-specific)
+(require 'language-specific)
 
-(require 'init-emacs-extensions)
+(require 'emacs-extensions)
 
-(require 'init-additional-keybinds)
+(require 'additional-keybinds)
 
 (run-hooks '°post-init-custom-hook)

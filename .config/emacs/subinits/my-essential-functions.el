@@ -7,4 +7,4 @@
   "Concatenate SYMBOLS together to form a single symbol."
   (intern (apply #'concat (mapcar #'symbol-name symbols))))
 
-(provide 'init-my-essential-functions)
+(provide 'my-essential-functions)

@@ -447,4 +447,4 @@ unless FOLDERS-ONLY is non-nil."
 (defvar °°window-layout-stack nil
   "Stack of recently recorded layout changes.")
 
-(provide 'init-my-functions.el)
+(provide 'my-functions.el)

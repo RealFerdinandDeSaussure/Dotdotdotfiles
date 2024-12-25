@@ -135,4 +135,4 @@
    "C-a"            'evil-numbers/inc-at-pt
    "C-x"            'evil-numbers/dec-at-pt))
 
-(provide 'init-evil-general)
+(provide 'evil-general)

@@ -221,4 +221,4 @@
   :keymaps          'lisp-mode-shared-map
   "e"               '°eval-visual-region)
 
-(provide 'init-additional-keybinds)
+(provide 'additional-keybinds)

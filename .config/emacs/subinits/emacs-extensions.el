@@ -161,4 +161,4 @@ Start terminal if it isn't running already."
               (delete-window (get-buffer-window buf)))))
 
 
-(provide 'init-emacs-extensions)
+(provide 'emacs-extensions)

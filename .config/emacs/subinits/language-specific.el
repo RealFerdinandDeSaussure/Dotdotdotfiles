@@ -167,4 +167,4 @@
 (use-package go-eldoc
   :hook (go-mode . go-eldoc-setup))
 
-(provide 'init-language-specific)
+(provide 'language-specific)

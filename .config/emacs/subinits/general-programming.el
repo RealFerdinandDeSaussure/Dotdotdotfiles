@@ -221,4 +221,4 @@ If DOWN is non-nil, then add lines below instead."
   (setq quickrun-focus-p nil))
 
 
-(provide 'init-general-programming)
+(provide 'general-programming)
