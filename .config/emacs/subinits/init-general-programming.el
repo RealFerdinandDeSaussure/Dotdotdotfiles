@@ -183,6 +183,11 @@ If DOWN is non-nil, then add lines below instead."
 
   (mapc #'evil-declare-not-repeat #'(°company-select-next °company-select-previous)))
 
+(use-package company-quickhelp
+  :after company
+  :config
+  (setq company-quickhelp-delay .2))
+
 (use-package magit
   :hook ((magit-mode . °source-ssh-env)
          (with-editor-mode . evil-insert-state))
