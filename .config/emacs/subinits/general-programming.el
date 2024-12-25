@@ -186,6 +186,7 @@ If DOWN is non-nil, then add lines below instead."
 (use-package company-quickhelp
   :after company
   :config
+  (company-quickhelp-mode)
   (setq company-quickhelp-delay .2))
 
 (use-package magit
