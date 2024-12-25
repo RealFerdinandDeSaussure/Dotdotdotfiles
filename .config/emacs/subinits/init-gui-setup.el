@@ -87,7 +87,10 @@
   (column-number-mode 1))
 
 (push (expand-file-name "themes" user-emacs-directory) custom-theme-load-path)
-(load-theme 'base16-generic t)
+(use-package base16-theme
+  :demand
+  :config
+  (load-theme 'base16-env t))
 (push `(font . ,(concat (or (getenv "FONT_MONO") "Monospace"))) default-frame-alist)
 
 (use-package rainbow-delimiters

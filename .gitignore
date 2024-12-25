@@ -29,7 +29,7 @@
 .config/emacs/subinits/init-mu4e.el
 .config/emacs/subinits/custom*
 !.config/emacs/themes
-!.config/emacs/themes/base16-generic-theme.el
+!.config/emacs/themes/base16-env-theme.el
 
 !.config/fish
 # config.fish is generated automatically if it's empty
