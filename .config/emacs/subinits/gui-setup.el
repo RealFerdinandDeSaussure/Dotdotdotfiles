@@ -86,11 +86,15 @@
   (telephone-line-mode 1)
   (column-number-mode 1))
 
+;;; theme settings
 (push (expand-file-name "themes" user-emacs-directory) custom-theme-load-path)
 (use-package base16-theme
   :demand
   :config
-  (load-theme 'base16-env t))
+  (load-theme 'base16-env t)
+  ;; override cursor color
+  (set-face-attribute 'cursor nil :background (plist-get base16-env-theme-colors :base06)))
+
 (push `(font . ,(concat (or (getenv "FONT_MONO") "Monospace"))) default-frame-alist)
 
 (use-package rainbow-delimiters
