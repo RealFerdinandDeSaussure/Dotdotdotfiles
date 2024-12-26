@@ -98,14 +98,12 @@
   "k"               'kill-this-buffer
   "K"               'kill-buffer-and-window
   "q"               'find-file
-  "Q"               'project-find-file
-  "C-q"             'project-switch-project
   "v"               'evil-window-split
   "s"               'evil-window-vsplit
   "S"               (general-l
-                        (evil-window-vsplit) (evil-window-right 1))
+                      (evil-window-vsplit) (evil-window-right 1))
   "V"               (general-l
-                        (evil-window-split) (evil-window-down 1)))
+                      (evil-window-split) (evil-window-down 1)))
 
 ;; insert state keybinds
 (general-def
@@ -128,16 +126,6 @@
   "#"              (lambda (count)
                      (interactive "P")
                      (°evil-search-visual-selection 'backward count)))
-
-;; eglot keybinds
-(general-goleader
-  :states         'motion
-  :keymaps        'eglot-mode-map
-  "="             'eglot-format-buffer)
-(general-goleader
-  :states          'visual
-  :keymaps         'eglot-mode-map
-  "="              'eglot-format)
 
 ;;  evil-ex and minibuffer keybinds
 (general-def

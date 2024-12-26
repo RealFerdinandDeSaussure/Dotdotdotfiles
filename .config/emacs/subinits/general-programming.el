@@ -13,6 +13,7 @@
 
 ;; syntax checking
 (use-package flymake
+  :straight (:type built-in)
   :hook ((go-mode python-mode) . °init-flymake)
   :config
   (evil-collection-flymake-setup)
@@ -144,14 +145,23 @@ If DOWN is non-nil, then add lines below instead."
                     `(,nl "\"\"\"")))))))
 
 ;; language server (eglot)
-(setq eglot-workspace-configuration
-      '(:pyright (:plugins (:pycodestyle (:enabled nil)))))
-(dolist (mode '(python go))
-  (add-hook
-    (°concat-symbols mode '-mode-hook)
-    (lambda ()
-      (call-interactively #'eglot)
-      (setq flymake-diagnostic-functions (list #'eglot-flymake-backend)))))
+(use-package eglot
+  :straight (:type built-in)
+  :hook ((python-mode go-mode) . eglot-ensure)
+  :init
+  (setq eglot-workspace-configuration
+        '(:pyright (:plugins (:pycodestyle (:enabled nil)))))
+  :general
+  (general-goleader
+    :states         'motion
+    :keymaps        'eglot-mode-map
+    "="             'eglot-format-buffer)
+  (general-goleader
+    :states          'visual
+    :keymaps         'eglot-mode-map
+    "="              'eglot-format)
+  :config
+  (setq flymake-diagnostic-functions (list #'eglot-flymake-backend)))
 
 ;; autocompletion
 (use-package company
@@ -205,6 +215,15 @@ If DOWN is non-nil, then add lines below instead."
                        (project-root (project-current)) (file-name-as-directory ".git") "index.lock")))
       (when (yes-or-no-p (concat "Really delete " index-file "?"))
         (delete-file index-file)))))
+
+(use-package project
+  :straight (:type built-in)
+  :commands (project-root project-current)
+  :general
+  (general-leader
+    :keymaps         'motion
+    "Q"              'project-find-file
+    "C-q"            'project-switch-project))
 
 (use-package quickrun
   :general
