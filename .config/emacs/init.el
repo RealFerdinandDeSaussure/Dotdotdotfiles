@@ -49,7 +49,7 @@
 (require 'org-mode)
 
 ;; mu4e (lazily so emacs still runs without it)
-(unless (require 'init-mu4e nil t)
+(unless (require 'mu4e nil t)
   (message "Error loading mu4e."))
 
 (require 'completion)
