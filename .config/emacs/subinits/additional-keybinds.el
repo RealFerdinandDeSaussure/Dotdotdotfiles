@@ -57,7 +57,7 @@
 
 (general-goleader
   :keymaps          'normal
-  "I"               'imenu)
+  "I"               'consult-imenu)
 
 (general-goleader
   :keymaps          'motion
@@ -65,7 +65,7 @@
   "S"               (general-l
                       (°split-window-and-do
                        (°toggle-scratch-buffer)))
-  "I"               'imenu)
+  "I"               'consult-imenu)
 
 (general-leader
   :states         'normal
