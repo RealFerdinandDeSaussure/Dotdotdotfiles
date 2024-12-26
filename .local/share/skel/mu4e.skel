@@ -1,5 +1,5 @@
-;; %-LOCATION:$HOME/.config/emacs/subinits/mu4e.el-% %-CUSTOM:$HOME/.config/mu4e-contexts-% -*-emacs-lisp-*-
-;; DO EDITS HERE: $HOME/.local/share/skel/mu4e.skel
+;; %-LOCATION:$HOME/.config/emacs/subinits/mu4e-setup.el-% %-CUSTOM:$HOME/.config/mu4e-contexts-% -*-emacs-lisp-*-
+;; DO EDITS HERE: $HOME/.local/share/skel/mu4e-setup.skel
 ;; -*- lexical-binding: t -*-
 ;; set mu4e as emacs default mail program
 (setq mail-user-agent #'mu4e-user-agent)
@@ -294,4 +294,4 @@
       (mu4e-mark-handle-when-leaving)
       (mu4e--search-execute senders t))))
 
-(provide 'mu4e)
+(provide 'mu4e-setup)
