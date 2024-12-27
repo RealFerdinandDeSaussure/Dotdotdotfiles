@@ -1,7 +1,8 @@
 ;; -*- lexical-binding: t -*-
 (use-package org
+  :straight (:type built-in)
   :commands org-mode
-  :general
+  :general-config
   (:states          'normal
    :keymaps         'org-mode-map
    "{"              '°org-prev-element
