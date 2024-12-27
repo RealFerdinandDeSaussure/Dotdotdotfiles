@@ -5,7 +5,7 @@
         read-buffer-completion-ignore-case t
         read-file-name-completion-ignore-case t)
   (vertico-mode)
-  :general
+  :general-config
   (:keymaps         'vertico-map
     "M-k"           'previous-history-element
     "M-j"           'next-history-element)

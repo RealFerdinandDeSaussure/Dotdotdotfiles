@@ -34,7 +34,7 @@
 
 (use-package yasnippet
   :hook ((go-mode fish-mode snippet-mode python-mode mu4e-compose-mode) . yas-minor-mode)
-  :general
+  :general-config
   (:keymaps         '(yas-keymap yas/keymap)
    "M-j"            'yas-next-field-or-maybe-expand
    "M-k"            'yas-prev-field
@@ -151,7 +151,7 @@ If DOWN is non-nil, then add lines below instead."
   :init
   (setq eglot-workspace-configuration
         '(:pyright (:plugins (:pycodestyle (:enabled nil)))))
-  :general
+  :general-config
   (general-goleader
     :states         'motion
     :keymaps        'eglot-mode-map
@@ -167,7 +167,7 @@ If DOWN is non-nil, then add lines below instead."
 (use-package company
   :hook ((prog-mode . company-mode)
          (company-mode . company-tng-mode))
-  :general
+  :general-config
   (:keymaps         'company-tng-map
    "<return>"       (general-l
                       (unless (company-tooltip-visible-p)
@@ -233,6 +233,7 @@ If DOWN is non-nil, then add lines below instead."
   (general-leader
     :keymaps        'visual
     "RET"           'quickrun-region)
+  :general-config
   (:states          'normal
    :keymaps         'quickrun--mode-map
    "q"              'quit-window)

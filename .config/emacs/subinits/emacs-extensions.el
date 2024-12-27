@@ -51,8 +51,6 @@
       (call-interactively #'previous-buffer)
       (helpful-update)))
   :general
-  (:keymaps         'motion
-   "M-H"            'helpful-kill-buffers)
   (general-goleader
     :keymaps        'motion
     "hx"            'helpful-at-point
@@ -64,7 +62,10 @@
                       evil-ex-search-keymapread-expression-map
                       minibuffer-local-map)
    "C-h k"          'helpful-key)
-
+  :general-config
+  (:keymaps         'motion
+   "M-H"            'helpful-kill-buffers)
+  
   :config
   (evil-collection-helpful-setup)
   (setq helpful-switch-buffer-function '°helpful-buffer-other-window)
@@ -119,6 +120,7 @@ Replace buffer/window if in helpful-mode, lazy-open otherwise."
     :keymaps        'normal
     "C-s"           'vr/replace
     "C-S-s"         'vr/query-replace)
+  :general-config
   (:keymaps         'vr/minibuffer-keymap
    "<escape>"       'minibuffer-keyboard-quit))
 
@@ -131,6 +133,7 @@ Replace buffer/window if in helpful-mode, lazy-open otherwise."
   (:keymaps         'override
    :states          '(motion emacs)
    "C-¼"            '°vterm)
+  :general-config
   (:states          'emacs
    :keymaps         'vterm-mode-map
    "C-h k"          'helpful-key

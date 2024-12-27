@@ -3,7 +3,7 @@
 ;; language specific major modes and their settings
 ;; elisp helpers
 (use-package edebug
-  :general
+  :general-config
   (:states          'emacs
    :keymaps         'edebug-mode-map
    "SPC"            'edebug-step-mode))
@@ -11,8 +11,8 @@
 (use-package evil-cleverparens
   :after evil-surround
   :general
-  ;; include other lisp-specific keybinds evil bindings that don't belong to
-  ;; cleverparens here as well
+  ;; include other lisp-specific evil bindings that don't belong to cleverparens
+  ;; here as well
   (:states          'normal
    :keymaps         'lisp-mode-shared-map
    "D"              'evil-cp-delete-line
@@ -98,7 +98,7 @@
 
 (use-package fish-mode
   :defer t
-  :general
+  :general-config
   (general-leader
     :states         'normal
     :keymaps        'fish-mode-map
@@ -129,7 +129,7 @@
 
 (use-package flymd
   :after markdown-mode
-  :general
+  :general-config
   (general-leader
     :states         'normal
     :keymaps        'flymd-map
