@@ -49,7 +49,7 @@
   :after evil)
 
 ;; initial general.el setup here, all keybinds in the respective packages or in
-;; init-keybinds.el
+;; additional.el
 (use-package general
   :init
   (setq general-override-states '(insert emacs hybrid normal visual motion operator replace))

@@ -85,22 +85,22 @@ DIRECTION can be forward or backward.  Don't know what COUNT does."
     (when (fboundp 'evil-ex-search-next)
       (evil-ex-search-next count))))
 
-;;;###autoload (autoload '°evil-paste-with-newline-above "init-my-functions")
+;;;###autoload (autoload '°evil-paste-with-newline-above "my-functions")
 (°defun-newline-paste
  °evil-paste-with-newline-above
  (evil-open-above 1))
 
-;;;###autoload (autoload '°evil-paste-with-newline-below "init-my-functions")
+;;;###autoload (autoload '°evil-paste-with-newline-below "my-functions")
 (°defun-newline-paste
  °evil-paste-with-newline-below
  (evil-open-below 1))
 
-;;;###autoload (autoload '°evil-lisp-paste-with-newline-above "init-my-functions")
+;;;###autoload (autoload '°evil-lisp-paste-with-newline-above "my-functions")
 (°defun-newline-paste
  °evil-lisp-paste-with-newline-above
  (°evil-lisp-open-above 1))
 
-;;;###autoload (autoload '°evil-lisp-paste-with-newline-below "init-my-functions")
+;;;###autoload (autoload '°evil-lisp-paste-with-newline-below "my-functions")
 (°defun-newline-paste
  °evil-lisp-paste-with-newline-below
  (°evil-lisp-open-below 1))
