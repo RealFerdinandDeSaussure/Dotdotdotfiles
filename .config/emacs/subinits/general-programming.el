@@ -15,6 +15,10 @@
 (use-package flymake
   :straight (:type built-in)
   :hook ((go-mode python-mode) . °init-flymake)
+  :general-config
+  (:states      'normal
+   "]m"         'flymake-goto-next-error
+   "[m"         'flymake-goto-prev-error)
   :config
   (evil-collection-flymake-setup)
   (setq flymake-fringe-indicator-position 'right-fringe)

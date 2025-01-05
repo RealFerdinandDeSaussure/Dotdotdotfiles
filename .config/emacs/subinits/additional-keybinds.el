@@ -56,16 +56,11 @@
   "-"               'goto-last-change-reverse)
 
 (general-goleader
-  :keymaps          'normal
-  "I"               'consult-imenu)
-
-(general-goleader
   :keymaps          'motion
   "s"               '°toggle-scratch-buffer
   "S"               (general-l
                       (°split-window-and-do
-                       (°toggle-scratch-buffer)))
-  "I"               'consult-imenu)
+                       (°toggle-scratch-buffer))))
 
 (general-leader
   :states         'normal
@@ -92,9 +87,6 @@
                        (info-emacs-manual)))
   "hb"              'describe-bindings
   "hm"              'describe-mode
-  "b"               (general-l
-                      (let ((completion-regexp-list '("^[^*]")))
-                        (call-interactively 'switch-to-buffer)))
   "k"               'kill-this-buffer
   "K"               'kill-buffer-and-window
   "q"               'find-file

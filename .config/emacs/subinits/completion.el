@@ -26,8 +26,21 @@
   :general
   (general-leader
     :keymaps        'normal
-    "B"             'consult-buffer)
+    "b"             '°consult-file-buffers
+    "B"             'consult-buffer
+    "I"             'consult-imenu
+    "M"             'consult-flymake)
   :config
+  (defvar °°consult--source-file-buffers
+    (list :state #'consult--buffer-state
+          :history 'buffer-name-history
+          :items (lambda () (mapcar #'buffer-name (seq-filter #'buffer-file-name (buffer-list))))))
+
+  (defun °consult-file-buffers ()
+    "Consult menu to switch to file buffers only."
+    (interactive)
+    (consult-buffer '(°°consult--source-file-buffers)))
+
   (evil-collection-consult-setup))
 
 (use-package marginalia
