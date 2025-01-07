@@ -5,6 +5,7 @@
 
 ;; evil-collection loads for packages without use-package declarations
 (with-eval-after-load 'xref (evil-collection-xref-setup))
+(with-eval-after-load 'info (evil-collection-info-setup))
 
 ;; use these EVERYWHERE
 (general-def
@@ -79,14 +80,6 @@
   :keymaps          'motion
   "rc"              (general-l
                       (find-file (expand-file-name "init.el" user-emacs-directory)))
-  "hg"              (general-l
-                      (°split-window-and-do
-                       (info "elisp")))
-  "hG"              (general-l
-                      (°split-window-and-do
-                       (info-emacs-manual)))
-  "hb"              'describe-bindings
-  "hm"              'describe-mode
   "k"               'kill-this-buffer
   "K"               'kill-buffer-and-window
   "q"               'find-file
@@ -179,6 +172,18 @@
   "E"               '°eval-line
   "M-e"             'eval-buffer
   "C-e"             'eval-defun)
+
+(general-goleader
+  :states            'motion
+  :keymaps           'lisp-mode-shared-map
+  "hg"              (general-l
+                      (°split-window-and-do
+                       (info "elisp")))
+  "hG"              (general-l
+                      (°split-window-and-do
+                       (info-emacs-manual)))
+  "hb"              'describe-bindings
+  "hm"              'describe-mode)
 
 ;; python keybinds
 (general-leader
