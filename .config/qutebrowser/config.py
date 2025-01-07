@@ -1,13 +1,13 @@
-# pylint: disable=C0111,E266,E501
 import os
 from random import choice
-from qutebrowser.config.configfiles import ConfigAPI  # noqa: F401
-from qutebrowser.config.config import ConfigContainer  # noqa: F401
+from qutebrowser.config.configfiles import ConfigAPI
+from qutebrowser.config.config import ConfigContainer
 
-config = config  # type: ConfigAPI # noqa: F821 pylint: disable=E0602,C0103
-c = c  # type: ConfigContainer # noqa: F821 pylint: disable=E0602,C0103
+config = config
+c = c
 
 start_pages = ["https://www.freitag.de/", "https://www.punknews.org/"]
+trusted_sites = ["freitag.de", "claude.ai"]
 
 
 def get_rgba(hexcode, alpha):
@@ -335,8 +335,10 @@ c.url.start_pages = [
 c.downloads.position = "bottom"
 # Open new tabs in background
 c.tabs.background = True
-# Don't store cookies because I don't like them
-c.content.cookies.store = False
+# Reject cookies - except for the most trustworthiest of sites...
+c.content.cookies.accept = "never"
+for site in trusted_sites:
+    config.set("content.cookies.accept", "all", site)
 # Use default Firefox HTTP_ACCEPT header
 c.content.headers.accept_language = "de-DE,de;q=0.5"
 c.content.headers.custom = {
