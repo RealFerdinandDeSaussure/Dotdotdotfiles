@@ -61,7 +61,8 @@
   (evil-collection-org-setup)
   (setq org-log-done 'time
         org-adapt-indentation t
-        org-cycle-separator-lines -1)
+        org-cycle-separator-lines -1
+        org-priority-default ?C)
 
   (dolist (action #'(org-forward-sentence
                      org-backward-sentence
@@ -83,7 +84,8 @@
         '(("G" "Overview by urgency"
            ((tags-todo "+PRIORITY=\"A\"")
             (agenda "")
-            (tags-todo "-PRIORITY=\"A\"")))))
+            (tags-todo "-PRIORITY=\"A\""
+                       ((org-agenda-sorting-strategy '(priority-down))))))))
 
   (defun °org-prev-element ()
     (interactive)
