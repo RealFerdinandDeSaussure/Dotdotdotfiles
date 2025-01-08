@@ -7,7 +7,6 @@ config = config
 c = c
 
 start_pages = ["https://www.freitag.de/", "https://www.punknews.org/"]
-trusted_sites = ["freitag.de", "claude.ai"]
 
 
 def get_rgba(hexcode, alpha):
@@ -335,10 +334,8 @@ c.url.start_pages = [
 c.downloads.position = "bottom"
 # Open new tabs in background
 c.tabs.background = True
-# Reject cookies - except for the most trustworthiest of sites...
-c.content.cookies.accept = "never"
-for site in trusted_sites:
-    config.set("content.cookies.accept", "all", site)
+# Don't store cookies because I don't like them
+c.content.cookies.store = False
 # Use default Firefox HTTP_ACCEPT header
 c.content.headers.accept_language = "de-DE,de;q=0.5"
 c.content.headers.custom = {
