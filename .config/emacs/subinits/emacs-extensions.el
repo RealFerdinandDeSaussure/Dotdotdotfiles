@@ -52,7 +52,7 @@
       (helpful-update)))
   :general
   (general-goleader
-    :keymaps        'motion
+    :states         'motion
     "hx"            'helpful-at-point
     "hf"            'helpful-callable
     "hF"            'helpful-command
@@ -63,27 +63,26 @@
                       minibuffer-local-map)
    "C-h k"          'helpful-key)
   :general-config
-  (:keymaps         'motion
+  (:states          'motion
    "M-H"            'helpful-kill-buffers)
-  
+  (:keymaps         'helpful-mode-map
+   :states          'normal
+   "q"              'delete-window)
   :config
   (evil-collection-helpful-setup)
-  (setq helpful-switch-buffer-function '°helpful-buffer-other-window)
-  (setq helpful-max-buffers 2)
-
-  ;; helpful related functions
-  (defun °helpful-buffer-other-window (buf)
-    "Display helpful buffer BUF the way I want it, ie:
-Replace buffer/window if in helpful-mode, lazy-open otherwise."
-    (let (sw)
-      (if (eq major-mode 'helpful-mode)
-          (progn
-            (quit-window)
-            (pop-to-buffer buf))
-        (progn (setq sw (selected-window))
-               (switch-to-buffer-other-window buf)))
-      (helpful-update)
-      (when sw (select-window sw)))))
+  (setq helpful-switch-buffer-function #'°display-buffer-pop-up-if-not-helpful)
+  (defun °display-buffer-pop-up-if-not-helpful (buf)
+    "Display BUF in current window if it is in helpful-mode. Pop up a new window
+    otherwise."
+    (let ((helpful-win nil))
+      (walk-window-tree
+       (lambda (win)
+         (unless helpful-win
+           (when (eq (buffer-local-value 'major-mode (window-buffer win)) 'helpful-mode)
+             (setq helpful-win win)))))
+    (if helpful-win
+        (set-window-buffer helpful-win buf t)
+      (display-buffer buf #'display-buffer-pop-up-window 0)))))
 
 ;; vimperator-style link-hints
 (use-package link-hint
@@ -96,7 +95,7 @@ Replace buffer/window if in helpful-mode, lazy-open otherwise."
 (use-package recentf
   :general
   (general-leader
-    :keymaps        'normal
+    :states         'normal
     "rf"            'consult-recent-file)
   :init
   (recentf-mode))
@@ -117,7 +116,7 @@ Replace buffer/window if in helpful-mode, lazy-open otherwise."
 (use-package visual-regexp-steroids
   :general
   (general-goleader
-    :keymaps        'normal
+    :states         'normal
     "C-s"           'vr/replace
     "C-S-s"         'vr/query-replace)
   :general-config
