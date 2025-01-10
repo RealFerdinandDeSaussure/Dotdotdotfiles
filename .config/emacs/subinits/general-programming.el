@@ -14,7 +14,7 @@
 ;; syntax checking
 (use-package flymake
   :straight (:type built-in)
-  :hook ((go-mode python-mode) . °init-flymake)
+  :hook ((go-ts-mode python-ts-mode) . °init-flymake)
   :general-config
   (:states      'normal
    "]m"         'flymake-goto-next-error
@@ -29,15 +29,128 @@
     (make-local-variable 'evil-insert-state-entry-hook)
     (add-hook 'evil-insert-state-exit-hook
               (lambda ()
-                (flymake-mode 1)))
+                (flymake-mode 1)
+                (setq flymake-no-changes-timeout 0.5)))
     (add-hook 'evil-insert-state-entry-hook
               (lambda ()
-                (flymake-mode -1))))
-  (flymake-mode)
-  (flymake-start))
+                (flymake-mode -1)
+                (setq flymake-no-changes-timeout nil)))))
+
+;; language server (eglot)
+(use-package eglot
+  :straight (:type built-in)
+  :hook ((python-ts-mode go-ts-mode) . eglot-ensure)
+  :init
+  (setq eglot-workspace-configuration
+        '(:pyright (:plugins (:pycodestyle (:enabled nil)))))
+  :general-config
+  (general-goleader
+    :states         'motion
+    :keymaps        'eglot-mode-map
+    "="             'eglot-format-buffer)
+  (general-goleader
+    :states          'visual
+    :keymaps         'eglot-mode-map
+    "="              'eglot-format)
+  :config
+  (setq flymake-diagnostic-functions (list #'eglot-flymake-backend)))
+
+;; autocompletion
+(use-package company
+  :hook ((prog-mode . company-mode)
+         (company-mode . company-tng-mode))
+  :general-config
+  (:keymaps         'company-tng-map
+   "<return>"       (general-l
+                      (unless (company-tooltip-visible-p)
+                        (company-complete)
+                        (company-pseudo-tooltip-hide))
+                      (newline 1 t))
+   "M-<return>"     (general-l
+                      (company-abort)
+                      (newline 1 t)))
+  (:states          'insert
+   :keymaps         'company-search-map
+   "<return>"       (general-l
+                      (company-complete)
+                      (company-pseudo-tooltip-hide)
+                      (newline 1 t)))
+  
+  :config
+  (evil-collection-company-setup)
+  (setq company-minimum-prefix-length 2
+        company-selection-wrap-around t
+        company-idle-delay 0.01
+        company-echo-delay 0.5)
+
+  (mapc #'evil-declare-not-repeat #'(°company-select-next °company-select-previous)))
+
+(use-package company-quickhelp
+  :after company
+  :config
+  (company-quickhelp-mode)
+  (setq company-quickhelp-delay .2))
+
+(use-package magit
+  :hook ((magit-mode . °source-ssh-env)
+         (with-editor-mode . evil-insert-state))
+  :general
+  (general-goleader
+    :states         'normal
+    "G"             'magit-status)
+
+  :config
+  (evil-collection-magit-setup)
+  (defun °force-git-access ()
+    (interactive)
+    (let ((index-file (°join-path nil
+                                  (project-root (project-current)) (file-name-as-directory ".git") "index.lock")))
+      (when (yes-or-no-p (concat "Really delete " index-file "?"))
+        (delete-file index-file)))))
+
+(use-package project
+  :straight (:type built-in)
+  :commands (project-root project-current)
+  :general
+  (general-leader
+    :keymaps         'motion
+    "Q"              'project-find-file
+    "C-q"            'project-switch-project))
+
+(use-package quickrun
+  :general
+  (general-leader
+    :keymaps        'normal
+    "RET"           'quickrun)
+  (general-leader
+    :keymaps        'visual
+    "RET"           'quickrun-region)
+  :general-config
+  (:states          'normal
+   :keymaps         'quickrun--mode-map
+   "q"              'quit-window)
+
+  :config
+  (setq quickrun-focus-p nil))
+
+;; use tree-sitter modes whereever available
+(setq major-mode-remap-alist
+      '((c-or-c++-mode . c-or-c++-ts-mode)
+        (js-mode . js-ts-mode)
+        (go-mode . go-ts-mode)
+        (java-mode . java-ts-mode)
+        (conf-xdefaults-mode . conf-xdefaults-ts-mode)
+        (erts-mode . erts-ts-mode)
+        (ruby-mode . ruby-ts-mode)
+        (c++-mode . c++-ts-mode)
+        (css-mode . css-ts-mode)
+        (csharp-mode . csharp-ts-mode)
+        (python-mode . python-ts-mode)
+        (allout-widgets-mode . allout-widgets-ts-mode)
+        (c-mode . c-ts-mode)))
 
 (use-package yasnippet
-  :hook ((go-mode fish-mode snippet-mode python-mode mu4e-compose-mode) . yas-minor-mode)
+  :hook ((go-ts-mode fish-mode snippet-mode python-ts-mode mu4e-compose-mode) . yas-minor-mode)
   :general-config
   (:keymaps         '(yas-keymap yas/keymap)
    "M-j"            'yas-next-field-or-maybe-expand
@@ -67,9 +180,9 @@
 
   ;; expansion for some python snippets
   (general-def
-   :keymaps         'python-mode-map
-   :states          'insert
-   ":"              yas-maybe-expand)
+    :keymaps         'python-mode-map
+    :states          'insert
+    ":"              yas-maybe-expand)
 
   ;; yas related functions
   (defun °yas-choose-greeting (name lang)
@@ -147,103 +260,6 @@ If DOWN is non-nil, then add lines below instead."
                     `("\"\"\"" ,nl))
                    ((eq side 'right)
                     `(,nl "\"\"\"")))))))
-
-;; language server (eglot)
-(use-package eglot
-  :straight (:type built-in)
-  :hook ((python-mode go-mode) . eglot-ensure)
-  :init
-  (setq eglot-workspace-configuration
-        '(:pyright (:plugins (:pycodestyle (:enabled nil)))))
-  :general-config
-  (general-goleader
-    :states         'motion
-    :keymaps        'eglot-mode-map
-    "="             'eglot-format-buffer)
-  (general-goleader
-    :states          'visual
-    :keymaps         'eglot-mode-map
-    "="              'eglot-format)
-  :config
-  (setq flymake-diagnostic-functions (list #'eglot-flymake-backend)))
-
-;; autocompletion
-(use-package company
-  :hook ((prog-mode . company-mode)
-         (company-mode . company-tng-mode))
-  :general-config
-  (:keymaps         'company-tng-map
-   "<return>"       (general-l
-                      (unless (company-tooltip-visible-p)
-                        (company-complete)
-                        (company-pseudo-tooltip-hide))
-                      (newline 1 t))
-   "M-<return>"     (general-l
-                      (company-abort)
-                      (newline 1 t)))
-  (:states          'insert
-   :keymaps         'company-search-map
-   "<return>"       (general-l
-                      (company-complete)
-                      (company-pseudo-tooltip-hide)
-                      (newline 1 t)))
-  
-  :config
-  (evil-collection-company-setup)
-  (setq company-minimum-prefix-length 3
-        company-selection-wrap-around t
-        company-idle-delay 0.01
-        company-echo-delay 0.5)
-
-  (mapc #'evil-declare-not-repeat #'(°company-select-next °company-select-previous)))
-
-(use-package company-quickhelp
-  :after company
-  :config
-  (company-quickhelp-mode)
-  (setq company-quickhelp-delay .2))
-
-(use-package magit
-  :hook ((magit-mode . °source-ssh-env)
-         (with-editor-mode . evil-insert-state))
-  :general
-  (general-goleader
-    :states         'normal
-    "G"             'magit-status)
-
-  :config
-  (evil-collection-magit-setup)
-  (defun °force-git-access ()
-    (interactive)
-    (let ((index-file (°join-path nil
-                       (project-root (project-current)) (file-name-as-directory ".git") "index.lock")))
-      (when (yes-or-no-p (concat "Really delete " index-file "?"))
-        (delete-file index-file)))))
-
-(use-package project
-  :straight (:type built-in)
-  :commands (project-root project-current)
-  :general
-  (general-leader
-    :keymaps         'motion
-    "Q"              'project-find-file
-    "C-q"            'project-switch-project))
-
-(use-package quickrun
-  :general
-  (general-leader
-    :keymaps        'normal
-    "RET"           'quickrun)
-  (general-leader
-    :keymaps        'visual
-    "RET"           'quickrun-region)
-  :general-config
-  (:states          'normal
-   :keymaps         'quickrun--mode-map
-   "q"              'quit-window)
-
-  :config
-  (setq quickrun-focus-p nil))
 
 
 (provide 'general-programming)
