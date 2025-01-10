@@ -151,11 +151,12 @@
    (setq-local electric-pair-open-newline-between-pairs nil)))
 
 (use-package blacken
-  :hook (python-mode . blacken-mode))
+  :hook (python-ts-mode . blacken-mode))
 
 ;; golang settings
-(use-package go-mode
-  :commands go-mode
+(use-package go-ts-mode
+  :straight (:type built-in)
+  :commands go-ts-mode
   :config
   (evil-collection-go-mode-setup)
   (add-hook
@@ -165,6 +166,6 @@
      (add-to-list 'write-file-functions (°nillify-func (eglot-format-buffer))))))
 
 (use-package go-eldoc
-  :hook (go-mode . go-eldoc-setup))
+  :hook (go-ts-mode . go-eldoc-setup))
 
 (provide 'language-specific)
