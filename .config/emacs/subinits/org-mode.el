@@ -1,7 +1,7 @@
 ;; -*- lexical-binding: t -*-
 (use-package org
   :straight (:type built-in)
-  :commands org-mode
+  :hook (org-mode . °init-org-mode)
   :general-config
   (:states          'normal
    :keymaps         'org-mode-map
@@ -71,11 +71,6 @@
                      org-cycle))
     (evil-declare-not-repeat action))
   
-  (dolist (func
-           #'(°°org-visual-line-mode
-              org-fold-hide-drawer-all))
-    (add-hook 'org-mode-hook func))
-
   (°add-hook-to-mode 'before-save-hook
                      (lambda () (org-align-tags t))
                      'org-mode)
@@ -87,6 +82,10 @@
             (tags-todo "-PRIORITY=\"A\""
                        ((org-agenda-sorting-strategy '(priority-down))))))))
 
+  (defun °init-org-mode ()
+    (setq-local line-spacing 0.4)
+    (°°org-visual-line-mode))
+  
   (defun °org-prev-element ()
     (interactive)
     (if (> (or (org-current-level) 0) 1)
