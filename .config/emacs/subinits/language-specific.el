@@ -138,17 +138,53 @@
   (setq flymd-output-directory temporary-file-directory))
 
 ;; python settings
-(add-hook
- 'python-mode-hook
- (lambda ()
-   ;; auto-fill
-   (auto-fill-mode)
-   (setq-local comment-auto-fill-only-comments t)
-   (setq python-fill-docstring-style 'symmetric)
-   ;; ;; width settings
-   (setq-local fill-column 79)
-   (setq-local column-enforce-column 79)
-   (setq-local electric-pair-open-newline-between-pairs nil)))
+(use-package python-ts-mode
+  :straight (:type built-in)
+  :commands python-ts-mode
+  :config
+  ;; auto-fill
+  (auto-fill-mode)
+  (setq-local comment-auto-fill-only-comments t)
+  (setq python-fill-docstring-style 'symmetric)
+  ;; ;; width settings
+  (setq-local fill-column 79)
+  (setq-local column-enforce-column 79)
+  (setq-local electric-pair-open-newline-between-pairs nil)
+
+  ;; test creation function
+  (defun °python-ts-create-test-for-defun-at-point ()
+    "Create or jump to a test function for the Python function at point.
+Creates a test_{function_name} in a corresponding test file in the tests directory.
+If the test function already exists, jumps to it instead of creating a new one."
+    (interactive)
+    (when-let* ((func-name (treesit-defun-name (treesit-defun-at-point)))
+                (buf-name (file-name-base buffer-file-name))
+                (base-dir (or (bound-and-true-p °python-test-dir)
+                              (project-root (project-current))
+                              (file-name-directory buffer-file-name)))
+                (test-dir (°join-path t base-dir "tests")))
+      ;; create a "tests" directory, ignoring any errors (I assume this would
+      ;; mean the directory already exists)
+      (ignore-errors (make-directory-internal test-dir))
+
+      (find-file-other-window (°join-path nil test-dir (concat "test_" buf-name ".py")))
+      (if-let
+          ;; search for function test_{func-name} here
+          ((t-n-list (treesit-query-capture
+                      (car (treesit-parser-list))
+                      `(((function_definition name: (identifier) @fname)
+                         (:equal @fname ,(concat "test_" func-name))))))
+           (test-node (car (assoc 'fname t-n-list)))
+           (t-n-pos (treesit-node-start test-node)))
+          ;; finally move to test_{func-name}'s node starting position if it was found
+          (goto-char t-n-pos)
+        ;; if we were unable to find an existing test function, append a new one to the file instead
+        (end-of-buffer)
+        (unless (bolp) ; ensure proper whitespace padding
+          (insert "\n"))
+        (unless (looking-back "\n\n" (- (point) 2)) ; dito
+          (insert "\n")) 
+        (insert (format "def test_%s():\n" func-name))))))
 
 (use-package blacken
   :hook (python-ts-mode . blacken-mode))

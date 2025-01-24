@@ -1,7 +1,6 @@
 ;; -*- lexical-binding: t -*-
 ;; GUI and Highlighting settings
 (setq inhibit-startup-message t
-      eldoc-idle-delay .45
       echo-keystrokes .01
       show-paren-delay 0
       scroll-step 1
