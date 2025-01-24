@@ -66,12 +66,12 @@
 
 (use-package vertigo
   :general
-  (:keymaps         'motion
+  (:states          'motion
    "SPC SPC"        'vertigo-set-digit-argument)
-  (:keymaps         'operator
+  (:states          'operator
    "SPC SPC"       'vertigo-evil-set-digit-argument)
   :general-config
-  (:keymaps         'motion
+  (:states          'motion
    "<C-S-SPC>"      '°vertigo-reuse-last-arg)
   :config
   (evil-define-motion vertigo-evil-set-digit-argument (count)
@@ -133,8 +133,17 @@
 
 (use-package evil-numbers
   :general
-  (:keymaps         'normal
+  (:states          'normal
    "C-a"            'evil-numbers/inc-at-pt
    "C-x"            'evil-numbers/dec-at-pt))
+
+(use-package evil-textobj-tree-sitter
+  :general
+  (:keymaps     'evil-outer-text-objects-map
+   "f"          (evil-textobj-tree-sitter-get-textobj "function.outer")
+   "C"          (evil-textobj-tree-sitter-get-textobj "class.outer"))
+  (:keymaps     'evil-inner-text-objects-map
+   "f"          (evil-textobj-tree-sitter-get-textobj "function.inner")
+   "C"          (evil-textobj-tree-sitter-get-textobj "class.inner")))
 
 (provide 'evil-general)
