@@ -108,6 +108,20 @@
       (when (yes-or-no-p (concat "Really delete " index-file "?"))
         (delete-file index-file)))))
 
+(use-package outline
+  :straight (:type built-in)
+  :hook (prog-mode . outline-minor-mode)
+  :general-config
+  (:states          'normal
+   :keymaps         'outline-minor-mode-map
+   "<tab>"          '°outline-cycle
+   "<backtab>"      'outline-cycle-buffer)
+  :config
+  (defun °outline-cycle ()
+    (interactive)
+    (when (outline-on-heading-p)
+      (outline-cycle))))
+
 (use-package project
   :straight (:type built-in)
   :commands (project-root project-current)
