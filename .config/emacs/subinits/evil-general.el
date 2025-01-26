@@ -3,7 +3,8 @@
   :init
   (setq evil-search-module 'evil-search
         evil-want-integration t
-        evil-want-keybinding nil)
+        evil-want-keybinding nil
+        evil-echo-state nil)
   :config
   (evil-mode 1)
   (setq-default evil-symbol-word-search t)
