@@ -1,5 +1,0 @@
-# %-LOCATION:/etc/systemd/resolved.conf.d/dns_servers.conf-% -*-conf-*-
-# DO EDITS HERE: /home/nicolai/.local/share/vendor-skel/systemd-resolved-servers.skel
-[Resolve]
-DNS=127.0.0.1 ::1
-Domains=~.
