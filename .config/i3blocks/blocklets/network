@@ -26,23 +26,25 @@ fi
 
 # wifi connection
 if [[ -n $WIFI_INSTANCE ]]; then
-    if [[ ! $(cat /sys/class/net/${WIFI_INSTANCE}/operstate) = 'up' ]];then
-    wifi=''
+    if [ $(($(cat /sys/class/net/${WIFI_INSTANCE}/flags) & 0x1)) -eq 0 ]; then
+        wifi=''
     else
         QUALITY=$(grep $WIFI_INSTANCE /proc/net/wireless | awk '{ print int($3 * 100 / 70) }')
         WIFI_SSID=$(iwctl station $WIFI_INSTANCE show | perl -ne 'print if s/^\s*Connected network\s*(.+?)\s*$/\1/' | html_escape)
+            color="#${__BASE02}"
 
-
-        if [[ $QUALITY -ge 80 ]]; then
-            mark_front="<span foreground=\"#${__BASE0B}\">"
+        if [[ -z "$WIFI_SSID" ]]; then
+            color="#${__BASE03}"
+        elif [[ $QUALITY -ge 80 ]]; then
+            color="#${__BASE0B}"
         elif [[ $QUALITY -ge 60 ]]; then
-            mark_front="<span foreground=\"#${__BASE0A}\">"
+            color="#${__BASE0A}"
         elif [[ $QUALITY -ge 40 ]]; then
-            mark_front="<span foreground=\"#${__BASE09}\">"
+            color="#${__BASE09}"
         else
-            mark_front="<span foreground=\"#${__BASE08}\">"
+            color="#${__BASE08}"
         fi
-        wifi="${mark_front}</span>"
+        wifi="<span foreground=\"${color}\"></span>"
     fi
 fi
 
