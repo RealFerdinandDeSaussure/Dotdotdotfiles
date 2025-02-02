@@ -1,18 +1,14 @@
-function xtr -d "Extract files, create a base directory if the archive does not include one."
-    if not command -q 7z
-        echo "p7zip not installed."
-        return 1
-    end
+function extr
+    for arc in $argv
+        set sheet (7z l -slt "$arc") || return 1
+        printf "%s\n" -- $sheet | awk -F " = " '/^Path/ {print $2}' | tail -n+2 | cut -d/ -f1 | sort -u | count | read folders
 
-    7z l -slt $argv[1] | \
-        awk -F " = " '/^Path / {print $2}' | \
-        tail -n +2 | cut -d/ -f1 | sort -u | \
-        wc -l | read folder_count
-
-    if [ $folder_count -gt 1 ]
-        set base_folder (string replace -r '\.[^.]+' '' -- "$argv[1]")
-        7z x -o"$base_folder" $argv[1]
-    else
-        7z x $argv[1]
+        if [ "$folders" -gt 1 ]
+            set f_name (string replace -r '\.[^.]+$' '' -- "$arc")
+            mkdir "$f_name" || return 1
+            7z x -o"$(realpath $f_name)" -- "$arc"
+        else
+            7z x -- "$arc"
+        end
     end
 end

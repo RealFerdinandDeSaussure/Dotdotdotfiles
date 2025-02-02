@@ -1,4 +1,0 @@
-#!/usr/bin/env fish
-
-sleep .5
-xset dpms force off
