@@ -1,8 +1,6 @@
 # %-LOCATION:$HOME/.config/sway/config-% %-CUSTOM:$HOME/.config/sway/custom-% -*-conf-*-
 # DO EDITS HERE: $HOME/.local/share/skel/sway.skel
 
-# shorthand for exec without startup notification
-set $execno exec --no-startup-id
 # Base16 color setup
 set $base00 {{{__BASE00_HASH}}}
 set $base01 {{{__BASE01_HASH}}}
@@ -104,9 +102,9 @@ smart_gaps on
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return $execno {{{TERMINAL}}}
+bindsym $mod+Return exec {{{TERMINAL}}}
 # start a terminal on workspace 1
-bindsym $mod+Shift+Return workspace $ws1; $execno {{{TERMINAL}}}
+bindsym $mod+Shift+Return workspace $ws1; exec {{{TERMINAL}}}
 
 # kill focused window
 bindsym $mod+q kill
@@ -115,11 +113,11 @@ bindsym $mod+q kill
 bindsym --release button2 kill
 
 # Power management
-bindsym $mod+Pause $execno $i3scriptsdir/screen_off
-bindsym $mod+Shift+Pause $execno systemctl suspend
+bindsym $mod+Pause exec pkill -SIGUSR1 swayidle
+bindsym $mod+Shift+Pause exec systemctl suspend
 
 # start a program launcher
-bindsym $mod+r $execno tofi-drun | xargs swaymsg exec --
+bindsym $mod+r exec tofi-drun | xargs swaymsg exec --
 
 # change focus
 bindsym $mod+h focus left
@@ -192,15 +190,15 @@ bindsym $mod+p focus parent
 bindsym $mod+Shift+p focus child
 
 # bind function keys
-bindsym XF86MonBrightnessUp $execno $i3blockletsdir/backlight 8 big_up
-bindsym XF86MonBrightnessDown $execno $i3blockletsdir/backlight 8 big_down
-bindsym Shift+XF86MonBrightnessUp $execno $i3blockletsdir/backlight 8 up
-bindsym Shift+XF86MonBrightnessDown $execno $i3blockletsdir/backlight 8 down
-bindsym XF86AudioRaiseVolume $execno $i3blockletsdir/volume 9 volume 5%+
-bindsym XF86AudioLowerVolume $execno $i3blockletsdir/volume 9 volume 5%-
-bindsym Shift+XF86AudioRaiseVolume $execno $i3blockletsdir/volume 9 volume 1%+
-bindsym Shift+XF86AudioLowerVolume $execno $i3blockletsdir/volume 9 volume 1%-
-bindsym XF86AudioMute $execno $i3blockletsdir/volume 9 mute toggle
+bindsym XF86MonBrightnessUp exec $i3blockletsdir/backlight 8 big_up
+bindsym XF86MonBrightnessDown exec $i3blockletsdir/backlight 8 big_down
+bindsym Shift+XF86MonBrightnessUp exec $i3blockletsdir/backlight 8 up
+bindsym Shift+XF86MonBrightnessDown exec $i3blockletsdir/backlight 8 down
+bindsym XF86AudioRaiseVolume exec $i3blockletsdir/volume 9 volume 5%+
+bindsym XF86AudioLowerVolume exec $i3blockletsdir/volume 9 volume 5%-
+bindsym Shift+XF86AudioRaiseVolume exec $i3blockletsdir/volume 9 volume 1%+
+bindsym Shift+XF86AudioLowerVolume exec $i3blockletsdir/volume 9 volume 1%-
+bindsym XF86AudioMute exec $i3blockletsdir/volume 9 mute toggle
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -255,11 +253,11 @@ bindsym $mod+Mod1+Shift+Right move workspace to output right
 # jump to urgent window
 bindsym $mod+space [urgent=latest] focus
 # restart/reload i3 inplace
-bindsym $mod+Shift+r $execno sh -c 'merge-configs && swaymsg reload'
+bindsym $mod+Shift+r exec sh -c 'merge-configs && swaymsg reload'
 
 # remove notifications
-bindsym $mod+BackSpace $execno dunstctl close-all
-bindsym $mod+Shift+BackSpace $execno dunstctl close
+bindsym $mod+BackSpace exec dunstctl close-all
+bindsym $mod+Shift+BackSpace exec dunstctl close
 
 # screenshot shortcut
 bindsym $mod+Print exec screenshot
@@ -311,17 +309,17 @@ mode $mode_resize {
 
 # control mpd
 mode $mode_music {
-        bindsym space $execno mpc toggle
-        bindsym l $execno mpc next
-        bindsym h $execno mpc prev
-        bindsym r $execno mpc random
-        bindsym Tab $execno $i3scriptsdir/mpd_toggle
+        bindsym space exec mpc toggle
+        bindsym l exec mpc next
+        bindsym h exec mpc prev
+        bindsym r exec mpc random
+        bindsym Tab exec $i3scriptsdir/mpd_toggle
         # volume control
-        bindsym plus $execno $i3blockletsdir/volume 9 volume 5%+
-        bindsym minus $execno $i3blockletsdir/volume 9 volume 5%-
-        bindsym Shift+plus $execno $i3blockletsdir/volume 9 volume 1%+
-        bindsym Shift+minus $execno $i3blockletsdir/volume 9 volume 1%-
-        bindsym Shift+0 $execno $i3blockletsdir/volume 9 volume 100%
+        bindsym plus exec $i3blockletsdir/volume 9 volume 5%+
+        bindsym minus exec $i3blockletsdir/volume 9 volume 5%-
+        bindsym Shift+plus exec $i3blockletsdir/volume 9 volume 1%+
+        bindsym Shift+minus exec $i3blockletsdir/volume 9 volume 1%-
+        bindsym Shift+0 exec $i3blockletsdir/volume 9 volume 100%
 
         # back to normal: Enter or Escape
         bindsym Escape mode "default"
@@ -330,12 +328,12 @@ mode $mode_music {
 
 # access i3blocks features without using the mouse
 mode $mode_blocks {
-        bindsym s $execno BLOCK_BUTTON=1 $i3blockletsdir/shutdown; mode "default"
-        bindsym w $execno BLOCK_BUTTON=2 $i3blockletsdir/shutdown; mode "default"
-        bindsym d $execno BLOCK_BUTTON=3 $i3blockletsdir/time; mode "default"
-        bindsym c $execno BLOCK_BUTTON=1 $i3blockletsdir/clipboard; mode "default"
-        bindsym n $execno BLOCK_BUTTON=1 $i3blockletsdir/network; mode "default"
-        bindsym b $execno BLOCK_BUTTON=1 $i3blockletsdir/battery; mode "default"
+        bindsym s exec BLOCK_BUTTON=1 $i3blockletsdir/shutdown; mode "default"
+        bindsym w exec BLOCK_BUTTON=2 $i3blockletsdir/shutdown; mode "default"
+        bindsym d exec BLOCK_BUTTON=3 $i3blockletsdir/time; mode "default"
+        bindsym c exec BLOCK_BUTTON=1 $i3blockletsdir/clipboard; mode "default"
+        bindsym n exec BLOCK_BUTTON=1 $i3blockletsdir/network; mode "default"
+        bindsym b exec BLOCK_BUTTON=1 $i3blockletsdir/battery; mode "default"
 
         bindsym Escape mode "default"
         bindsym $mod+b mode "default"
@@ -343,31 +341,31 @@ mode $mode_blocks {
 
 # insert text
 mode $mode_insert {
-        bindsym Shift+m $execno $i3scriptsdir/i3insert M; mode "default"
-        bindsym m $execno $i3scriptsdir/i3insert m; mode "default"
-        bindsym Shift+n $execno $i3scriptsdir/i3insert N; mode "default"
-        bindsym n $execno $i3scriptsdir/i3insert n; mode "default"
-        bindsym v $execno $i3scriptsdir/i3insert v; mode "default"
-        bindsym s $execno $i3scriptsdir/i3insert s; mode "default"
-        bindsym Shift+s $execno $i3scriptsdir/i3insert S; mode "default"
-        bindsym p $execno $i3scriptsdir/i3insert p; mode "default"
-        bindsym o $execno $i3scriptsdir/i3insert o; mode "default"
-        bindsym f $execno $i3scriptsdir/i3insert f; mode "default"
+        bindsym Shift+m exec $i3scriptsdir/i3insert M; mode "default"
+        bindsym m exec $i3scriptsdir/i3insert m; mode "default"
+        bindsym Shift+n exec $i3scriptsdir/i3insert N; mode "default"
+        bindsym n exec $i3scriptsdir/i3insert n; mode "default"
+        bindsym v exec $i3scriptsdir/i3insert v; mode "default"
+        bindsym s exec $i3scriptsdir/i3insert s; mode "default"
+        bindsym Shift+s exec $i3scriptsdir/i3insert S; mode "default"
+        bindsym p exec $i3scriptsdir/i3insert p; mode "default"
+        bindsym o exec $i3scriptsdir/i3insert o; mode "default"
+        bindsym f exec $i3scriptsdir/i3insert f; mode "default"
         # password retrieval
-        bindsym less $execno $i3scriptsdir/pass_get -X; mode "default"
-        bindsym y $execno $i3scriptsdir/pass_get -ux; mode "default"
-        bindsym Ctrl+y $execno $i3scriptsdir/pass_get -uxm; mode "default"
-        bindsym Shift+y $execno $i3scriptsdir/pass_get -u; mode "default"
-        bindsym Ctrl+Shift+y $execno $i3scriptsdir/pass_get -um; mode "default"
-        bindsym x $execno $i3scriptsdir/pass_get -x; mode "default"
-        bindsym Ctrl+x $execno $i3scriptsdir/pass_get -xm; mode "default"
-        bindsym Shift+x $execno $i3scriptsdir/pass_get; mode "default"
-        bindsym Ctrl+Shift+x $execno $i3scriptsdir/pass_get; mode "default"
-        bindsym c $execno $i3scriptsdir/pass_get -fx; mode "default"
-        bindsym Ctrl+c $execno $i3scriptsdir/pass_get -fxm; mode "default"
-        bindsym Shift+c $execno $i3scriptsdir/pass_get -f; mode "default"
-        bindsym Ctrl+Shift+c $execno $i3scriptsdir/pass_get -fm; mode "default"
-        bindsym t $execno $i3scriptsdir/totp_get; mode "default"
+        bindsym less exec $i3scriptsdir/pass_get -X; mode "default"
+        bindsym y exec $i3scriptsdir/pass_get -ux; mode "default"
+        bindsym Ctrl+y exec $i3scriptsdir/pass_get -uxm; mode "default"
+        bindsym Shift+y exec $i3scriptsdir/pass_get -u; mode "default"
+        bindsym Ctrl+Shift+y exec $i3scriptsdir/pass_get -um; mode "default"
+        bindsym x exec $i3scriptsdir/pass_get -x; mode "default"
+        bindsym Ctrl+x exec $i3scriptsdir/pass_get -xm; mode "default"
+        bindsym Shift+x exec $i3scriptsdir/pass_get; mode "default"
+        bindsym Ctrl+Shift+x exec $i3scriptsdir/pass_get; mode "default"
+        bindsym c exec $i3scriptsdir/pass_get -fx; mode "default"
+        bindsym Ctrl+c exec $i3scriptsdir/pass_get -fxm; mode "default"
+        bindsym Shift+c exec $i3scriptsdir/pass_get -f; mode "default"
+        bindsym Ctrl+Shift+c exec $i3scriptsdir/pass_get -fm; mode "default"
+        bindsym t exec $i3scriptsdir/totp_get; mode "default"
 
         bindsym Escape mode "default"
         bindsym $mod+i mode "default"
@@ -400,4 +398,4 @@ bar {
         }
 }
 
-$execno ibus-daemon -rxRd
+exec swayidle -w
