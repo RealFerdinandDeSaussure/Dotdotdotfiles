@@ -46,6 +46,9 @@
 !.config/firejail
 !.config/firejail/*
 
+!.config/gopass
+!.config/gopass/config
+
 !.config/git
 !.config/git/config
 
@@ -89,6 +92,9 @@
 !.config/qutebrowser
 !.config/qutebrowser/config.py
 !.config/qutebrowser/quickmarks
+
+!.config/swayidle
+!.config/swayidle/config
 
 !.config/systemd
 !.config/systemd/user

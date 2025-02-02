@@ -1,0 +1,5 @@
+[core]
+    autopush = false
+    autosync = false
+[mounts]
+	path = /home/nicolai/.local/share/.password-store
