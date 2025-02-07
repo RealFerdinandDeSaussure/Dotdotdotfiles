@@ -147,22 +147,6 @@
   :config
   (setq quickrun-focus-p nil))
 
-;; use tree-sitter modes whereever available
-(setq major-mode-remap-alist
-      '((c-or-c++-mode . c-or-c++-ts-mode)
-        (js-mode . js-ts-mode)
-        (go-mode . go-ts-mode)
-        (java-mode . java-ts-mode)
-        (conf-xdefaults-mode . conf-xdefaults-ts-mode)
-        (erts-mode . erts-ts-mode)
-        (ruby-mode . ruby-ts-mode)
-        (c++-mode . c++-ts-mode)
-        (css-mode . css-ts-mode)
-        (csharp-mode . csharp-ts-mode)
-        (python-mode . python-ts-mode)
-        (allout-widgets-mode . allout-widgets-ts-mode)
-        (c-mode . c-ts-mode)))
-
 (use-package yasnippet
   :hook ((go-ts-mode fish-mode snippet-mode python-ts-mode mu4e-compose-mode) . yas-minor-mode)
   :general-config

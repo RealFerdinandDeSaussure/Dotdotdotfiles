@@ -138,9 +138,9 @@
   (setq flymd-output-directory temporary-file-directory))
 
 ;; python settings
-(use-package python-ts-mode
+(use-package python
   :straight (:type built-in)
-  :commands python-ts-mode
+  :hook (python-mode . python-ts-mode)
   :config
   ;; auto-fill
   (auto-fill-mode)
@@ -190,9 +190,9 @@ If the test function already exists, jumps to it instead of creating a new one."
   :hook (python-ts-mode . blacken-mode))
 
 ;; golang settings
-(use-package go-ts-mode
+(use-package go-mode
   :straight (:type built-in)
-  :commands go-ts-mode
+  :hook (go-mode . go-ts-mode)
   :config
   (evil-collection-go-mode-setup)
   (add-hook
