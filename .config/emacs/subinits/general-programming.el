@@ -39,7 +39,7 @@
 ;; language server (eglot)
 (use-package eglot
   :straight (:type built-in)
-  :hook ((python-ts-mode go-ts-mode) . eglot-ensure)
+  :hook ((python-ts-mode go-ts-mode bash-ts-mode) . eglot-ensure)
   :init
   (setq eglot-workspace-configuration
         '(:pyright (:plugins (:pycodestyle (:enabled nil)))))

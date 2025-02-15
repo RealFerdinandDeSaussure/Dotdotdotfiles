@@ -95,6 +95,9 @@
 ;; shell scripting
 ;; make shell scripts executable after save if they include a shebang
 (add-hook 'after-save-hook #'executable-make-buffer-file-executable-if-script-p)
+(use-package sh-script
+  :straight (:type built-in)
+  :hook (sh-mode . bash-ts-mode))
 
 (use-package fish-mode
   :defer t
