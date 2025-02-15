@@ -14,16 +14,12 @@
 ;; syntax checking
 (use-package flymake
   :straight (:type built-in)
-  :hook ((go-ts-mode python-ts-mode) . °init-flymake)
+  :hook (flymake-mode . °init-flymake)
   :general-config
   (:states      'normal
    "]m"         'flymake-goto-next-error
    "[m"         'flymake-goto-prev-error)
   :config
-  (evil-collection-flymake-setup)
-  (setq flymake-fringe-indicator-position 'right-fringe)
-  (mapc #'evil-declare-not-repeat #'(flymake-goto-next-error flymake-goto-prev-error))
-
   (defun °init-flymake ()
     (make-local-variable 'evil-insert-state-exit-hook)
     (make-local-variable 'evil-insert-state-entry-hook)
@@ -34,7 +30,11 @@
     (add-hook 'evil-insert-state-entry-hook
               (lambda ()
                 (flymake-mode -1)
-                (setq flymake-no-changes-timeout nil)))))
+                (setq flymake-no-changes-timeout nil))))
+
+  (evil-collection-flymake-setup)
+  (setq flymake-fringe-indicator-position 'right-fringe)
+  (mapc #'evil-declare-not-repeat #'(flymake-goto-next-error flymake-goto-prev-error)))
 
 ;; language server (eglot)
 (use-package eglot
