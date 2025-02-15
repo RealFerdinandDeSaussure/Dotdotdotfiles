@@ -5,9 +5,9 @@ command=blocklets/${BLOCK_NAME}
 separator_block_width=15
 markup=pango
 
-[clipboard]
+[wl-clipboard]
 label= 
-interval=5
+interval=persist
 
 [mpd]
 label= 

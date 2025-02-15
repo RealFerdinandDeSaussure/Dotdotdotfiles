@@ -1,0 +1,13 @@
+#!/bin/bash
+
+test -z "$WAYLAND_DISPLAY" && exit
+
+if [ -z "$CLIPBOARD_STATE" ]; then
+    script_loc=$(dirname -- "$( readlink -f -- "$0"; )";)/$(basename "$0")
+    wl-paste --watch "$script_loc"
+else
+    clip_content="$(cat)"
+    test  "$CLIPBOARD_STATE" = "sensitive" && clip_content=$(echo -n "$clip_content" | tr "[:graph:]" "*")
+    test ${#clip_content} -gt 15 && clip_content="${clip_content:0:15}…"
+    stdbuf -oL echo "<span font_size='small'>$clip_content</span>"
+fi
