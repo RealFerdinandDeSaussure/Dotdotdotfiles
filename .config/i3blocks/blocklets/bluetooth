@@ -1,0 +1,16 @@
+#!/bin/bash
+
+if [ "$(cat /sys/class/bluetooth/"${BLOCK_INSTANCE}"/power/control)" = "off" ]; then
+    echo ""
+    exit
+fi
+
+if systemctl is-active --quiet bluetooth.service; then
+    devices=$(busctl --system --json=short call org.bluez / org.freedesktop.DBus.ObjectManager GetManagedObjects |
+                  jq -r '.data[0] | values[] | select(."org.bluez.Device1".Connected.data == true) | ."org.bluez.Device1".Name.data' |
+                  paste -sd ', ')
+fi
+
+color="${__BASE03}"
+test -n "$devices" && color="${__BASE0D}"
+echo "<span foreground=\"#$color\"></span>${devices:+ <span size='small'>${devices}</span>}"
