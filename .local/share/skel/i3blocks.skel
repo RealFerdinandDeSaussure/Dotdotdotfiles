@@ -6,7 +6,6 @@ separator_block_width=15
 markup=pango
 
 [wl-clipboard]
-label= 
 interval=persist
 
 [mpd]
@@ -21,7 +20,6 @@ command=test "$button" = 1 && mpc toggle >/dev/null 2>&1; cat ~/.cache/mpdnotdae
 # end of custom settings
 
 [time]
-label= 
 interval=30
 format=json
 _BLOCK_STATE=time

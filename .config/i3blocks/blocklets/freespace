@@ -2,12 +2,12 @@
 
 df_out=$(df -h --output=pcent,avail "$BLOCK_INSTANCE" | tail -n 1)
 
-percentage=$(awk '{print $1}' <<< $df_out)
-left=$(awk '{print $2}' <<< $df_out)
+percentage=$(awk '{print $1}' <<< "$df_out")
+left=$(awk '{print $2}' <<< "$df_out")
 
-echo "${percentage} <span size='x-small'>($left)</span>"
-echo ${percentage}
+echo " ${percentage} <span size='x-small'>($left)</span>"
+echo " ${percentage}"
 
 if (( ${percentage:0:-1} > 92 )); then
-    echo \#$__BASE08
+    echo \#"$__BASE08"
 fi

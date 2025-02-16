@@ -9,7 +9,7 @@ function print_time_info {
             current_time=$(date +%a,\ %e.%m.%Y)
             ;;
     esac
-    echo "{\"full_text\" : \"$current_time\", \"_BLOCK_STATE\" : \"$_BLOCK_STATE\"}"
+    echo "{\"full_text\" : \" $current_time\", \"_BLOCK_STATE\" : \"$_BLOCK_STATE\"}"
 }
 
 function get_new_state {
