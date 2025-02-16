@@ -40,6 +40,9 @@ def run_dunstify(args: list):
 
 def notify_song(mpc: MPDClient, song: Song):
     """Create notification with information contained in SONG."""
+    if not song:
+        return
+
     album_art = get_album_art(mpc, song)
     args = []
     if album_art:
@@ -66,11 +69,15 @@ def get_album_art(mpc: MPDClient, song: Song) -> Optional[bytes]:
 
 
 def print_song_info(song: Song):
+    if not song:
+        print(flush=True)
+        return
+
     print(
         json.dumps(
             {
                 "full_text": f" {song['artist']} - {song['title']}",
-                "short_text": f" {song['artist']}",
+                "short_text": f" {song['title']}",
             }
         ),
         flush=True,
