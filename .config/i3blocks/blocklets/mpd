@@ -6,8 +6,9 @@ import signal
 import subprocess
 import sys
 from typing import Optional
+from time import sleep
 
-from mpd import CommandError, MPDClient  # type: ignore
+from mpd import CommandError, ConnectionError, MPDClient  # type: ignore
 from typing_extensions import TypedDict
 
 ARTFILE = os.path.join(os.getenv("HOME"), ".cache", "mpdnotdaem-art")
@@ -96,10 +97,14 @@ def mpd_idle_loop(mpc: MPDClient, current_song: Song):
 
 def start_client():
     mpc = MPDClient()
-    mpc.connect("localhost", port=6600)
-    current_song = mpc.currentsong()
-    print_song_info(current_song)
-    mpd_idle_loop(mpc, current_song)
+    while True:
+        try:
+            mpc.connect("localhost", port=6600)
+            current_song = mpc.currentsong()
+            print_song_info(current_song)
+            mpd_idle_loop(mpc, current_song)
+        except ConnectionError:
+            sleep(10)
 
 
 def sigterm_handler(*args):

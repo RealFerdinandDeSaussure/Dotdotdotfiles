@@ -1,9 +1,0 @@
-#!/bin/env fish
-
-if systemctl --user is-active mpd.service > /dev/null
-    systemctl --user stop mpd.service
-else
-    systemctl --user start mpd.service
-end
-
-eval (dirname (status current-filename))/i3b_up 10 0
