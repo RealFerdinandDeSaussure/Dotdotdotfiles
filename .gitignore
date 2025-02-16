@@ -98,7 +98,6 @@
 
 !.config/systemd
 !.config/systemd/user
-!.config/systemd/user/mpd-notification-daemon.service
 !.config/systemd/user/mpdscribble.service.d/
 !.config/systemd/user/mpdscribble.service.d/*
 
@@ -116,7 +115,6 @@
 
 !.local/bin
 !.local/bin/merge-configs
-!.local/bin/mpdnotdaem
 !.local/bin/mpull
 !.local/bin/pacupdate
 !.local/bin/playlistctl

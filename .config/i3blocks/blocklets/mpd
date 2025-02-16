@@ -1,0 +1,108 @@
+#!/usr/bin/env python
+
+import json
+import os
+import signal
+import subprocess
+import sys
+from typing import Optional
+
+from mpd import CommandError, MPDClient  # type: ignore
+from typing_extensions import TypedDict
+
+ARTFILE = os.path.join(os.getenv("HOME"), ".cache", "mpdnotdaem-art")
+
+
+class Song(TypedDict):
+    file: str
+    cover: str
+    title: str
+    artist: str
+    album: str
+    lyrics: str
+
+
+def song_to_notification_args(song: Song) -> tuple:
+    """Turn song into a tuple that can be used as args to notify-send."""
+    return (
+        song["title"],
+        "{artist}<br/><i>{album}</i><br/><br/>".format(**song),
+    )
+
+
+def run_dunstify(args: list):
+    subprocess.run(
+        ["dunstify", "-h", "string:category:desktop.mpd", "-r", "999", *args],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+
+
+def notify_song(mpc: MPDClient, song: Song):
+    """Create notification with information contained in SONG."""
+    album_art = get_album_art(mpc, song)
+    args = []
+    if album_art:
+        write_album_art(album_art)
+        args += ["-i", ARTFILE]
+
+    args += ["--", *song_to_notification_args(song)]
+    run_dunstify(args)
+
+
+def write_album_art(album_art: bytes):
+    """Write album art from song to ARTFILE. Return True if succesful."""
+    with open(ARTFILE, mode="wb") as f:
+        f.write(album_art)
+        return True
+
+
+def get_album_art(mpc: MPDClient, song: Song) -> Optional[bytes]:
+    try:
+        pic = mpc.readpicture(song["file"])
+        return pic["binary"]
+    except CommandError:
+        return None
+
+
+def print_song_info(song: Song):
+    print(
+        json.dumps(
+            {
+                "full_text": f" {song['artist']} - {song['title']}",
+                "short_text": f" {song['artist']}",
+            }
+        ),
+        flush=True,
+    )
+
+
+def mpd_idle_loop(mpc: MPDClient, current_song: Song):
+    while True:
+        mpc.idle("player")
+        new_song = mpc.currentsong()
+        if new_song != current_song:
+            current_song = new_song
+            notify_song(mpc, current_song)
+            print_song_info(current_song)
+
+
+def start_client():
+    mpc = MPDClient()
+    mpc.connect("localhost", port=6600)
+    current_song = mpc.currentsong()
+    print_song_info(current_song)
+    mpd_idle_loop(mpc, current_song)
+
+
+def sigterm_handler(*args):
+    raise KeyboardInterrupt
+
+
+if __name__ == "__main__":
+    try:
+        signal.signal(signal.SIGTERM, sigterm_handler)
+        start_client()
+    except KeyboardInterrupt:
+        pass
+    sys.exit(0)

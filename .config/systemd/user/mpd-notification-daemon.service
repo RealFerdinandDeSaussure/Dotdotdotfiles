@@ -1,9 +1,0 @@
-[Unit]
-Description=Simple MPD notification daemon
-After=mpd.service
-
-[Service]
-ExecStart=%h/.local/bin/mpdnotdaem
-
-[Install]
-RequiredBy=mpd.service

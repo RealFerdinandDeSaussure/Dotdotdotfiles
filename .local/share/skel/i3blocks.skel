@@ -9,10 +9,9 @@ markup=pango
 interval=persist
 
 [mpd]
-label= 
-interval=0
-signal=10
-command=test "$button" = 1 && mpc toggle >/dev/null 2>&1; cat ~/.cache/mpdnotdaem
+interval=persist
+format=json
+markup=none
 
 # [custom]
 {{{custom}}}
