@@ -14,3 +14,4 @@ fi
 color="${__BASE03}"
 test -n "$devices" && color="${__BASE0D}"
 echo "<span foreground=\"#$color\"></span>${devices:+ <span size='small'>${devices}</span>}"
+echo "<span foreground=\"#$color\"></span>"
