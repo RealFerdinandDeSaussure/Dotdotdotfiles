@@ -7,6 +7,7 @@ if [ -z "$CLIPBOARD_STATE" ]; then
     wl-paste --watch "$script_loc"
 else
     clip_content="$(cat)"
+    test -z "$clip_content" && exit
     test  "$CLIPBOARD_STATE" = "sensitive" && clip_content=$(echo -n "$clip_content" | tr "[:graph:]" "*")
     test ${#clip_content} -gt 15 && clip_content="${clip_content:0:15}…"
     stdbuf -oL echo "<span font_size='small'>$clip_content</span>"
