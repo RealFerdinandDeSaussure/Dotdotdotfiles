@@ -2,13 +2,14 @@
 
 import json
 import os
-import signal
 import subprocess
 import sys
 from typing import Optional
-from time import sleep
 
-from mpd import CommandError, ConnectionError, MPDClient  # type: ignore
+import dbus
+from dbus.mainloop.glib import DBusGMainLoop
+from gi.repository import GLib
+from mpd import CommandError, MPDClient
 from typing_extensions import TypedDict
 
 ARTFILE = os.path.join(os.getenv("HOME"), ".cache", "mpdnotdaem-art")
@@ -86,6 +87,7 @@ def print_song_info(song: Song):
 
 
 def mpd_idle_loop(mpc: MPDClient, current_song: Song):
+    print_song_info(current_song)
     while True:
         mpc.idle("player")
         new_song = mpc.currentsong()
@@ -95,26 +97,61 @@ def mpd_idle_loop(mpc: MPDClient, current_song: Song):
             print_song_info(current_song)
 
 
-def start_client():
-    mpc = MPDClient()
-    while True:
-        try:
-            mpc.connect("localhost", port=6600)
-            current_song = mpc.currentsong()
-            print_song_info(current_song)
-            mpd_idle_loop(mpc, current_song)
-        except ConnectionError:
-            sleep(10)
-
-
-def sigterm_handler(*args):
-    raise KeyboardInterrupt
+def on_job_removed(job_id: int, job_path: str, unit: str, result: str):
+    if unit == "mpd.service" and result == "done":
+        unit_obj = bus.get_object(
+            "org.freedesktop.systemd1", manager.GetUnit("mpd.service")
+        )
+        state = unit_obj.Get(
+            "org.freedesktop.systemd1.Unit",
+            "ActiveState",
+            dbus_interface="org.freedesktop.DBus.Properties",
+        )
+        if state == "active":
+            loop.quit()
 
 
 if __name__ == "__main__":
+    DBusGMainLoop(set_as_default=True)
+    bus = dbus.SessionBus()
+    systemd = bus.get_object("org.freedesktop.systemd1", "/org/freedesktop/systemd1")
+    manager = dbus.Interface(systemd, "org.freedesktop.systemd1.Manager")
+    loop = GLib.MainLoop()
+
+    # Set up signal handler just once
+    bus.add_signal_receiver(
+        on_job_removed,
+        signal_name="JobRemoved",
+        dbus_interface="org.freedesktop.systemd1.Manager",
+        bus_name="org.freedesktop.systemd1",
+    )
+
     try:
-        signal.signal(signal.SIGTERM, sigterm_handler)
-        start_client()
+        mpc = MPDClient()
+        while True:
+            # Check if MPD is already active
+            try:
+                unit_path = manager.GetUnit("mpd.service")
+                unit_obj = bus.get_object("org.freedesktop.systemd1", unit_path)
+                state = unit_obj.Get(
+                    "org.freedesktop.systemd1.Unit",
+                    "ActiveState",
+                    dbus_interface="org.freedesktop.DBus.Properties",
+                )
+                if state != "active":
+                    # wait for mpd to become active
+                    loop.run()
+            except dbus.exceptions.DBusException:
+                # wait for mpd to become active
+                loop.run()
+
+            try:
+                mpc.connect("localhost", port=6600)
+                current_song = mpc.currentsong()
+                mpd_idle_loop(mpc, current_song)
+            except (ConnectionRefusedError, ConnectionError):
+                # If connection fails, wait for service to restart
+                continue
+
     except KeyboardInterrupt:
-        pass
-    sys.exit(0)
+        sys.exit(0)
