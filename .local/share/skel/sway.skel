@@ -302,7 +302,7 @@ mode $mode_resize {
         bindsym Shift+k resize shrink height 13 px or 7 ppt
         bindsym Shift+l resize grow width 13 px or 7 ppt
 
-        # back to normal: Enter or Escape
+        # back to normal: mode shortcut or Escape
         bindsym Escape mode "default"
         bindsym $mod+plus mode "default"
 }
@@ -313,7 +313,7 @@ mode $mode_music {
         bindsym l exec mpc next
         bindsym h exec mpc prev
         bindsym r exec mpc random
-        bindsym Tab exec $i3scriptsdir/mpd_toggle
+
         # volume control
         bindsym plus exec $i3blockletsdir/volume 9 volume 5%+
         bindsym minus exec $i3blockletsdir/volume 9 volume 5%-
@@ -321,7 +321,7 @@ mode $mode_music {
         bindsym Shift+minus exec $i3blockletsdir/volume 9 volume 1%-
         bindsym Shift+0 exec $i3blockletsdir/volume 9 volume 100%
 
-        # back to normal: Enter or Escape
+        # back to normal: mode shortcut or Escape
         bindsym Escape mode "default"
         bindsym $mod+m mode "default"
 }
@@ -335,6 +335,7 @@ mode $mode_blocks {
         bindsym n exec BLOCK_BUTTON=1 $i3blockletsdir/network; mode "default"
         bindsym b exec BLOCK_BUTTON=1 $i3blockletsdir/battery; mode "default"
 
+        # back to normal: mode shortcut or Escape
         bindsym Escape mode "default"
         bindsym $mod+b mode "default"
 }
@@ -367,6 +368,7 @@ mode $mode_insert {
         bindsym Ctrl+Shift+c exec $i3scriptsdir/pass_get -fm; mode "default"
         bindsym t exec $i3scriptsdir/totp_get; mode "default"
 
+        # back to normal: mode shortcut or Escape
         bindsym Escape mode "default"
         bindsym $mod+i mode "default"
 }

@@ -298,7 +298,7 @@ mode $mode_music {
         bindsym l $execno mpc next
         bindsym h $execno mpc prev
         bindsym r $execno mpc random
-        bindsym Tab $execno $i3scriptsdir/mpd_toggle
+
         # volume control
         bindsym plus $execno $i3blockletsdir/volume 9 volume 5%+
         bindsym minus $execno $i3blockletsdir/volume 9 volume 5%-
