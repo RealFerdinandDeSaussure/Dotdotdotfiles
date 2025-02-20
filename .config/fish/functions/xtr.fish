@@ -1,4 +1,4 @@
-function extr
+function xtr
     for arc in $argv
         set sheet (7z l -slt "$arc") || return 1
         printf "%s\n" -- $sheet | awk -F " = " '/^Path/ {print $2}' | tail -n+2 | cut -d/ -f1 | sort -u | count | read folders
