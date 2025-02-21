@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ "$(cat /sys/class/bluetooth/"${BLOCK_INSTANCE}"/power/control)" = "off" ]; then
+if [ "$(gdbus call --system --dest org.bluez --object-path /org/bluez/"${BLOCK_INSTANCE}" --method org.freedesktop.DBus.Properties.Get org.bluez.Adapter1 Powered | tr -dc '[:alpha:]')" = "false" ]; then
     echo ""
     exit
 fi
