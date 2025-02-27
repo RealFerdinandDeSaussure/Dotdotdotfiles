@@ -26,7 +26,7 @@ function pyproj -d "Activate python virtual environment for current project"
     end
     set proj_id (git rev-list --parents HEAD | tail -n1)
     set -gx PYTHONPROJECTNAME (basename $toplevel)
-    set venv_dir $HOME/.cache/python/venv/$PYTHONPROJECTNAME-$proj_id
+    set venv_dir $HOME/.local/share/python/venv/$PYTHONPROJECTNAME-$proj_id
 
     mkdir -p $venv_dir
     if [ ! -e $venv_dir/bin/activate.fish ]
