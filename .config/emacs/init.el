@@ -41,4 +41,7 @@
 
 (require 'additional-keybinds)
 
-(run-hooks '°post-init-custom-hook)
+;; load custom file after init so
+(setq custom-file (expand-file-name "custom.el" emacs-subinit-dir))
+(when (file-exists-p custom-file)
+  (load custom-file))
