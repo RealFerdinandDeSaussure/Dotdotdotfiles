@@ -80,10 +80,14 @@
   (evil-collection-company-setup)
   (setq company-minimum-prefix-length 2
         company-selection-wrap-around t
-        company-idle-delay 0.01
+        company-idle-delay 0.2
         company-echo-delay 0.5)
 
   (mapc #'evil-declare-not-repeat #'(°company-select-next °company-select-previous)))
+
+(use-package completion-preview
+  :straight (:type built-in)
+  :hook (prog-mode . completion-preview-mode))
 
 (use-package company-quickhelp
   :after company

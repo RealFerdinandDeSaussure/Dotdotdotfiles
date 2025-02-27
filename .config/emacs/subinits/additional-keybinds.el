@@ -80,7 +80,7 @@
   :keymaps          'motion
   "rc"              (general-l
                       (find-file (expand-file-name "init.el" user-emacs-directory)))
-  "k"               'kill-this-buffer
+  "k"               'kill-current-buffer
   "K"               'kill-buffer-and-window
   "q"               'find-file
   "v"               'evil-window-split
