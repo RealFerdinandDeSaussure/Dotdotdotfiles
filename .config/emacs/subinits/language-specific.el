@@ -147,12 +147,12 @@
   :config
   ;; auto-fill
   (auto-fill-mode)
-  (setq-local comment-auto-fill-only-comments t)
   (setq python-fill-docstring-style 'symmetric)
-  ;; ;; width settings
-  (setq-local fill-column 79)
-  (setq-local column-enforce-column 79)
-  (setq-local electric-pair-open-newline-between-pairs nil)
+  (setq-local comment-auto-fill-only-comments t
+  ;; width settings
+  fill-column 79
+  column-enforce-column 79
+  electric-pair-open-newline-between-pairs nil)
 
   ;; test creation function
   (defun °python-ts-create-test-for-defun-at-point ()

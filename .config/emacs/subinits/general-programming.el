@@ -40,9 +40,6 @@
 (use-package eglot
   :straight (:type built-in)
   :hook ((python-ts-mode go-ts-mode bash-ts-mode) . eglot-ensure)
-  :init
-  (setq eglot-workspace-configuration
-        '(:pyright (:plugins (:pycodestyle (:enabled nil)))))
   :general-config
   (general-goleader
     :states         'motion
@@ -53,7 +50,27 @@
     :keymaps         'eglot-mode-map
     "="              'eglot-format)
   :config
-  (setq flymake-diagnostic-functions (list #'eglot-flymake-backend)))
+  (setq flymake-diagnostic-functions (list #'eglot-flymake-backend))
+
+  (defun °eglot-workspace-configuration (server)
+    (let ((lang (car (mapcar #'cdr (slot-value server 'languages)))))
+      (cond
+       ((equal lang "python")
+        (let* ((venv-path (°join-path t (getenv "HOME") ".local" "share" "python" "venv"))
+               (venv-project (concat (°git-top-level-directory) "-" (°git-first-commit)))
+               (venv-project-path (°join-path t venv-path venv-project)))
+          (if (file-directory-p venv-project-path)
+              `(:python
+                (:venvPath ,venv-path
+                 :venv ,venv-project
+                 :pythonPath ,(°join-path nil venv-project-path "bin" "python")
+                 :analysis
+                 (:extraPaths
+                  ,(vconcat
+                    (file-expand-wildcards (°join-path nil venv-project-path "lib*" "python*" "site-packages")))
+                  :useLibraryCodeForTypes t)))))))))
+  
+  (setq-default eglot-workspace-configuration #'°eglot-workspace-configuration))
 
 ;; autocompletion
 (use-package company

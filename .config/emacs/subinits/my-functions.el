@@ -315,6 +315,18 @@ Start eshell if it isn't running already."
   "Uniform way to get content of current line."
   (buffer-substring-no-properties (line-beginning-position) (line-end-position)))
 
+;;;###autoload
+(defun °git-top-level-directory ()
+  "Returns the name of the top level directory of the current git project."
+  (when (executable-find "git")
+    (file-name-nondirectory (directory-file-name (string-trim (shell-command-to-string "git rev-parse --show-toplevel"))))))
+
+;;;###autoload
+(defun °git-first-commit ()
+  "Returns the hash of the first comment of the current git project."
+  (when (executable-find "git")
+    (car (split-string (shell-command-to-string "git rev-list --reverse --parents HEAD") "\n"))))
+
 (defun °°in-string-p ()
   "Returns t if point is within a string according to syntax-ppss.  Otherwise nil."
   (not (eq (nth 3 (syntax-ppss)) nil)))

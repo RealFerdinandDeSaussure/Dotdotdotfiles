@@ -6,9 +6,7 @@ function pyproj -d "Activate python virtual environment for current project"
         functions -e __pyproj_fish_prompt
         for var in PYTHONPATH VIRTUAL_ENV PATH
             set backup_var __pyproj_$var
-                echo $backup_var
             if set -q $backup_var
-                echo $backup_var
                 set -gx $var $$backup_var
                 set -e $backup_var
             else
