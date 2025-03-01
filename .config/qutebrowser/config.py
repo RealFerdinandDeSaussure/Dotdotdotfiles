@@ -400,6 +400,8 @@ config.bind(";x", "hint links userscript xdg-open")
 # Open current url in new windows
 config.unbind("wO", mode="normal")
 config.bind("gw", "cmd-set-text :open -w {url:pretty}")
+# Open alternative frontend for current page
+config.bind("g_", "spawn -u alt_frontend")
 # Buffer navigation
 config.bind("b", "cmd-set-text --space :tab-select")
 # Source config

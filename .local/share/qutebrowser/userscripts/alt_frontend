@@ -1,0 +1,32 @@
+#!/usr/bin/env python
+
+from os import getenv
+from urllib.parse import urlsplit
+import logging
+
+log = logging.getLogger(__name__)
+logging.basicConfig(filename="/tmp/my-log", encoding="utf-8", level=logging.DEBUG)
+
+alt_frontends = {
+    "reddit.com": "https://farside.link/redlib",
+    "youtube.com": "https://farside.link/invidious",
+    "genius.com": "https://farside.link/dumb",
+    "stackoverflow.com": "https://farside.link/anonymousoverflow",
+}
+
+
+def get_alt_frontend_url(url):
+    """Turn URL into its equivalent from ALT_FRONTENDS."""
+    split = urlsplit(url)
+    baseurl = split.netloc[4:] if split.netloc.startswith("www") else split.netloc
+    return "/".join([alt_frontends[baseurl], split.path])
+
+
+try:
+    fifo = getenv("QUTE_FIFO")
+    with open(fifo, mode="w") as f:
+        new_url = get_alt_frontend_url(getenv("QUTE_URL"))
+        f.write(f"open {new_url}")
+        f.flush()
+except (NameError, KeyError):
+    pass
