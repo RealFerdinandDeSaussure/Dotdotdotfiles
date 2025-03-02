@@ -35,8 +35,8 @@ function pyproj -d "Activate python virtual environment for current project"
         set -q $var && set -gx __pyproj_$var "$$var"
     end
 
-    set -gx PYTHONPATH $toplevel
     set -gx VIRTUAL_ENV $venv_dir
+    set -gx PYTHONPATH (string join ":" $toplevel "$VIRTUAL_ENV/lib"*"/python"*"/site-packages")
     set -gx PATH "$VIRTUAL_ENV/bin:$PATH"
 
     functions -c fish_prompt __pyproj_fish_prompt
