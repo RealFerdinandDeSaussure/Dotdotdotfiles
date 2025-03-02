@@ -28,11 +28,18 @@
 (setq sentence-end-double-space nil)
 
 ;; tramp settings
-(setq tramp-default-method "ssh")
-(add-hook 'find-file-hook
-          (lambda ()
-            (when (file-remote-p default-directory)
-              (°source-ssh-env))))
+(use-package tramp
+  :straight (:type built-in)
+  :defer t
+  :config
+  (add-hook 'find-file-hook (lambda ()
+                              (when (file-remote-p default-directory)
+                                (°source-ssh-env))))
+  (setq tramp-default-method "ssh"
+        vc-ignore-remote t
+        remote-file-name-inhibit-locks t
+        tramp-auto-save-directory (expand-file-name "tramp-auto-save" user-emacs-directory)
+        vc-ignore-dir-regexp (format "%s\\|%s" vc-ignore-dir-regexp tramp-file-name-regexp)))
 
 ;; use pass or an encrypted file for auth-sources
 (use-package auth-source-pass
