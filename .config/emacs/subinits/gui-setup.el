@@ -62,8 +62,10 @@
           (telephone-line-raw "!")
         (telephone-line-raw "-"))))
 
-  (telephone-line-defsegment °telephone-line-project-segment ()
-    (file-name-nondirectory (directory-file-name (project-root (project-current)))))
+  (telephone-line-defsegment
+   °telephone-line-project-segment ()
+   (unless (file-remote-p default-directory)
+       (file-name-nondirectory (directory-file-name (project-root (project-current))))))
   
   (setq telephone-line-lhs
         '((evil     .   (°telephone-line-buffer-modified-segment
