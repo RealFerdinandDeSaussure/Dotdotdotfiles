@@ -5,6 +5,9 @@ export WINEPREFIX=${HOME}/.local/share/wine
 export MAILDIR=${HOME}/.local/share/mail
 export PYTHONPYCACHEPREFIX=${HOME}/.cache/python
 
+# use systemd service for ssh-agent
+export SSH_AUTH_SOCK=${XDG_RUNTIME_DIR}/ssh-agent.socket
+
 # define default applications with some common variables
 export EDITOR=nvim
 export TERMINAL=alacritty
