@@ -9,15 +9,6 @@
 (setq browse-url-generic-program "qutebrowser")
 (setq browse-url-browser-function 'browse-url-generic)
 
-;; ewwwwwwwwwwwwwwwwwww settings
-(use-package eww
-  :general
-  (:keymaps         'override
-   "<f1>"           'eww
-   "S-<f1>"         (general-l (°split-window-and-do (call-interactively 'eww))))
-  :config
-  (evil-collection-eww-setup))
-
 ;; spellchecking settings
 (setq ispell-program-name "hunspell")
 (defvar °ispell-dicts-in-use
@@ -27,24 +18,41 @@
 ;; use more conservative sentence definition
 (setq sentence-end-double-space nil)
 
+;; authentication/security settings
+(use-package password-cache
+  :straight (:type built-in)
+  :defer t
+  :custom
+  (password-cache-expiry 1800 "Cache passwords for 30 minutes."))
+
+;; use pass auth-sources
+(use-package auth-source-pass
+  :config
+  (auth-source-pass-enable))
+
 ;; tramp settings
 (use-package tramp
   :straight (:type built-in)
   :defer t
+  :custom
+  (tramp-default-method "ssh")
+  (vc-ignore-remote t)
+  (remote-file-name-inhibit-locks t)
+  (vc-ignore-dir-regexp (format "%s\\|%s" vc-ignore-dir-regexp tramp-file-name-regexp))
+  (remote-file-name-inhibit-locks t)
   :config
   (add-hook 'find-file-hook (lambda ()
                               (when (file-remote-p default-directory)
-                                (°source-ssh-env))))
-  (setq tramp-default-method "ssh"
-        vc-ignore-remote t
-        remote-file-name-inhibit-locks t
-        tramp-auto-save-directory (expand-file-name "tramp-auto-save" user-emacs-directory)
-        vc-ignore-dir-regexp (format "%s\\|%s" vc-ignore-dir-regexp tramp-file-name-regexp)))
+                                (°source-ssh-env)))))
 
-;; use pass or an encrypted file for auth-sources
-(use-package auth-source-pass
+;; ewwwwwwwwwwwwwwwwwww settings
+(use-package eww
+  :general
+  (:keymaps         'override
+   "<f1>"           'eww
+   "S-<f1>"         (general-l (°split-window-and-do (call-interactively 'eww))))
   :config
-  (auth-source-pass-enable))
+  (evil-collection-eww-setup))
 
 ;; sexier builtin help
 (use-package helpful
