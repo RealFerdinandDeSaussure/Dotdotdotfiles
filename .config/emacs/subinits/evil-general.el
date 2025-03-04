@@ -5,16 +5,16 @@
         evil-want-integration t
         evil-want-keybinding nil
         evil-echo-state nil)
+  :custom
+  (evil-symbol-word-search t "Make * and # search for symbols instead of words.")
+  (evil-want-Y-yank-to-eol t "Sensible behavior for Y.")
   :config
   (evil-mode 1)
-  (setq-default evil-symbol-word-search t)
   ;; workaround for view-mode keybinding behavior
   (add-hook 'view-mode-hook (lambda ()
                               (general-define-key :states 'normal :keymaps 'local
                                 "q" nil)))
   
-  ;; sensible Y behavior
-  (customize-set-variable 'evil-want-Y-yank-to-eol t)
   ;; set undo backend to undo-fu
   (evil-set-undo-system 'undo-fu)
   
@@ -74,6 +74,9 @@
   :general-config
   (:states          'motion
    "<C-S-SPC>"      '°vertigo-reuse-last-arg)
+  :custom
+  (vertigo-home-row '(?a ?s ?d ?f ?g ?h ?j ?k ?l ?ö))
+  (vertigo-cut-off 9)
   :config
   (evil-define-motion vertigo-evil-set-digit-argument (count)
     "Evil vertigo motion. Count has no effect."
@@ -82,8 +85,6 @@
             (evil-read-motion nil (vertigo--run (lambda (x) x) "Set digit arg: " t)))
       (funcall (car cmd) (nth 1 cmd))))
 
-  (setq vertigo-home-row '(?a ?s ?d ?f ?g ?h ?j ?k ?l ?ö))
-  (setq vertigo-cut-off 9)
   (evil-declare-motion #'vertigo-set-digit-argument)
   (evil-add-command-properties #'vertigo-set-digit-argument :jump t)
   (defun °vertigo--remember-arg (func num)
@@ -115,22 +116,23 @@
 
 (use-package evil-goggles
   :hook (after-init . evil-goggles-mode)
-  :init
-  (setq evil-goggles-duration 0.500)
-  (setq evil-goggles-blocking-duration 0.001)
-  (setq evil-goggles-enable-shift nil)
-  (setq evil-goggles-enable-undo nil)
-  (setq evil-goggles-enable-paste nil)
-  (setq evil-goggles-enable-commentary nil)
-  (setq evil-goggles-enable-surround nil)
-  (setq evil-goggles-enable-delete nil))
+  :custom
+  (evil-goggles-duration 0.500)
+  (evil-goggles-blocking-duration 0.001)
+  (evil-goggles-enable-shift nil)
+  (evil-goggles-enable-undo nil)
+  (evil-goggles-enable-paste nil)
+  (evil-goggles-enable-commentary nil)
+  (evil-goggles-enable-surround nil)
+  (evil-goggles-enable-delete nil))
 
 (use-package evil-mc
+  :custom
+  (evil-mc-custom-known-commands
+   '((indent-relative ((:default . evil-mc-execute-default-call)))))
   :config
   (evil-collection-evil-mc-setup)
-  (global-evil-mc-mode 1)
-  (setq evil-mc-custom-known-commands
-        '((indent-relative ((:default . evil-mc-execute-default-call))))))
+  (global-evil-mc-mode 1))
 
 (use-package evil-numbers
   :general

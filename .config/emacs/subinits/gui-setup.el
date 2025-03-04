@@ -104,14 +104,14 @@
 (use-package shackle
   :config
   (shackle-mode 1)
-  (setq shackle-rules
-        '(("*eshell*"
-           :regexp t :select t :popup t :align below :size 0.2)
-          ("^\\*ansi-term.*"
-           :regexp t :select t :popup t :align below :size 0.2)
-          ('inferior-python-mode
-           :select t :popup t :align below :size 0.2)
-          ("*vterm*"
-           :regexp t :select t :popup t :align below :size 0.2))))
+  :custom (shackle-rules
+           '(("*eshell*"
+              :regexp t :select t :popup t :align below :size 0.2)
+             ("^\\*ansi-term.*"
+              :regexp t :select t :popup t :align below :size 0.2)
+             ('inferior-python-mode
+              :select t :popup t :align below :size 0.2)
+             ("*vterm*"
+              :regexp t :select t :popup t :align below :size 0.2))))
 
 (provide 'gui-setup)

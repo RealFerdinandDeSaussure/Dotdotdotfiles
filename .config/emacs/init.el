@@ -29,8 +29,6 @@
 (unless (require 'mu4e-setup nil t)
   (message "Error loading mu4e."))
 
-(require 'completion)
-
 (require 'general-programming)
 
 (require 'language-specific)

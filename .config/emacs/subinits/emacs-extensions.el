@@ -77,6 +77,8 @@
                       evil-ex-search-keymapread-expression-map
                       minibuffer-local-map)
    "C-h k"          'helpful-key)
+  :custom
+  (helpful-switch-buffer-function #'°display-buffer-pop-up-if-not-helpful)
   :general-config
   (:states          'motion
    "M-H"            'helpful-kill-buffers)
@@ -85,7 +87,6 @@
    "q"              'delete-window)
   :config
   (evil-collection-helpful-setup)
-  (setq helpful-switch-buffer-function #'°display-buffer-pop-up-if-not-helpful)
   (defun °display-buffer-pop-up-if-not-helpful (buf)
     "Display BUF in current window if it is in helpful-mode. Pop up a new window
     otherwise."
@@ -139,14 +140,14 @@
    "<escape>"       'minibuffer-keyboard-quit))
 
 (use-package vterm
-  :init
-  (setq vterm-shell (concat "/" (file-name-concat "usr" "bin" "fish") " -C __vterm_setup"))
   ;; use locally installed package (from AUR) of emacs-vterm
   :straight nil
   :general
   (:keymaps         'override
    :states          '(motion emacs)
    "C-¼"            '°vterm)
+  :custom
+  (vterm-shell (concat "/" (file-name-concat "usr" "bin" "fish") " -C __vterm_setup"))
   :general-config
   (:states          'emacs
    :keymaps         'vterm-mode-map
@@ -181,9 +182,10 @@ Start terminal if it isn't running already."
 (use-package vertico
   :init
   (setq completion-ignore-case t
-        read-buffer-completion-ignore-case t
-        read-file-name-completion-ignore-case t)
+        read-buffer-completion-ignore-case t)
   (vertico-mode)
+  :custom
+  (read-file-name-completion-ignore-case t)
   :general-config
   (:keymaps         'vertico-map
     "M-k"           'previous-history-element

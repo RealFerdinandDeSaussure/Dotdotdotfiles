@@ -2,6 +2,16 @@
 (use-package org
   :straight (:type built-in)
   :hook (org-mode . °init-org-mode)
+  :custom
+  (org-log-done 'time)
+  (org-adapt-indentation t)
+  (org-cycle-separator-lines -1)
+  (org-priority-default ?C)
+  (org-agenda-custom-commands '(("G" "Overview by urgency"
+                                 ((tags-todo "+PRIORITY=\"A\"")
+                                  (agenda "")
+                                  (tags-todo "-PRIORITY=\"A\""
+                                             ((org-agenda-sorting-strategy '(priority-down))))))))
   :general-config
   (:states          'normal
    :keymaps         'org-mode-map
@@ -9,7 +19,7 @@
    "}"              '°org-next-element
    "o"              '°org-meta-open-below
    "O"              '°org-meta-open-above)
-   (:states         'insert
+  (:states         'insert
    :keymaps         'org-mode-map
    "M-L"            'org-metaright
    "M-H"            'org-metaleft)
@@ -59,10 +69,6 @@
   :config
   (evil-set-initial-state 'org-agenda-mode 'normal)
   (evil-collection-org-setup)
-  (setq org-log-done 'time
-        org-adapt-indentation t
-        org-cycle-separator-lines -1
-        org-priority-default ?C)
 
   (dolist (action #'(org-forward-sentence
                      org-backward-sentence
@@ -75,13 +81,6 @@
                      (lambda () (org-align-tags t))
                      'org-mode)
   
-  (setq org-agenda-custom-commands
-        '(("G" "Overview by urgency"
-           ((tags-todo "+PRIORITY=\"A\"")
-            (agenda "")
-            (tags-todo "-PRIORITY=\"A\""
-                       ((org-agenda-sorting-strategy '(priority-down))))))))
-
   (defun °init-org-mode ()
     (setq-local line-spacing 0.4)
     (°°org-visual-line-mode))
@@ -132,8 +131,8 @@
                  (t
                   (org-beginning-of-line)
                   #'org-meta-return))))
-    (call-interactively context-func)
-    (evil-insert 1)))
+      (call-interactively context-func)
+      (evil-insert 1)))
 
   (defun °org-meta-ctrl-open-below ()
     (interactive)
@@ -152,7 +151,7 @@
   (defun °°org-insert-todo-keyword ()
     (org-todo (if (member "TODO" org-todo-keywords-1)
                   "TODO"
-              (car org-todo-keywords-1))))
+                (car org-todo-keywords-1))))
 
   (defun °°org-undone-children-at-point-p (&optional no-children)
     "Return t if we are at a heading with children that are not in the
@@ -194,8 +193,8 @@ no children at all."
     (unless (°°org-undone-children-at-point-p)
       (setq org-map-continue-from (org-element-property :begin (org-element-at-point)))
       (unless (and confirm (not (y-or-n-p (concat (org-get-heading) " - archive this entry? "))))
-       (org-archive-subtree-default)
-       (+ count 1))))
+        (org-archive-subtree-default)
+        (+ count 1))))
   
   (defun °org-overview-realign ()
     (interactive)

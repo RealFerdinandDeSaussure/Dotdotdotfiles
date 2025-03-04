@@ -1,7 +1,7 @@
 ;; -*- lexical-binding: t -*-
 ;; default indentation settings (no TABs) - other settings on a per-mode basis
-(setq-default indent-tabs-mode nil)
-(setq-default tab-width 4)
+(setopt indent-tabs-mode nil
+        tab-width 4)
 
 ;; abbreviation settings
 ;; expand abbreviation upon exiting insert stat
@@ -15,6 +15,8 @@
 (use-package flymake
   :straight (:type built-in)
   :hook (flymake-mode . °init-flymake)
+  :custom
+  (flymake-fringe-indicator-position 'right-fringe)
   :general-config
   (:states      'normal
    "]m"         'flymake-goto-next-error
@@ -33,13 +35,15 @@
                 (setq flymake-no-changes-timeout nil))))
 
   (evil-collection-flymake-setup)
-  (setq flymake-fringe-indicator-position 'right-fringe)
   (mapc #'evil-declare-not-repeat #'(flymake-goto-next-error flymake-goto-prev-error)))
 
 ;; language server (eglot)
 (use-package eglot
   :straight (:type built-in)
   :hook ((python-ts-mode go-ts-mode bash-ts-mode) . eglot-ensure)
+  :custom
+  (flymake-diagnostic-functions (list #'eglot-flymake-backend))
+  (eglot-workspace-configuration #'°eglot-workspace-configuration)
   :general-config
   (general-goleader
     :states         'motion
@@ -50,8 +54,6 @@
     :keymaps         'eglot-mode-map
     "="              'eglot-format)
   :config
-  (setq flymake-diagnostic-functions (list #'eglot-flymake-backend))
-
   (defun °eglot-workspace-configuration (server)
     (let ((lang (car (mapcar #'cdr (slot-value server 'languages)))))
       (cond
@@ -68,14 +70,17 @@
                  (:extraPaths
                   ,(vconcat
                     (file-expand-wildcards (file-name-concat venv-project-path "lib*" "python*" "site-packages")))
-                  :useLibraryCodeForTypes t)))))))))
-  
-  (setq-default eglot-workspace-configuration #'°eglot-workspace-configuration))
+                  :useLibraryCodeForTypes t))))))))))
 
 ;; autocompletion
 (use-package company
   :hook ((prog-mode . company-mode)
          (company-mode . company-tng-mode))
+  :custom
+  (company-minimum-prefix-length 2)
+  (company-selection-wrap-around t)
+  (company-idle-delay 0.2)
+  (company-echo-delay 0.5)
   :general-config
   (:keymaps         'company-tng-map
    "<return>"       (general-l
@@ -95,10 +100,7 @@
   
   :config
   (evil-collection-company-setup)
-  (setq company-minimum-prefix-length 2
-        company-selection-wrap-around t
-        company-idle-delay 0.2
-        company-echo-delay 0.5)
+  
 
   (mapc #'evil-declare-not-repeat #'(°company-select-next °company-select-previous)))
 
@@ -108,9 +110,10 @@
 
 (use-package company-quickhelp
   :after company
+  :custom
+  (company-quickhelp-delay .2)
   :config
-  (company-quickhelp-mode)
-  (setq company-quickhelp-delay .2))
+  (company-quickhelp-mode))
 
 (use-package magit
   :hook ((magit-mode . °source-ssh-env)
@@ -160,13 +163,12 @@
   (general-leader
     :keymaps        'visual
     "RET"           'quickrun-region)
+  :custom
+  (quickrun-focus-p nil)
   :general-config
   (:states          'normal
    :keymaps         'quickrun--mode-map
-   "q"              'quit-window)
-
-  :config
-  (setq quickrun-focus-p nil))
+   "q"              'quit-window))
 
 (use-package yasnippet
   :hook ((go-ts-mode fish-mode snippet-mode python-ts-mode mu4e-compose-mode) . yas-minor-mode)

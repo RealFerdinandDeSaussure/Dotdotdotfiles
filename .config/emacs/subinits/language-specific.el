@@ -103,13 +103,13 @@
 
 (use-package fish-mode
   :defer t
+  :custom
+  (fish-enable-auto-indent t)
   :general-config
   (general-leader
     :states         'normal
     :keymaps        'fish-mode-map
-    "hx"            'man-follow)
-  :config
-  (setq fish-enable-auto-indent t))
+    "hx"            'man-follow))
 
 (use-package pkgbuild-mode
   :commands pkgbuild-mode)
@@ -118,10 +118,10 @@
 (use-package tex
   :straight auctex
   :defer t
-  :init
-  (setq TeX-auto-save t)
-  (setq TeX-parse-self t)
-  (setq-default TeX-master nil)
+  :custom
+  (TeX-auto-save t)
+  (TeX-parse-self t)
+  (TeX-master nil)
   :config
   (add-hook 'LaTeX-mode-hook 'visual-line-mode)
   (add-hook 'LaTeX-mode-hook 'company-mode))
@@ -134,22 +134,23 @@
 
 (use-package flymd
   :after markdown-mode
+  :custom
+  (flymd-output-directory temporary-file-directory)
   :general-config
   (general-leader
     :states         'normal
     :keymaps        'flymd-map
-    "RET"           'flymd-flyit)
-  :config
-  (setq flymd-output-directory temporary-file-directory))
+    "RET"           'flymd-flyit))
 
 ;; python settings
 (use-package python
   :straight (:type built-in)
   :hook (python-mode . python-ts-mode)
+  :custom
+  (python-fill-docstring-style 'symmetric)
   :config
   ;; auto-fill
   (auto-fill-mode)
-  (setq python-fill-docstring-style 'symmetric)
   (setq-local comment-auto-fill-only-comments t
               ;; width settings
               fill-column 79
