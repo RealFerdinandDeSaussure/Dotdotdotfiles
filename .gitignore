@@ -132,9 +132,7 @@
 !.local/share/vendor-skel
 !.local/share/vendor-skel/*
 
-!.audiotools.cfg
 !.bashrc
 !.gitignore
 !.profile
 !.XCompose
-!.xprofile
