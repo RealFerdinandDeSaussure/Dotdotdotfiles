@@ -237,4 +237,8 @@ Start terminal if it isn't running already."
   :init
   (setq completion-styles '(hotfuzz)))
 
+(use-package xdg
+  :straight (:type built-in)
+  :commands xdg-user-dir)
+
 (provide 'emacs-extensions)
