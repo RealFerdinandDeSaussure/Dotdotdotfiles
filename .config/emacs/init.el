@@ -2,8 +2,6 @@
 
 (require 'package-management)
 
-(run-hooks '°pre-init-custom-hook) ; everything even earlier can go directly into custom-file
-
 ;; require essential custom functions
 (require 'my-essential-functions)
 
@@ -41,7 +39,7 @@
 
 (require 'additional-keybinds)
 
-;; load custom file after init so
+;; load custom file aat the end of init so it can rely on all settings to be available
 (setq custom-file (expand-file-name "custom.el" emacs-subinit-dir))
 (when (file-exists-p custom-file)
   (load custom-file))
