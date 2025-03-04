@@ -11,20 +11,42 @@
   :config
   (setq message-send-mail-function 'smtpmail-send-it))
 
-;; I'm using this in my mu4e config
-(use-package s
-  :commands s-match)
-
 (use-package mu4e
   :straight nil
   :general
   (:keymaps         'override
    "<f2>"           'mu4e
    "S-<f2>"         (general-l (°split-window-and-do (mu4e))))
+  :custom
+  ;; headers view
+  (mu4e-use-fancy-chars t)
+  (mu4e-headers-include-related nil)
+  (mu4e-headers-advance-after-mark nil)
+  (mu4e-headers-leave-behavior 'apply)
+  (mu4e-headers-fields '((:human-date . 12)
+                         (:flags . 6)
+                         (:from-or-to . 22)
+                         (:subject)
+                         ))
+  ;; message view
+  (mu4e-confirm-quit nil)
+  (mu4e-view-scroll-to-next t)
+  (mu4e-change-filenames-when-moving t)
+  (mu4e-attachment-dir (xdg-user-dir "DOWNLOAD"))
+  ;; context settings
+  (mu4e-context-policy nil)
+  (mu4e-compose-context-policy nil)
+  ;; compose view
+  (mu4e-compose-complete-only-personal t)
+  (mu4e-compose-format-flowed t)
+  (fill-flowed-encode-column 72)
+  (mu4e-compose-cite-function #'message-cite-original)
+  (message-citation-line-function #'message-insert-formatted-citation-line)
+  (message-citation-line-format "\nAm %A, den %x um %X schrieb %f:")
+  (message-kill-buffer-on-exit t)
   :config
-  (evil-collection-mu4e-setup)
   (require 'subr-x)
-  (require 'xdg)
+  (evil-collection-mu4e-setup)
   ;; setup keybindings here, so they are not overwritten by evil-collection
   (general-def
     :states         'normal
@@ -47,7 +69,6 @@
     :states         'normal
     :keymaps        'mu4e-compose-mode-map
     "!"             'message-send-and-exit
-    "K"             'mu4e-message-kill-buffer
     "d"             (general-l
                       (°ispell-cycle-dicts)
                       (flyspell-buffer))
@@ -56,9 +77,7 @@
                       (flyspell-buffer))
     "a"             'mail-add-attachment)
 
-  (setq mu4e-context-policy nil)
-  (setq mu4e-compose-context-policy nil)
-  (defvar °°mu4e-account-list nil
+  (defvar °mu4e--account-list nil
     "List of contexts that have seen modifications.  This will be passed to \"mbsync\" on exiting Emacs.")
 
   ;; set up private context
@@ -87,26 +106,26 @@
           {{{custom}}}
           ))
 
-  ;; add context to °°mu4e-account-list after each modification to the database
+  ;; add context to °mu4e--account-list after each modification to the database
   ;; (if they're not already there)
   (dolist (cmd '(add move sent))
     (advice-add (°concat-symbols 'mu4e--server- cmd)
-                :after #'°°mu4e-push-to-account-list))
+                :after #'°mu4e--push-to-account-list))
 
   ;; remove from list if the context is updated
-  (advice-add #'mu4e-update-mail-and-index :after #'°°mu4e-remove-from-account-list)
+  (advice-add #'mu4e-update-mail-and-index :after #'°mu4e--remove-from-account-list)
 
   ;; sync on emacs exit
   (add-to-list 'kill-emacs-query-functions
-               (defun °°mu4e-final-mail-sync ()
+               (defun °mu4e--final-mail-sync ()
                  "Sync all mail accounts that we have switched to during this session."
-                 (if °°mu4e-account-list
+                 (if °mu4e--account-list
                      (progn
                        (message
                         (concat "Syncing mail accounts ("
-                                (string-join °°mu4e-account-list ", ")
+                                (string-join °mu4e--account-list ", ")
                                 ")..."))
-                       (let* ((cmd (string-join (cons "mbsync" °°mu4e-account-list) " "))
+                       (let* ((cmd (string-join (cons "mbsync" °mu4e--account-list) " "))
                               (result (call-process-shell-command cmd)))
                          
                          (mu4e-update-index)
@@ -124,25 +143,8 @@
                 :before #'°mu4e-context-switch-at-point))
 
   ;; mark messages as read when moving them
-  (advice-add #'mu4e--server-move :after #'°°mu4e-mark-read-on-move)
+  (advice-add #'mu4e--server-move :after #'°mu4e--mark-read-on-move)
 
-  ;; headers view
-  (setq mu4e-use-fancy-chars t
-        mu4e-headers-include-related nil
-        mu4e-headers-advance-after-mark nil
-        mu4e-headers-leave-behavior 'apply
-        mu4e-headers-fields '((:human-date . 12)
-                              (:flags . 6)
-                              (:from-or-to . 22)
-                              (:subject)))
-
-  ;; message view
-  (setq mu4e-confirm-quit nil
-        mu4e-view-scroll-to-next t
-        mu4e-change-filenames-when-moving t
-        mu4e-view-show-images t
-        mu4e-attachment-dir (xdg-user-dir "DOWNLOAD")
-        mu4e-save-multiple-attachments-without-asking t)
   (with-eval-after-load "mm-decode"
     (add-to-list 'mm-discouraged-alternatives "text/richtext")
     (add-to-list 'mm-discouraged-alternatives "text/html"))
@@ -152,7 +154,7 @@
                '("bopen in browser" . mu4e-action-view-in-browser))
 
   ;; don't show cursor in emacs state when in message or headers view
-  (defun °°emacs-state-hide-cursor ()
+  (defun °emacs-state--hide-cursor ()
     (add-hook 'evil-emacs-state-entry-hook
               (lambda () (internal-show-cursor nil nil))
               nil t)
@@ -161,21 +163,11 @@
               nil t))
   (dolist (mode '(headers view))
     (add-hook (°concat-symbols 'mu4e- mode '-mode-hook)
-              #'°°emacs-state-hide-cursor))
+              #'°emacs-state--hide-cursor))
   (dolist (mode '(main compose))
     (add-hook (°concat-symbols 'mu4e- mode '-mode-hook)
               (lambda () (internal-show-cursor nil t))))
 
-  ;; compose view
-  (setq mu4e-compose-complete-only-personal t
-        mu4e-compose-signature-auto-include nil
-        mu4e-compose-dont-reply-to-self t
-        mu4e-compose-format-flowed t
-        fill-flowed-encode-column 72
-        mu4e-compose-cite-function #'message-cite-original
-        message-citation-line-function #'message-insert-formatted-citation-line
-        message-citation-line-format "\nAm %A, den %x um %X schrieb %f:"
-        message-kill-buffer-on-exit t)
   (defun °mu4e-compose-change-plaintext-dictionary ()
     (setq-local ispell-alternate-dictionary
                 (file-name-concat "/" "usr" "share" "dict"
@@ -190,12 +182,9 @@
               ;; decide which dict to use based on the extension of the parent
               ;; message's email adress, use de_DE if there is no parent message
               (let*
-                  ((sender1 (cdr (car
-                                  (ignore-errors
-                                    (mu4e-message-field mu4e-compose-parent-message :from)))))
-                   (ext (or (car (ignore-errors (s-match "\.[^\.]+?$" sender1)))
-                            ".de")))
-                (setq ispell-local-dictionary (if (string= ext ".de")
+                  ((address (°mu4e-compose--sender-address mu4e-compose-parent-message))
+                   (tld (°mu4e--address-tld)))
+                (setq ispell-local-dictionary (if (string= tld "de")
                                                   "de_DE"
                                                 "en_AU"))
                 (flyspell-mode)
@@ -211,6 +200,20 @@
               (setq-local company-backends '(company-capf company-ispell))
               (setq-local company-minimum-prefix-length 6)))
 
+  (defun °mu4e-compose--sender-address (msg)
+    "Get the (first) sender address of MSG."
+    (let ((sender1 (car
+                    (ignore-errors
+                      (mu4e-message-field msg :from)))))
+      (plist-get sender1 :email)))
+
+  (defun °mu4e--address-tld (address)
+    "Return the top level domain part of email ADDRESS."
+    (when address
+      (save-match-data
+      (string-match "\.\\([^.]+\\)$" address)
+      (match-string 0 address))))
+  
   (defun °mu4e-context-switch-at-point ()
     "Use the message at point for determining what context to switch to."
     (mu4e-context-switch nil
@@ -245,7 +248,7 @@
                (lambda (&rest args) '(something))))
       (mu4e-headers-mark-pattern)))
 
-  (defun °°mu4e-mark-read-on-move (docid-or-msgid &optional maildir &rest r)
+  (defun °mu4e--mark-read-on-move (docid-or-msgid &optional maildir &rest r)
     (when maildir
       (funcall
        (plist-get (cdr (assq 'read mu4e-marks)) :action)
@@ -268,16 +271,16 @@
     (when msg
       (mu4e-message-field msg field)))
 
-  (defun °°mu4e-push-to-account-list (&rest r)
+  (defun °mu4e--push-to-account-list (&rest r)
     (cl-pushnew (mu4e-context-name
                  (or
                   (mu4e-context-determine (mu4e-message-at-point t))
                   (mu4e-context-current)))
-                °°mu4e-account-list))
+                °mu4e--account-list))
 
-  (defun °°mu4e-remove-from-account-list (&rest r)
-    (setq °°mu4e-account-list
-          (delete (mu4e-context-name (mu4e-context-current)) °°mu4e-account-list)))
+  (defun °mu4e--remove-from-account-list (&rest r)
+    (setq °mu4e--account-list
+          (delete (mu4e-context-name (mu4e-context-current)) °mu4e--account-list)))
 
   (defun °mu4e-retrieve-recipient (msg)
     (let* ((fields '(:from :to :cc))
