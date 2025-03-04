@@ -24,7 +24,9 @@
    "A"              '°evil-lisp-append-line
    "I"              '°evil-lisp-insert-line
    "o"              '°evil-lisp-open-below
-   "O"              '°evil-lisp-open-above)
+   "O"              '°evil-lisp-open-above
+   "C-<"            'evil-cp-<
+   "C->"            'evil-cp->)
   (:states          'visual
    :keymaps         'lisp-mode-shared-map
    "c"              'evil-cp-change)
