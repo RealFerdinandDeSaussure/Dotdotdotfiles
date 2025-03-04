@@ -56,18 +56,18 @@
     (let ((lang (car (mapcar #'cdr (slot-value server 'languages)))))
       (cond
        ((equal lang "python")
-        (let* ((venv-path (°join-path t (getenv "HOME") ".local" "share" "python" "venv"))
+        (let* ((venv-path (file-name-concat (getenv "HOME") ".local" "share" "python" "venv"))
                (venv-project (concat (°git-top-level-directory) "-" (°git-first-commit)))
-               (venv-project-path (°join-path t venv-path venv-project)))
+               (venv-project-path (file-name-concat venv-path venv-project)))
           (if (file-directory-p venv-project-path)
               `(:python
                 (:venvPath ,venv-path
                  :venv ,venv-project
-                 :pythonPath ,(°join-path nil venv-project-path "bin" "python")
+                 :pythonPath ,(file-name-concat venv-project-path "bin" "python")
                  :analysis
                  (:extraPaths
                   ,(vconcat
-                    (file-expand-wildcards (°join-path nil venv-project-path "lib*" "python*" "site-packages")))
+                    (file-expand-wildcards (file-name-concat venv-project-path "lib*" "python*" "site-packages")))
                   :useLibraryCodeForTypes t)))))))))
   
   (setq-default eglot-workspace-configuration #'°eglot-workspace-configuration))
@@ -124,8 +124,8 @@
   (evil-collection-magit-setup)
   (defun °force-git-access ()
     (interactive)
-    (let ((index-file (°join-path nil
-                                  (project-root (project-current)) (file-name-as-directory ".git") "index.lock")))
+    (let ((index-file (file-name-concat
+                       (project-root (project-current)) (file-name-as-directory ".git") "index.lock")))
       (when (yes-or-no-p (concat "Really delete " index-file "?"))
         (delete-file index-file)))))
 

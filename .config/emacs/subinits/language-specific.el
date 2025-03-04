@@ -149,10 +149,10 @@
   (auto-fill-mode)
   (setq python-fill-docstring-style 'symmetric)
   (setq-local comment-auto-fill-only-comments t
-  ;; width settings
-  fill-column 79
-  column-enforce-column 79
-  electric-pair-open-newline-between-pairs nil)
+              ;; width settings
+              fill-column 79
+              column-enforce-column 79
+              electric-pair-open-newline-between-pairs nil)
 
   ;; test creation function
   (defun °python-ts-create-test-for-defun-at-point ()
@@ -165,12 +165,12 @@ If the test function already exists, jumps to it instead of creating a new one."
                 (base-dir (or (bound-and-true-p °python-test-dir)
                               (project-root (project-current))
                               (file-name-directory buffer-file-name)))
-                (test-dir (°join-path t base-dir "tests")))
+                (test-dir (file-name-concat base-dir "tests")))
       ;; create a "tests" directory, ignoring any errors (I assume this would
       ;; mean the directory already exists)
       (ignore-errors (make-directory-internal test-dir))
 
-      (find-file-other-window (°join-path nil test-dir (concat "test_" buf-name ".py")))
+      (find-file-other-window (file-name-concat test-dir (concat "test_" buf-name ".py")))
       (if-let
           ;; search for function test_{func-name} here
           ((t-n-list (treesit-query-capture

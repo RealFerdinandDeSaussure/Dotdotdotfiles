@@ -178,7 +178,7 @@
         message-kill-buffer-on-exit t)
   (defun °mu4e-compose-change-plaintext-dictionary ()
     (setq-local ispell-alternate-dictionary
-                (°join-path nil "/" "usr" "share" "dict"
+                (file-name-concat "/" "usr" "share" "dict"
                             (pcase (or ispell-local-dictionary ispell-dictionary)
                               ("de_DE" "german")
                               ("en_AU" "british-english")

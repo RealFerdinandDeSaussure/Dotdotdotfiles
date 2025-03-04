@@ -332,14 +332,6 @@ Start eshell if it isn't running already."
   (not (eq (nth 3 (syntax-ppss)) nil)))
 
 ;;;###autoload
-(defun °join-path (folders-only &rest elements)
-  "Join ELEMENTS to create a path. The last element should be the name of a file
-unless FOLDERS-ONLY is non-nil."
-  (let* ((file (unless folders-only (car (last elements))))
-        (folders (cl-remove file elements :test #'equal :count 1 :from-end t)))
-    (apply #'concat `(,@(mapcar #'file-name-as-directory folders) ,file))))
-
-;;;###autoload
 (defun °last-name (name)
   "Return the last name portion of NAME."
   (when (string-to-list name)
@@ -423,7 +415,7 @@ unless FOLDERS-ONLY is non-nil."
 (defun °sudo-this-file ()
   "Open 'find-file' with sudo prefix on current buffer."
   (interactive)
-  (find-file (°join-path nil "/sudo::/" (buffer-file-name))))
+  (find-file (file-name-concat "/sudo::/" (buffer-file-name))))
 
 (defun °°syntax-depth ()
   "Return depth at point within syntax tree. "

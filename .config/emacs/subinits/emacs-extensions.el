@@ -132,7 +132,7 @@
 
 (use-package vterm
   :init
-  (setq vterm-shell (concat "/" (°join-path nil "usr" "bin" "fish") " -C __vterm_setup"))
+  (setq vterm-shell (concat "/" (file-name-concat "usr" "bin" "fish") " -C __vterm_setup"))
   ;; use locally installed package (from AUR) of emacs-vterm
   :straight nil
   :general
