@@ -5,13 +5,11 @@
 (add-to-list 'load-path emacs-subinit-dir)
 
 ;; set up a separate location for backup and temp files
-(defconst emacs-tmp-dir (expand-file-name "auto-save" user-emacs-directory))
-(setq backup-directory-alist
-      `((".*" . ,emacs-tmp-dir)))
+(defconst emacs-backup-dir (expand-file-name "backups" user-emacs-directory))
+(defconst emacs-auto-save-dir (expand-file-name "auto-save" user-emacs-directory))
+(setq backup-directory-alist `(("." . ,emacs-backup-dir)))
 (setq auto-save-file-name-transforms
-      `((".*" ,(concat emacs-tmp-dir "/\\1") t)))
-    (setq auto-save-list-file-prefix
-      emacs-tmp-dir)
+      `(("^/\\([^/]+/\\)*\\([^/]+\\)" ,(file-name-concat emacs-auto-save-dir "\\2") t)))
 
 ;; package management is handled by straight.el instead of project.el
 (setq package-enable-at-startup nil)
