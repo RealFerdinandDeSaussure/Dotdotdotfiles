@@ -1,4 +1,5 @@
 function pyproj -d "Activate python virtual environment for current project"
+    set -l first_run 0
 
     if functions -q __pyproj_fish_prompt
         functions -e fish_prompt
@@ -29,6 +30,7 @@ function pyproj -d "Activate python virtual environment for current project"
     mkdir -p $venv_dir
     if [ ! -e $venv_dir/bin/activate.fish ]
         python -m venv $venv_dir
+        set first_run 1
     end
 
     for var in PYTHONPATH VIRTUAL_ENV PATH
@@ -46,4 +48,7 @@ function pyproj -d "Activate python virtual environment for current project"
         printf "(PY)%s%s%s" (set_color $__BASE09) $PYTHONPROJECTNAME (set_color normal)
         __pyproj_fish_prompt
     end
+
+    test "$first_run" -ne 0 && pip install --upgrade pip pip-tools
+
 end
