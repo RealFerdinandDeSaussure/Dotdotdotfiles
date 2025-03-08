@@ -43,7 +43,6 @@
   :hook ((python-ts-mode go-ts-mode bash-ts-mode) . eglot-ensure)
   :custom
   (flymake-diagnostic-functions (list #'eglot-flymake-backend))
-  (eglot-workspace-configuration #'°eglot-workspace-configuration)
   :general-config
   (general-goleader
     :states         'motion
@@ -54,6 +53,7 @@
     :keymaps         'eglot-mode-map
     "="              'eglot-format)
   :config
+  (setopt eglot-workspace-configuration #'°eglot-workspace-configuration)
   (defun °eglot-workspace-configuration (server)
     (let ((lang (car (mapcar #'cdr (slot-value server 'languages)))))
       (cond
