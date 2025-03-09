@@ -6,7 +6,7 @@
 # config file.
 suppress_default_binds = true
 overlay_font = Monospace:12
-overlay_text = "[${imv_current_index}/${imv_file_count}] [${imv_width}x${imv_height}] - $(pwd)"
+overlay_text = "[${imv_current_index}/${imv_file_count}] [${imv_width}x${imv_height}] - $(basename ${imv_current_file})"
 overlay_text_color = {{{__BASE07}}}
 overlay_background_color = {{{__BASE00}}}
 
@@ -52,12 +52,14 @@ r = rotate by 90
 x = close
 f = fullscreen
 d = overlay
-p = exec echo $imv_current_file
+p = exec echo "${imv_current_file}"
+<Shift+P> = exec grep -qxF "${imv_current_file}" "$(dirname ${imv_current_file})/imv_select.tmp" 2>/dev/null || echo "${imv_current_file}" >> "$(dirname ${imv_current_file})/imv_select.tmp"
 c = center
 s = scaling next
 <Shift+S> = upscaling next
 a = zoom actual
 e = reset
+<Shift+X> = exec rm "${imv_current_file}" && imv-msg ${imv_pid} next
 
 # Gif playback
 <period> = next_frame
