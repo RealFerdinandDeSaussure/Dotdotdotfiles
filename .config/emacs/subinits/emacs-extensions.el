@@ -40,6 +40,7 @@
   (remote-file-name-inhibit-locks t)
   (vc-ignore-dir-regexp (format "%s\\|%s" vc-ignore-dir-regexp tramp-file-name-regexp))
   (remote-file-name-inhibit-locks t)
+  (tramp-use-connection-share nil)
   :config
   (add-hook 'find-file-hook (lambda ()
                               (when (file-remote-p default-directory)
@@ -144,7 +145,7 @@
   :straight nil
   :general
   (:keymaps         'override
-   :states          '(motion emacs)
+   :states          '(motion emacs insert)
    "C-¼"            '°vterm)
   :custom
   (vterm-shell (concat "/" (file-name-concat "usr" "bin" "fish") " -C __vterm_setup"))
