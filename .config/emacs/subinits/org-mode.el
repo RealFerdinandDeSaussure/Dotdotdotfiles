@@ -7,6 +7,7 @@
   (org-adapt-indentation t)
   (org-cycle-separator-lines -1)
   (org-priority-default ?C)
+  (org-startup-folded 'content)
   (org-agenda-custom-commands '(("G" "Overview by urgency"
                                  ((tags-todo "+PRIORITY=\"A\"")
                                   (agenda "")
