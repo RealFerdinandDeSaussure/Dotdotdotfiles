@@ -11,6 +11,6 @@ function randstring --description 'Generate a random string'
     if [ -n "$_flag_x" ]
         sleep 2; xdotool type $randstring
     else
-        echo $randstring
+        echo -n $randstring
     end
 end
