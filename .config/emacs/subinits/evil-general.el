@@ -4,10 +4,9 @@
   (setq evil-search-module 'evil-search
         evil-want-integration t
         evil-want-keybinding nil
-        evil-echo-state nil)
-  :custom
-  (evil-symbol-word-search t "Make * and # search for symbols instead of words.")
-  (evil-want-Y-yank-to-eol t "Sensible behavior for Y.")
+        evil-echo-state nil
+        evil-symbol-word-search t
+        evil-want-Y-yank-to-eol t)
   :config
   (evil-mode 1)
   ;; workaround for view-mode keybinding behavior
