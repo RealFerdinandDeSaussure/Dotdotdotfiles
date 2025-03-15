@@ -123,8 +123,7 @@
   (TeX-parse-self t)
   (TeX-master nil)
   :config
-  (add-hook 'LaTeX-mode-hook 'visual-line-mode)
-  (add-hook 'LaTeX-mode-hook 'company-mode))
+  (add-hook 'LaTeX-mode-hook 'visual-line-mode))
 
 ;; markdown
 (use-package markdown-mode

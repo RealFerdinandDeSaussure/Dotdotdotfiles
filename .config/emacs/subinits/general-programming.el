@@ -73,47 +73,39 @@
                   :useLibraryCodeForTypes t))))))))))
 
 ;; autocompletion
-(use-package company
-  :hook ((prog-mode . company-mode)
-         (company-mode . company-tng-mode))
+(use-package corfu
+  :init
+  (defun °corfu-if-not-remote ()
+    (unless (and (buffer-file-name) (file-remote-p (buffer-file-name)))
+      (corfu-mode 1)))
+  :hook ((prog-mode text-mode) . °corfu-if-not-remote)
   :custom
-  (company-minimum-prefix-length 2)
-  (company-selection-wrap-around t)
-  (company-idle-delay 0.2)
-  (company-echo-delay 0.5)
-  :general-config
-  (:keymaps         'company-tng-map
-   "<return>"       (general-l
-                      (unless (company-tooltip-visible-p)
-                        (company-complete)
-                        (company-pseudo-tooltip-hide))
-                      (newline 1 t))
-   "M-<return>"     (general-l
-                      (company-abort)
-                      (newline 1 t)))
-  (:states          'insert
-   :keymaps         'company-search-map
-   "<return>"       (general-l
-                      (company-complete)
-                      (company-pseudo-tooltip-hide)
-                      (newline 1 t)))
-  
+  (corfu-cycle t)
+  (corfu-auto t)
+  (corfu-auto-delay 0.3)
+  (corfu-prefix 2)
+  (corfu-quit-no-match t)
   :config
-  (evil-collection-company-setup)
-  
+  (add-hook 'evil-insert-state-exit-hook #'corfu-quit)
+  (mapc
+   #'evil-declare-not-repeat
+   #'(corfu-next
+      corfu-previous
+      corfu-complete
+      corfu-expand)))
 
-  (mapc #'evil-declare-not-repeat #'(°company-select-next °company-select-previous)))
+(use-package corfu-popupinfo
+  :straight (:type built-in)
+  :after corfu
+  :custom
+  (corfu-popupinfo-delay '(0.3 . 0.3))
+  :config
+  (corfu-popupinfo-mode)
+  (add-hook 'evil-insert-state-exit-hook #'corfu-popupinfo--hide))
 
 (use-package completion-preview
   :straight (:type built-in)
   :hook (prog-mode . completion-preview-mode))
-
-(use-package company-quickhelp
-  :after company
-  :custom
-  (company-quickhelp-delay .2)
-  :config
-  (company-quickhelp-mode))
 
 (use-package magit
   :hook ((magit-mode . °source-ssh-env)

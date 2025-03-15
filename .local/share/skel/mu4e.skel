@@ -193,12 +193,7 @@
               (°mu4e-compose-change-plaintext-dictionary)
               ;; also change plaintext dictionary every time ispell dictionary
               ;; is changed
-              (add-hook 'ispell-change-dictionary-hook #'°mu4e-compose-change-plaintext-dictionary)
-              
-              ;; setup company-mode for word autocompletion
-              (company-mode)
-              (setq-local company-backends '(company-capf company-ispell))
-              (setq-local company-minimum-prefix-length 6)))
+              (add-hook 'ispell-change-dictionary-hook #'°mu4e-compose-change-plaintext-dictionary)))
 
   (defun °mu4e-compose--sender-address (msg)
     "Get the (first) sender address of MSG."

@@ -41,16 +41,21 @@
   (add-hook hook #'electric-pair-local-mode))
 
 (use-package dimmer
-  :init
-  (defun °dimmer-mode (&rest args)
-    (dimmer-mode t)
-    (advice-remove #'split-window #'°dimmer-mode)
-    (remove-hook 'minibuffer-setup-hook #'°dimmer-mode))
+  :config
+  (defun °dimmer-config-change-handler ()
+    "Advise to only force process if no predicate is truthy."
+    (let ((ignore (cl-some (lambda (f) (and (fboundp f) (funcall f)))
+                           dimmer-prevent-dimming-predicates)))
+      (unless ignore
+        (when (fboundp 'dimmer-process-all)
+          (dimmer-process-all t)))))
 
-  ;; load package when splitting window or entering minibuffer
-  (advice-add #'split-window :before #'°dimmer-mode)
-  (add-hook 'minibuffer-setup-hook #'°dimmer-mode)
-  :commands dimmer-mode)
+  (defun °corfu-frame-p ()
+    (string-match-p "^ \\*corfu\\(-popupinfo\\)?\\*$" (buffer-name)))
+
+  (advice-add 'dimmer-config-change-handler :override #'°dimmer-config-change-handler)
+  (add-to-list 'dimmer-prevent-dimming-predicates #'°corfu-frame-p)
+  (dimmer-mode 1))
 
 ;; modeline
 (use-package telephone-line
