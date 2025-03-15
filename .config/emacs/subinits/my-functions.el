@@ -14,6 +14,13 @@
      ,@body))
 
 ;;;###autoload
+(defmacro °nillify-func (&rest funcs)
+  "Return a function that runs FUNCS but always returns nil."
+  `(lambda ()
+     ,@funcs
+     nil))
+
+;;;###autoload
 (defmacro °split-window-and-do (&rest funcs)
   `(progn
      (ignore-errors
@@ -21,11 +28,10 @@
      ,@funcs))
 
 ;;;###autoload
-(defmacro °nillify-func (&rest funcs)
-  "Return a function that runs FUNCS but always returns nil."
-  `(lambda ()
-     ,@funcs
-     nil))
+(defmacro °with-buffer-not-remote (&rest body)
+  "Only evaluate BODY if current buffer does not point to a remote file."
+  `(unless (and (buffer-file-name) (file-remote-p (buffer-file-name)))
+      ,@body))
 
 ;;;###autoload
 (defmacro °defun-newline-paste (func-name &rest open-funcs)
