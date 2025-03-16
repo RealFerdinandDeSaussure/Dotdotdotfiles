@@ -23,7 +23,7 @@
   :straight (:type built-in)
   :defer t
   :custom
-  (password-cache-expiry 1800 "Cache passwords for 30 minutes."))
+  (password-cache-expiry 3600 "Cache passwords for 60 minutes."))
 
 ;; use pass auth-sources
 (use-package auth-source-pass
