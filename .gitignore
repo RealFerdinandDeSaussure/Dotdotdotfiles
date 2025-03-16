@@ -91,7 +91,6 @@
 
 !.config/qutebrowser
 !.config/qutebrowser/config.py
-!.config/qutebrowser/quickmarks
 
 !.config/swayidle
 !.config/swayidle/config

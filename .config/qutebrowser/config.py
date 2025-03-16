@@ -17,22 +17,25 @@ def get_rgba(hexcode, alpha):
 
 def merge_bookmarks():
     """Merge bookmarks from the cloud with those kept by qutebrowser."""
-    try:
-        int_bookmarks = os.path.join(config.configdir, "bookmarks", "urls")
-        ext_bookmarks = os.path.join(
-            os.getenv("HOME"), "Sync", "Diverses", "Bookmarks", "qute_urls"
-        )
-        with open(ext_bookmarks) as f:
-            ext_urls = f.readlines()
-    except (FileNotFoundError, TypeError):
-        return
-
-    f_mode = "r+" if os.path.exists(int_bookmarks) else "w+"
-    with open(int_bookmarks, f_mode) as f:
-        int_urls = f.readlines()
-        f.seek(0)
-        f.truncate()
-        f.writelines(sorted(set(ext_urls + int_urls)))
+    int_bookmarks = os.path.join(config.configdir, "bookmarks", "urls")
+    int_quickmarks = os.path.join(config.configdir, "quickmarks")
+    ext_bookmarks = os.path.join(
+        os.getenv("HOME"), "Sync", "Diverses", "Qutemarks", "book"
+    )
+    ext_quickmarks = os.path.join(
+        os.getenv("HOME"), "Sync", "Diverses", "Qutemarks", "quick"
+    )
+    for mark_files in (
+        (int_bookmarks, ext_bookmarks),
+        (int_quickmarks, ext_quickmarks),
+    ):
+        try:
+            with open(mark_files[1], mode="r") as f:
+                marks = f.read()
+            with open(mark_files[0], mode="w") as f:
+                f.write(marks)
+        except (FileNotFoundError, TypeError):
+            return
 
 
 BASE00 = "#{}".format(os.getenv("__BASE00") or "262626")  # black0
