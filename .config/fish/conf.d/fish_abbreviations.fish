@@ -53,5 +53,6 @@ abbr -a -g strr string replace
 abbr -a -g str string
 abbr -a -g uctl udisksctl
 abbr -a -g v nvim
+abbr -a -g wlc wl-copy
 abbr -a -g ytd yt-dlp
 abbr -a -g z zathura
