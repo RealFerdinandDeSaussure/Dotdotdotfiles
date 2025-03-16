@@ -40,7 +40,7 @@
 ;; language server (eglot)
 (use-package eglot
   :straight (:type built-in)
-  :hook ((python-ts-mode go-ts-mode bash-ts-mode) . eglot-ensure)
+  :hook ((python-ts-mode go-ts-mode bash-ts-mode) . (lambda () (°with-buffer-not-remote (eglot-ensure))))
   :custom
   (flymake-diagnostic-functions (list #'eglot-flymake-backend))
   :general-config
@@ -74,11 +74,7 @@
 
 ;; autocompletion
 (use-package corfu
-  :init
-  (defun °corfu-if-not-remote ()
-    (unless (and (buffer-file-name) (file-remote-p (buffer-file-name)))
-      (corfu-mode 1)))
-  :hook ((prog-mode text-mode) . °corfu-if-not-remote)
+  :hook ((prog-mode text-mode) . (lambda () (°with-buffer-not-remote (corfu-mode 1))))
   :custom
   (corfu-cycle t)
   (corfu-auto t)
