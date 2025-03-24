@@ -1,0 +1,14 @@
+#!/bin/bash
+set -e
+set -o pipefail
+
+test "$1" = "--vault-id" && shift
+
+if [ "$#" -gt 1 ]; then
+    echo "Too many arguments." >&2
+    exit 1
+fi
+
+pass field "$1" random/ansible-vault 2>/dev/null || {
+    pass random/ansible-vault | head -n1 | cut -d: -f2- | sed -r 's/^\s+//'
+}

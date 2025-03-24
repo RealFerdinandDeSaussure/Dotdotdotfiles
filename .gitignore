@@ -113,6 +113,7 @@
 !.local
 
 !.local/bin
+!.local/bin/ansible-pass-client
 !.local/bin/merge-configs
 !.local/bin/mpull
 !.local/bin/pacupdate
