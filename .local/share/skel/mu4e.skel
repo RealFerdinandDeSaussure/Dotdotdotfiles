@@ -183,7 +183,7 @@
               ;; message's email adress, use de_DE if there is no parent message
               (let*
                   ((address (°mu4e-compose--sender-address mu4e-compose-parent-message))
-                   (tld (°mu4e--address-tld)))
+                   (tld (°mu4e--address-tld address)))
                 (setq ispell-local-dictionary (if (string= tld "de")
                                                   "de_DE"
                                                 "en_AU"))
