@@ -216,6 +216,8 @@ Start terminal if it isn't running already."
     "M"             'consult-flymake
     "g"             'consult-grep
     "G"             'consult-git-grep)
+  :custom
+  (completion-in-region-function #'consult-completion-in-region)
   :config
   (defvar °°consult--source-file-buffers
     (list :state #'consult--buffer-state
