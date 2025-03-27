@@ -11,7 +11,7 @@
   (org-agenda-custom-commands '(("G" "Overview by urgency"
                                  ((tags-todo "+PRIORITY=\"A\"")
                                   (agenda "")
-                                  (tags-todo "-PRIORITY=\"A\""
+                                  (tags-todo "-PRIORITY=\"A\"&-SCHEDULED={.+}&-DEADLINE={.+}"
                                              ((org-agenda-sorting-strategy '(priority-down))))))))
   :general-config
   (:states          'normal
