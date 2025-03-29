@@ -14,6 +14,9 @@
 ;; package management is handled by straight.el instead of project.el
 (setq package-enable-at-startup nil)
 
+;; fix issues with gtk induced performance penalties
+(setq-default pgtk-wait-for-event-timeout 0)
+
 ;; support loading non version controlled settings early if necessary
 (let ((early-custom-file (expand-file-name "early-custom.el" user-emacs-directory)))
   (when (file-exists-p early-custom-file)
