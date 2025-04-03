@@ -55,8 +55,8 @@ BASE0D = "#{}".format(os.getenv("__BASE0D") or "83adad")  # blue
 BASE0E = "#{}".format(os.getenv("__BASE0E") or "d485ad")  # magenta
 BASE0F = "#{}".format(os.getenv("__BASE0F") or "d65d0e")  # dark_orange
 
-FONT_SANS = os.getenv("FONT_SANS", default="Liberation Sans")
-FONT_MONO = "Source Code Pro"
+FONT_SANS = os.getenv("FONT_SANS")
+FONT_MONO = os.getenv("FONT_TERMINAL")
 
 merge_bookmarks()
 
@@ -239,27 +239,27 @@ c.colors.statusbar.passthrough.fg = BASE00
 # Only let completion use up as little space as possible
 c.completion.shrink = True
 # Font used in the completion categories.
-c.fonts.completion.category = "bold 9pt {}".format(FONT_MONO)
+c.fonts.completion.category = "bold 10pt {}".format(FONT_MONO)
 # Font used in the completion widget.
-c.fonts.completion.entry = "9pt {}".format(FONT_MONO)
+c.fonts.completion.entry = "10pt {}".format(FONT_MONO)
 # Font used for the debugging console.
-c.fonts.debug_console = "9pt {}".format(FONT_MONO)
+c.fonts.debug_console = "10pt {}".format(FONT_MONO)
 # Font used for the downloadbar.
-c.fonts.downloads = "9pt {}".format(FONT_SANS)
+c.fonts.downloads = "10pt {}".format(FONT_SANS)
 # Font used for the hints.
-c.fonts.hints = "9pt {}".format(FONT_MONO)
+c.fonts.hints = "10pt {}".format(FONT_MONO)
 # Font used in the keyhint widget.
-c.fonts.keyhint = "9pt {}".format(FONT_SANS)
+c.fonts.keyhint = "10pt {}".format(FONT_SANS)
 # Font used for error messages.
-c.fonts.messages.error = "9pt {}".format(FONT_SANS)
+c.fonts.messages.error = "10pt {}".format(FONT_SANS)
 # Font used for info messages.
-c.fonts.messages.info = "9pt {}".format(FONT_SANS)
+c.fonts.messages.info = "10pt {}".format(FONT_SANS)
 # Font used for warning messages.
-c.fonts.messages.warning = "9pt {}".format(FONT_SANS)
+c.fonts.messages.warning = "10pt {}".format(FONT_SANS)
 # Font used for prompts.
-c.fonts.prompts = "9pt {}".format(FONT_SANS)
+c.fonts.prompts = "10pt {}".format(FONT_SANS)
 # Font used in the statusbar.
-c.fonts.statusbar = "9pt {}".format(FONT_MONO)
+c.fonts.statusbar = "10pt {}".format(FONT_MONO)
 # Font used in the tab bar.
 c.fonts.tabs.selected = "500 10pt {}".format(FONT_SANS)
 c.fonts.tabs.unselected = "10pt {}".format(FONT_SANS)
