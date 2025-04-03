@@ -29,6 +29,7 @@ export GNUPGHOME=${HOME}/.config/gnupg
 export HISTFILE=${HOME}/.local/share/.bash_history
 export LESSHISTFILE=${HOME}/.local/share/.lesshst
 export PASSWORD_STORE_DIR=${HOME}/.local/share/.password-store
+export ANSIBLE_CONFIG=${HOME}/.config/ansible
 
 # setup application settings
 export WINEARCH=win32
