@@ -17,6 +17,9 @@ markup=none
 {{{custom}}}
 
 # end of custom settings
+[caffeine]
+signal=10
+interval=once
 
 [time]
 interval=30

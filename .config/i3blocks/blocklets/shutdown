@@ -6,8 +6,8 @@ sys_reboot='systemctl reboot'
 sys_suspend='systemctl suspend'
 
 function bootwin {
-    if $(zenity --question --text='Zu Windows wechseln?'); then
-        sudo efibootmgr -n $(efibootmgr | perl -ne 'print if s/^Boot(\d+).*Windows Boot Manager/\1/')
+    if zenity --question --text='Zu Windows wechseln?'; then
+        sudo efibootmgr -n "$(efibootmgr | perl -ne 'print if s/^Boot(\d+).*Windows Boot Manager/\1/')"
         systemctl reboot
     fi
 }
@@ -23,20 +23,20 @@ function yad_sd {
 
     case $? in
         21)
-            eval $sys_shutdown
+            eval "$sys_shutdown"
             ;;
         22)
-            eval $sys_reboot
+            eval "$sys_reboot"
             ;;
         23)
-            eval $sys_suspend
+            eval "$sys_suspend"
             ;;
     esac
 }
 
 function zenity_sd {
-    if $(zenity --question --text='System herunterfahren?'); then
-        eval $sys_shutdown
+    if zenity --question --text='System herunterfahren?'; then
+        eval "$sys_shutdown"
     fi
 }
 
@@ -54,13 +54,13 @@ function dmenu_sd {
 
     case $response in
         '  Bereitschaft')
-            eval $sys_suspend
+            eval "$sys_suspend"
             ;;
         '  Neustarten')
-            eval $sys_reboot
+            eval "$sys_reboot"
             ;;
         '  Herunterfahren')
-            eval $sys_shutdown
+            eval "$sys_shutdown"
             ;;
     esac
 }

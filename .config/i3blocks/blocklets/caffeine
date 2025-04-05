@@ -1,0 +1,21 @@
+#!/bin/bash
+
+swayidle_pid=
+
+if [ "$BLOCK_BUTTON" = 1 ]; then
+    swayidle_pid=$(pgrep -x swayidle)
+
+    if [ -n "$swayidle_pid" ]; then
+        kill "$swayidle_pid"
+    else
+        nohup swayidle > /dev/null 2>&1 &
+    fi
+fi
+
+swayidle_pid=$(pgrep -x swayidle)
+
+if [ -z "$swayidle_pid" ]; then
+    echo ""
+else
+    echo ""
+fi

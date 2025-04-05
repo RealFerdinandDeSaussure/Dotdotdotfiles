@@ -48,7 +48,7 @@ client.background       $base07
 set $ws1 "1  "
 set $ws2 "2  "
 set $ws3 "3  "
-set $ws4 "4  "
+set $ws4 "4  "
 set $ws5 "5  "
 set $ws6 "6  "
 set $ws7 "7  "
@@ -334,6 +334,7 @@ mode $mode_blocks {
         bindsym c exec BLOCK_BUTTON=1 $i3blockletsdir/clipboard; mode "default"
         bindsym n exec BLOCK_BUTTON=1 $i3blockletsdir/network; mode "default"
         bindsym b exec BLOCK_BUTTON=1 $i3blockletsdir/battery; mode "default"
+        bindsym k exec BLOCK_BUTTON=1 $i3blockletsdir/caffeine; exec $i3b_up10; mode "default"
 
         # back to normal: mode shortcut or Escape
         bindsym Escape mode "default"
