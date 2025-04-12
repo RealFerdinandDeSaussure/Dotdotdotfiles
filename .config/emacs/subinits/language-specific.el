@@ -209,4 +209,8 @@ If the test function already exists, jumps to it instead of creating a new one."
 (use-package go-eldoc
   :hook (go-ts-mode . go-eldoc-setup))
 
+;; systemd unit file settings
+(use-package systemd
+  :commands systemd-mode)
+
 (provide 'language-specific)
