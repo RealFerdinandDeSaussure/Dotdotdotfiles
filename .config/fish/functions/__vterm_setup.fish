@@ -39,4 +39,10 @@ function __vterm_setup
         vterm_prompt_end
     end
 
+    # better visibility for vterm's non-transparent background
+    set -g fish_color_autosuggestion $__BASE04
+    set -g fish_color_comment $__BASE04
+    set -g fish_pager_color_progress $__BASE04
+    set -g fish_color_param $__BASE05
+
 end
