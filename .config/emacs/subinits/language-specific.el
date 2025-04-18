@@ -211,6 +211,10 @@ If the test function already exists, jumps to it instead of creating a new one."
 
 ;; systemd unit file settings
 (use-package systemd
-  :commands systemd-mode)
+  :commands systemd-mode
+  :mode
+  ("\\.container\\'" . systemd-mode)
+  ("\\.network\\'" . systemd-mode)
+  ("\\.volume\\'" . systemd-mode))
 
 (provide 'language-specific)
