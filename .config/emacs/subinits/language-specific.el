@@ -217,4 +217,6 @@ If the test function already exists, jumps to it instead of creating a new one."
   ("\\.network\\'" . systemd-mode)
   ("\\.volume\\'" . systemd-mode))
 
+(use-package caddyfile-mode)
+
 (provide 'language-specific)
