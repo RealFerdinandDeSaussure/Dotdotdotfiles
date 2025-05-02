@@ -40,7 +40,7 @@
 ;; language server (eglot)
 (use-package eglot
   :straight (:type built-in)
-  :hook ((python-ts-mode go-ts-mode bash-ts-mode systemd-mode) . (lambda () (°with-buffer-not-remote (eglot-ensure))))
+  :hook ((python-ts-mode go-ts-mode bash-ts-mode) . (lambda () (°with-buffer-not-remote (eglot-ensure))))
   :custom
   (flymake-diagnostic-functions (list #'eglot-flymake-backend))
   :general-config
@@ -53,8 +53,6 @@
     :keymaps         'eglot-mode-map
     "="              'eglot-format)
   :config
-  (add-to-list 'eglot-server-programs
-               '(systemd-mode . ("systemd-language-server")))
   (setopt eglot-workspace-configuration #'°eglot-workspace-configuration)
   (defun °eglot-workspace-configuration (server)
     (let ((lang (car (mapcar #'cdr (slot-value server 'languages)))))

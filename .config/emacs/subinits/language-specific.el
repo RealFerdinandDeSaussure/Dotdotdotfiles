@@ -215,7 +215,9 @@ If the test function already exists, jumps to it instead of creating a new one."
   :mode
   ("\\.container\\'" . systemd-mode)
   ("\\.network\\'" . systemd-mode)
-  ("\\.volume\\'" . systemd-mode))
+  ("\\.volume\\'" . systemd-mode)
+  :config
+  (electric-pair-mode 1))
 
 (use-package caddyfile-mode)
 
