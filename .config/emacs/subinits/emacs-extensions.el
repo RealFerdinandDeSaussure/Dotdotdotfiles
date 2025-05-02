@@ -204,7 +204,9 @@ Start terminal if it isn't running already."
   :custom
   (embark-quit-after-action nil)
   :config
-  (evil-collection-embark-setup))
+  (evil-collection-embark-setup)
+  ;; don't ask for confirmation when killing a buffer with embark
+  (setf (alist-get 'kill-buffer embark-pre-action-hooks) nil))
 
 (use-package consult
   :general
@@ -219,15 +221,17 @@ Start terminal if it isn't running already."
   :custom
   (completion-in-region-function #'consult-completion-in-region)
   :config
-  (defvar °°consult--source-file-buffers
-    (list :state #'consult--buffer-state
-          :history 'buffer-name-history
-          :items (lambda () (mapcar #'buffer-name (seq-filter #'buffer-file-name (buffer-list))))))
-
   (defun °consult-file-buffers ()
     "Consult menu to switch to file buffers only."
     (interactive)
-    (consult-buffer '(°°consult--source-file-buffers)))
+    (consult--read
+     (mapcar #'buffer-name (seq-filter #'buffer-file-name (buffer-list)))
+     :prompt "Switch to: "
+     :category 'buffer
+     :state (consult--buffer-state)
+     :require-match (confirm-nonexistent-file-or-buffer)
+     :history 'consult--buffer-history
+     :sort 'visibility))
 
   (evil-collection-consult-setup))
 
