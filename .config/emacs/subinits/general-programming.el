@@ -58,13 +58,12 @@
     (let ((lang (car (mapcar #'cdr (slot-value server 'languages)))))
       (cond
        ((equal lang "python")
-        (let* ((venv-path (file-name-concat (getenv "HOME") ".local" "share" "python" "venv"))
-               (venv-project (concat (°git-top-level-directory) "-" (°git-first-commit)))
-               (venv-project-path (file-name-concat venv-path venv-project)))
+        (let ((venv-project-path
+               (file-name-concat °python-venv-path (°python-venv-project))))
           (if (file-directory-p venv-project-path)
               `(:python
-                (:venvPath ,venv-path
-                 :venv ,venv-project
+                (:venvPath ,°python-venv-path
+                 :venv ,(°python-venv-project)
                  :pythonPath ,(file-name-concat venv-project-path "bin" "python")
                  :analysis
                  (:extraPaths

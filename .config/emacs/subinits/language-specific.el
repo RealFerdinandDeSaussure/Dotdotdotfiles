@@ -144,19 +144,16 @@
 ;; python settings
 (use-package python
   :straight (:type built-in)
-  :hook (python-mode . python-ts-mode)
+  :hook ((python-mode . python-ts-mode)
+         (python-ts-mode . °°python-setup-local))
   :custom
   (python-fill-docstring-style 'symmetric)
+  (python-indent-offset 4)
   :config
-  ;; auto-fill
-  (auto-fill-mode)
-  (setq-local comment-auto-fill-only-comments t
-              ;; width settings
-              fill-column 79
-              column-enforce-column 79
-              electric-pair-open-newline-between-pairs nil)
+  (defvar °python-venv-path
+    (file-name-concat (getenv "HOME") ".local" "share" "python" "venv")
+    "Path to directory that stores python virtual environments per project.")
 
-  ;; test creation function
   (defun °python-ts-create-test-for-defun-at-point ()
     "Create or jump to a test function for the Python function at point.
 Creates a test_{function_name} in a corresponding test file in the tests directory.
@@ -185,11 +182,32 @@ If the test function already exists, jumps to it instead of creating a new one."
           (goto-char t-n-pos)
         ;; if we were unable to find an existing test function, append a new one to the file instead
         (end-of-buffer)
-        (unless (bolp) ; ensure proper whitespace padding
+        (unless (bolp)                  ; ensure proper whitespace padding
           (insert "\n"))
         (unless (looking-back "\n\n" (- (point) 2)) ; dito
           (insert "\n")) 
-        (insert (format "def test_%s():\n" func-name))))))
+        (insert (format "def test_%s():\n" func-name)))))
+
+  (defun °python-venv-project ()
+    "Unique name for current python project. Will be used for the name of its
+dedicated virtual environment."
+    (concat (°git-top-level-directory) "-" (°git-first-commit)))
+
+  ;; auto-fill
+  (auto-fill-mode)
+
+  ;; python-specific config overrides
+  (defun °°python-setup-local ()
+    (setq-local comment-auto-fill-only-comments t
+                ;; width settings
+                fill-column 79
+                electric-pair-open-newline-between-pairs nil)
+
+    ;; python virtual env specific settings
+    (let ((venv (file-name-concat °python-venv-path (°python-venv-project))))
+      (when (file-exists-p venv)
+        (setq-local python-interpreter (file-name-concat venv "bin" "python")
+                    python-shell-virtualenv-root venv)))))
 
 (use-package blacken
   :hook (python-ts-mode . blacken-mode))
