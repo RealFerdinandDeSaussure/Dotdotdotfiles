@@ -7,8 +7,10 @@ if [ "$BLOCK_BUTTON" = 1 ]; then
 
     if [ -n "$swayidle_pid" ]; then
         kill "$swayidle_pid"
+        notify-send "   Caffeine enabled" "Screen will not turn off on idle"
     else
         nohup swayidle > /dev/null 2>&1 &
+        notify-send "   Caffeine disabled" "Screen will not off on idle"
     fi
 fi
 
