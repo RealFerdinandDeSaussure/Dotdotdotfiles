@@ -199,6 +199,8 @@ bindsym XF86AudioLowerVolume exec $i3blockletsdir/volume 9 volume 5%-
 bindsym Shift+XF86AudioRaiseVolume exec $i3blockletsdir/volume 9 volume 1%+
 bindsym Shift+XF86AudioLowerVolume exec $i3blockletsdir/volume 9 volume 1%-
 bindsym XF86AudioMute exec $i3blockletsdir/volume 9 mute toggle
+bindsym XF86AudioNext exec mpc next
+bindsym XF86AudioPrev exec mpc prev
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
