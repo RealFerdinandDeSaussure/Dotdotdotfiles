@@ -31,7 +31,8 @@ input "1133:49288:Logitech_G_Pro_Wireless_Gaming_Mouse" {
       accel_profile "flat"
 }
 seat seat0 {
-    hide_cursor 5000
+    # hide mouse cursor after 8 seconds
+    hide_cursor 8000
     hide_cursor when-typing enable
 }
 
