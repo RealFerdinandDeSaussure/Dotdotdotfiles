@@ -1,10 +1,10 @@
 #!/usr/bin/env fish
 
-argparse -x 'u,f' 'm/manual' 'u/user' 'f/field' 'x/xdo' 'X/Xdo' -- $argv
+argparse -x 'u,f' 'm/manual' 'u/user' 'f/field' 'x/xdo' 'X/Xdo' 'r/recent' -- $argv
 
-test -z $PASS_SUBNAME_SPLIT_CHAR; and set PASS_SUBNAME_SPLIT_CHAR '%'
-test -z $PASSWORD_STORE_DIR; and set PASSWORD_STORE_DIR $HOME/.password-store
-test -z $PASS_FALLBACK_USER; and set PASS_FALLBACK_USER "User"
+test -z $PASS_SUBNAME_SPLIT_CHAR && set PASS_SUBNAME_SPLIT_CHAR '%'
+test -z $PASSWORD_STORE_DIR && set PASSWORD_STORE_DIR $HOME/.password-store
+test -z $PASS_FALLBACK_USER && set PASS_FALLBACK_USER "User"
 
 
 # prerequisites
@@ -30,10 +30,10 @@ end
 # in wayland
 if [ -n "$WAYLAND_DISPLAY" ]
     set active (swaymsg -t get_tree | jq -r '..|try select(.focused == true)')
-    set name (echo $active | jq -r '.name')
-    set class (echo $active | jq -r '.app_id')
-    if [ -z "$class" ]
-        set class (echo $active | jq -r '.class')
+    set win_name "$(echo $active | jq -r '.name')"
+    set win_class "$(echo $active | jq -r '.app_id')"
+    if [ -z "$win_class" ]
+        set win_class (echo $active | jq -r '.class')
     end
 else
 # in x11
@@ -41,11 +41,11 @@ else
     set active_id (string replace -r '^[^#]+#\s(\S+)' '$1' "$active_line")
     set name_line (string match -r 'WM_NAME\([^)]+\).+' (xprop -id $active_id))
     set class_line (string match -r 'WM_CLASS\([^)]+\).+' (xprop -id $active_id))
-    set name (string match -r '"[^"]+"$' "$name_line")
-    set class (string match -r '"[^"]+"$' "$class_line")
+    set win_name "$(string match -r '"[^"]+"$' "$name_line")"
+    set win_class "$(string match -r '"[^"]+"$' "$class_line")"
 end
-set name (string replace -a ' ' '_' "$name")
-set class (string replace -a ' ' '_' "$class")
+set win_name (string replace -a ' ' '_' "$win_name")
+set win_class (string replace -a ' ' '_' "$win_class")
 
 
 function dotool -a cmd
@@ -72,9 +72,9 @@ end
 
 
 function get_value -a pass key fallback
-    pass show $pass >/dev/null 2>&1; or return 1
+    pass show $pass >/dev/null 2>&1 || return 1
     # get the value for $key
-    pass field "$key" "$pass" 2>/dev/null | read value; or set value "$fallback"
+    pass field "$key" "$pass" 2>/dev/null | read value || set value "$fallback"
     if [ -n "$value" ]
         echo $value
     else
@@ -84,16 +84,16 @@ end
 
 
 function do_type
-    test -z "$argv"; and return 1
+    test -z "$argv" && return 1
     dotool type "$argv"
 end
 
 
 function xdo_pass_entry -a pass
-    set user (get_value $pass "user" "$PASS_FALLBACK_USER"); or return 1
-    set pass_string (pass show $pass | head -n 1); or return 1
+    set user (get_value $pass "user" "$PASS_FALLBACK_USER") || return 1
+    set pass_string (pass show $pass | head -n 1) || return 1
     set field_div (get_value $pass "xdoDiv")
-    test -z "$field_div"; and set field_div "Tab"
+    test -z "$field_div" && set field_div "Tab"
     dotool type $user
     dotool superup
     dotool key (string split " " $field_div)
@@ -104,12 +104,13 @@ function xdo_pass_entry -a pass
 end
 
 
-function loop_candidates -S -a prop
+function loop_candidates -a prop
     # loop through candidates and find one that matches $prop
-    for password in $passes
-        set barepass (command basename $password)
+    set candidates
+    for password in $argv[2..]
+        set barepass (command basename -s .gpg $password)
         if string match -qie "$barepass" $prop
-            set candidates $candidates $password
+            set -a candidates $password
             continue
         end
 
@@ -118,34 +119,38 @@ function loop_candidates -S -a prop
             for sub in $subs
                 if not contains $password $candidates;
                    and string match -qie "$sub" $prop
-                    set candidates $candidates $password
+                   set -a candidates $password
                     continue
                 end
             end
         end
     end
+    string join0 $candidates
 end
 
 
 function handle_candidate -S -a candidate
     # handle identified final candidate in the way specified by cmdline arguments
 
+    # first set access time to mark this candidate for use with -r flag
+    touch -a {$PASSWORD_STORE_DIR}/{$candidate}.*
+
     # -X is a special case, if it is passed, everything else is ignored
-    if [ -n "$_flag_X" ]
-        xdo_pass_entry $candidate; or return 1; and return 0
+    if [ -n "$_flag_Xdo" ]
+        xdo_pass_entry $candidate || return 1 && return 0
     end
 
     # otherwise retrieve requested info
     set info
-    if [ -n "$_flag_u" ]
+    if [ -n "$_flag_user" ]
         set info (get_value $candidate "user" "$PASS_FALLBACK_USER")
         or begin
             notify-send "Username for $candidate not found."
             return 1
         end
-    else if [ -n "$_flag_f" ]
+    else if [ -n "$_flag_field" ]
         # make sure the gpg entry is password-unlocked so dmenu doesn't hang
-        pass show $candidate >/dev/null 2>&1; or return 1
+        pass show $candidate >/dev/null 2>&1 || return 1
         set field (pass field -l $candidate | dmenu)
         or begin
             notify-send "No field for $candidate selected."
@@ -154,63 +159,72 @@ function handle_candidate -S -a candidate
         set info (get_value $candidate "$field")
     else
         # if neither of these flags is present just get the password itself (first line)
-        set info (pass show $candidate | head -n 1); or return 1
+        set info (pass show $candidate | head -n 1) || return 1
     end
 
     # handle info
-    if [ -z "$_flag_x" ]
+    if [ -z "$_flag_xdo" ]
         # default: copy to clipboard
-        echo -n -- "$info" | $clip_in; or return 1
+        echo -n -- "$info" | $clip_in || return 1
         and notify-send -u low "Copied information from $candidate to clipboard."
-        fish -c 'sleep 45; and echo -n "" | '$clip_in & disown
+        fish -c 'sleep 45 && echo -n "" | '$clip_in & disown
     else
         notify-send -u low "Entering information from $candidate..."
-        dotool type "$info"; or return 1
+        dotool type "$info" || return 1
     end
 end
 
 
 function interactive_select -a message
-    test -n "$message"; and notify-send "$message"
-    for candidate in $argv[2..-1]
+    test -n "$message" && notify-send "$message"
+    for candidate in $argv[2..]
         printf '%s\n' $candidate
     end | dmenu
 end
 
-function main -S
-    # get list of all pass files
-    set passes (string replace -fr '^.+?\.password-store/(.+?)\.gpg$' '$1' $PASSWORD_STORE_DIR/**/*)
 
-    # loop through files and find one that matches based on name property or if
-    # that doesn't work class property
-    # skip this test if the manual flag was passed
+function get_candidate -S
     set candidates
-    if [ -z "$_flag_m" ]
-        loop_candidates $name
-        test -z "$candidates"; and loop_candidates $class
+    # get list of all pass files
+    set passes (find $PASSWORD_STORE_DIR -name "*.gpg" -type f -printf "%P\n" | sed 's/\.gpg$//')
+
+    if [ -n "$_flag_manual" ]
+        interactive_select "" $passes
+        return
+    else
+        # NOTE: candidates are returned NUL-separated
+        # first try by window name
+        loop_candidates $win_name $passes | read candidates
+        # if we get nothing from that, try by window class
+        test -z "$candidates" && loop_candidates $win_class $passes | read candidates
     end
 
-    # send candidate to pass; use dmenu to select one if there are too many
-    set cand_num (count $candidates)
-    set final_candidate
-
-    if [ "$_flag_m" ]
-        # select password manually if -m flag was specified
-        interactive_select "" $passes | read final_candidate
-    else if [ $cand_num -eq 1 ]
-        # if there was only one password found set that to final candidate
-        set final_candidate $candidates
-        notify-send "Found $final_candidate."
-    else if [ $cand_num -gt 1 ]
-        # if there's more than one, select one with dmenu
-        interactive_select 'Too many candidates.' $candidates | read final_candidate
-    else 
-        # if there's none, also select one with dmenu
-        interactive_select 'Nothing found. Please select manually.' $passes | read final_candidate
+    set candidates (string split0 "$candidates")
+    if [ (count $candidates) -gt 1 ]
+        interactive_select 'Too many candidates.' $candidates
+        return
+    else if [ -z "$candidates" ]
+        interactive_select 'Nothing found. Please select manually.' $passes
+        return
+    else
+        notify-send "Found $candidates."
+        echo -n "$candidates"
+        return
     end
 
-    if [ -n "$final_candidate" ]
-        handle_candidate $final_candidate; or exit 1
+end
+
+
+function main -S
+    if [ -n "$_flag_recent" ]
+        find "$PASSWORD_STORE_DIR" -name "*.gpg" -type f -printf "%A@\0%P\n" | \
+            sort -t "\0" -k1 | tail -n1 | cut -d \0 -f2 | sed 's/\.gpg$//' | read candidate
+    else
+        set candidate (get_candidate)
+    end
+    
+    if [ -n "$candidate" ]
+        handle_candidate $candidate || exit 1
     else
         notify-send 'No password selected.'
         exit 1
