@@ -413,3 +413,4 @@ bar {
 }
 
 exec swayidle -w
+exec systemctl --user import-environment WAYLAND_DISPLAY
