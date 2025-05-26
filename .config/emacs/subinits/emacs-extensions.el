@@ -30,6 +30,17 @@
   :config
   (auth-source-pass-enable))
 
+;; dired settings
+(use-package dired
+  :straight (:type built-in)
+  :general-config
+  (:keymaps          'dired-mode-map
+   "SPC"             nil
+   "t"               '°dired-mark-toggle
+   "T"               'dired-toggle-marks)
+  :config
+  (evil-collection-dired-setup))
+
 ;; tramp settings
 (use-package tramp
   :straight (:type built-in)

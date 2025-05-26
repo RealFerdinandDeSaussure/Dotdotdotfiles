@@ -137,13 +137,6 @@
 ;; i don't know why this is necessary...?
 (add-hook 'view-mode-hook (general-l (use-local-map view-mode-map)))
 
-;; dired keybinds
-(general-def
-  :keymaps          'dired-mode-map
-  "SPC"             nil
-  "t"               '°dired-mark-toggle
-  "T"               'dired-toggle-marks)
-
 ;; Info-mode keybinds
 (general-def
   :states           'motion
