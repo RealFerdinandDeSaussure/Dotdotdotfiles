@@ -9,7 +9,7 @@ function dotool {
         tool=wtype
         case $1 in
             type)
-                args="${@:2}"
+                args=("${@:2}")
                 ;;
             keyup)
                 args=("-p" "${@:2}")
@@ -17,7 +17,7 @@ function dotool {
         esac
     else
         tool=xdotool
-        args=${@}
+        args=("${@}")
     fi
 
     if ! command -v "$tool" >/dev/null 2>&1; then
@@ -25,7 +25,7 @@ function dotool {
         exit 1
     fi
 
-    $tool ${args[@]}
+    $tool "${args[@]}"
 }
 
 function translate_char {
@@ -40,10 +40,10 @@ function translate_char {
             echo "{{{REAL_NAME}}}"
             ;;
         n)
-            echo $(grep --color=never -o '\S*$' <<< "{{{REAL_NAME}}}")
+            grep --color=never -o '\S*$' <<< "{{{REAL_NAME}}}"
             ;;
         v)
-            echo $(cut -d' ' -f 1 <<< "{{{REAL_NAME}}}")
+            cut -d' ' -f 1 <<< "{{{REAL_NAME}}}"
             ;;
         s)
             echo "{{{ADDRESS_STREET}}}"
@@ -61,8 +61,8 @@ function translate_char {
 }
 
 function insert_text {
-    dotool keyup $1
-    dotool type "$(translate_char $1)"
+    dotool keyup "$1"
+    dotool type "$(translate_char "$1")"
 }
 
-insert_text $1
+insert_text "$1"
