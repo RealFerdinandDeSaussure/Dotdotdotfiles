@@ -67,6 +67,9 @@
 !.config/i3blocks/blocklets/
 !.config/i3blocks/blocklets/*
 
+!.config/khal
+!.config/khal/config
+
 !.config/mimeapps.list
 
 !.config/mpd
