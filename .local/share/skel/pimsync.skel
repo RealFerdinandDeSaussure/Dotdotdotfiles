@@ -1,0 +1,30 @@
+# %-LOCATION:$HOME/.config/pimsync/pimsync.conf-%
+# DO EDITS HERE: $HOME/.local/share/skel/pimsync.skel
+
+status_path ~/.local/share/pimsync/status/
+
+storage cal_remote {
+        type caldav
+        url {
+            cmd pass field radicale_url random/hassbanane
+        }
+        username {
+            cmd pass field radicale_user random/hassbanane
+        }
+        password {
+            cmd pass field radicale_pw random/hassbanane
+        }
+}
+
+storage cal_local {
+        type vdir/icalendar
+        path ~/.local/share/pimsync/cal/
+        fileext ics
+}
+
+pair calendars {
+     storage_a cal_local
+     storage_b cal_remote
+     collections all
+     conflict_resolution cmd nvim -d
+}
