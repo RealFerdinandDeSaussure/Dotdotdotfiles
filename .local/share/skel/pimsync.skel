@@ -6,13 +6,13 @@ status_path ~/.local/share/pimsync/status/
 storage cal_remote {
         type caldav
         url {
-            cmd pass field radicale_url random/hassbanane
+            cmd pass field url random/radicale
         }
         username {
-            cmd pass field radicale_user random/hassbanane
+            cmd pass field user random/radicale
         }
         password {
-            cmd pass field radicale_pw random/hassbanane
+            shell pass show random/radicale | head -n1
         }
 }
 
