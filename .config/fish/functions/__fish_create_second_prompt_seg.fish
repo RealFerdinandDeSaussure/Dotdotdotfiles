@@ -6,7 +6,7 @@ function __fish_create_second_prompt_seg
         case 0
             __fish_draw_git_prompt_seg "["(__fish_get_git_branch)"] $shell_pwd"
         case 1
-            __fish_draw_second_prompt_seg $__BASE0B $shell_pwd
+            __fish_draw_second_prompt_seg green $shell_pwd
         case 2
             set -l default_branch (git config --get init.defaultbranch) || set -l default_branch master
             if test (__fish_get_git_branch) = "$default_branch"
