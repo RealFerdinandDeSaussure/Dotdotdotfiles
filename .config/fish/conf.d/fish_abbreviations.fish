@@ -1,3 +1,5 @@
+abbr -a -g anspb ansible-playbook
+abbr -a -g ansv ansible-vault
 abbr -a -g aur auracle
 abbr -a -g aurd auracle download
 abbr -a -g auri auracle info
