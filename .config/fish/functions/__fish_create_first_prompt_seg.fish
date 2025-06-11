@@ -15,7 +15,7 @@ function __fish_create_first_prompt_seg
         __fish_draw_first_prompt_seg cyan " $fish_last_job "
     # fourth is private mode
     else if set -q fish_private_mode
-        __fish_draw_first_prompt_seg "$__BASE02" ' %% '
+        __fish_draw_first_prompt_seg brblack ' %% '
     # and after that it's just a percent sign
     else
         __fish_draw_first_prompt_seg blue ' %% '

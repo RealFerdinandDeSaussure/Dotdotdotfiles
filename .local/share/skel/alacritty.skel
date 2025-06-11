@@ -3,15 +3,25 @@
 [colors]
 indexed_colors = []
 
+[colors.normal]
+black = "#{{{__BASE00}}}"
+blue = "#{{{__BASE0D}}}"
+cyan = "#{{{__BASE0C}}}"
+green = "#{{{__BASE0B}}}"
+magenta = "#{{{__BASE0E}}}"
+red = "#{{{__BASE08}}}"
+white = "#{{{__BASE06}}}"
+yellow = "#{{{__BASE0A}}}"
+
 [colors.bright]
-black = "#32302f"
-blue = "#83a598"
-cyan = "#8ec07c"
-green = "#b8bb26"
-magenta = "#d3869b"
-red = "#fb4934"
-white = "#fbf1c7"
-yellow = "#fabd2f"
+black = "#{{{__BASE02}}}"
+blue = "#{{{__BASE04}}}"
+cyan = "#{{{__BASE03}}}"
+green = "#{{{__BASE05}}}"
+magenta = "#{{{__BASE01}}}"
+red = "#{{{__BASE0F}}}"
+white = "#{{{__BASE07}}}"
+yellow = "#{{{__BASE09}}}"
 
 [colors.cursor]
 cursor = "#ebdbb2"
@@ -24,16 +34,6 @@ foreground = "#32302f"
 [colors.hints.start]
 background = "#d5c4a1"
 foreground = "#32302f"
-
-[colors.normal]
-black = "#32302f"
-blue = "#83a598"
-cyan = "#8ec07c"
-green = "#b8bb26"
-magenta = "#d3869b"
-red = "#fb4934"
-white = "#fbf1c7"
-yellow = "#fabd2f"
 
 [colors.primary]
 background = "#32302f"

@@ -45,7 +45,7 @@ function pyproj -d "Activate python virtual environment for current project"
     functions -e fish_prompt
 
     function fish_prompt
-        printf "(PY)%s%s%s" (set_color $__BASE09) $PYTHONPROJECTNAME (set_color normal)
+        printf "(PY)%s%s%s" (set_color yellow) $PYTHONPROJECTNAME (set_color normal)
         __pyproj_fish_prompt
     end
 
