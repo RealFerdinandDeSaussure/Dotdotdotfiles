@@ -2,6 +2,7 @@
 # DO EDITS HERE: $HOME/.local/share/skel/zathura.skel
 # general settings
 set selection-clipboard clipboard
+set database sqlite
 
 # colors
 set default-bg                  "{{{__BASE00_HASH}}}"
