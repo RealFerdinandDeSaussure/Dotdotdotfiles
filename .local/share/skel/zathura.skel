@@ -3,37 +3,49 @@
 # general settings
 set selection-clipboard clipboard
 set database sqlite
+set incremental-search true
 
 # colors
-set default-bg                  "{{{__BASE00_HASH}}}"
-set default-fg                  "{{{__BASE01_HASH}}}"
+set default-bg                  "#{{{__BASE00}}}"
+set default-fg                  "#{{{__BASE01}}}"
 
-set statusbar-fg                "{{{__BASE04_HASH}}}"
-set statusbar-bg                "{{{__BASE02_HASH}}}"
+set statusbar-fg                "#{{{__BASE04}}}"
+set statusbar-bg                "#{{{__BASE02}}}"
 
-set inputbar-bg                 "{{{__BASE00_HASH}}}"
-set inputbar-fg                 "{{{__BASE07_HASH}}}"
+set inputbar-bg                 "#{{{__BASE00}}}"
+set inputbar-fg                 "#{{{__BASE07}}}"
 
-set notification-bg             "{{{__BASE00_HASH}}}"
-set notification-fg             "{{{__BASE07_HASH}}}"
+set index-active-bg             "#{{{__BASE0B}}}"
+set index-active-fg             "#{{{__BASE00}}}"
+set index-bg                    "#{{{__BASE00}}}"
 
-set notification-error-bg       "{{{__BASE00_HASH}}}"
-set notification-error-fg       "{{{__BASE08_HASH}}}"
+set notification-bg             "#{{{__BASE00}}}"
+set notification-fg             "#{{{__BASE07}}}"
 
-set notification-warning-bg     "{{{__BASE00_HASH}}}"
-set notification-warning-fg     "{{{__BASE08_HASH}}}"
+set notification-error-bg       "#{{{__BASE00}}}"
+set notification-error-fg       "#{{{__BASE08}}}"
 
-set highlight-color             "{{{__BASE0A_HASH}}}"
-set highlight-active-color      "{{{__BASE0D_HASH}}}"
+set notification-warning-bg     "#{{{__BASE00}}}"
+set notification-warning-fg     "#{{{__BASE08}}}"
 
-set completion-bg               "{{{__BASE01_HASH}}}"
-set completion-fg               "{{{__BASE0D_HASH}}}"
+set highlight-color             "rgba({{{__BASE0D_R}}},{{{__BASE0D_G}}},{{{__BASE0D_B}}},0.5)"
+set highlight-active-color      "rgba({{{__BASE0A_R}}},{{{__BASE0A_G}}},{{{__BASE0A_B}}},0.5)"
+set highlight-fg                "#{{{__BASE00}}}"
 
-set completion-highlight-fg     "{{{__BASE07_HASH}}}"
-set completion-highlight-bg     "{{{__BASE0D_HASH}}}"
+set completion-bg               "#{{{__BASE01}}}"
+set completion-fg               "#{{{__BASE0D}}}"
 
-set recolor-lightcolor          "{{{__BASE00_HASH}}}"
-set recolor-darkcolor           "{{{__BASE06_HASH}}}"
+set completion-highlight-bg     "#{{{__BASE0D}}}"
+set completion-highlight-fg     "#{{{__BASE00}}}"
+
+set completion-group-bg         "#{{{__BASE00}}}"
+set completion-group-fg         "#{{{__BASE0E}}}"
+
+set recolor-lightcolor          "#{{{__BASE00}}}"
+set recolor-darkcolor           "#{{{__BASE06}}}"
+
+set render-loading-bg           "#{{{__BASE00}}}"
+set render-loading-fg           "#{{{__BASE07}}}"
 
 set recolor                     "false"
 set recolor-keephue             "false"
