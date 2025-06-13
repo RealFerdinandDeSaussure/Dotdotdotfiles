@@ -86,9 +86,11 @@ set guicursor=i-ci-ve:ver20-blinkwait700-blinkoff400-blinkon250
 
 " color options
 set background=light
+" no termguicolors (use Emacs for real editing)
+set notermguicolors
 colorscheme dim
 
-" always use system clipboard (you know, like emacs)
+" always use system clipboard
 set clipboard=unnamedplus
 
 "" keybinds
