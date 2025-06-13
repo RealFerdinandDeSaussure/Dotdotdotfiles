@@ -2,22 +2,22 @@
 # DO EDITS HERE: $HOME/.local/share/skel/sway.skel
 
 # Base16 color setup
-set $base00 {{{__BASE00_HASH}}}
-set $base01 {{{__BASE01_HASH}}}
-set $base02 {{{__BASE02_HASH}}}
-set $base03 {{{__BASE03_HASH}}}
-set $base04 {{{__BASE04_HASH}}}
-set $base05 {{{__BASE05_HASH}}}
-set $base06 {{{__BASE06_HASH}}}
-set $base07 {{{__BASE07_HASH}}}
-set $base08 {{{__BASE08_HASH}}}
-set $base09 {{{__BASE09_HASH}}}
-set $base0A {{{__BASE0A_HASH}}}
-set $base0B {{{__BASE0B_HASH}}}
-set $base0C {{{__BASE0C_HASH}}}
-set $base0D {{{__BASE0D_HASH}}}
-set $base0E {{{__BASE0E_HASH}}}
-set $base0F {{{__BASE0F_HASH}}}
+set $base00 #{{{__BASE00}}}
+set $base01 #{{{__BASE01}}}
+set $base02 #{{{__BASE02}}}
+set $base03 #{{{__BASE03}}}
+set $base04 #{{{__BASE04}}}
+set $base05 #{{{__BASE05}}}
+set $base06 #{{{__BASE06}}}
+set $base07 #{{{__BASE07}}}
+set $base08 #{{{__BASE08}}}
+set $base09 #{{{__BASE09}}}
+set $base0A #{{{__BASE0A}}}
+set $base0B #{{{__BASE0B}}}
+set $base0C #{{{__BASE0C}}}
+set $base0D #{{{__BASE0D}}}
+set $base0E #{{{__BASE0E}}}
+set $base0F #{{{__BASE0F}}}
 
 # input setup
 input "type:keyboard" {
