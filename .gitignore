@@ -43,9 +43,6 @@
 !.config/fish/conf.d/*
 .config/fish/conf.d/*local.fish
 
-!.config/firejail
-!.config/firejail/*
-
 !.config/gopass
 !.config/gopass/config
 

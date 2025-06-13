@@ -20,10 +20,10 @@ def merge_bookmarks():
     int_bookmarks = os.path.join(config.configdir, "bookmarks", "urls")
     int_quickmarks = os.path.join(config.configdir, "quickmarks")
     ext_bookmarks = os.path.join(
-        os.getenv("HOME"), "Sync", "Diverses", "Qutemarks", "book"
+        os.getenv("HOME"), "Sync", "Privates", "Qutemarks", "book"
     )
     ext_quickmarks = os.path.join(
-        os.getenv("HOME"), "Sync", "Diverses", "Qutemarks", "quick"
+        os.getenv("HOME"), "Sync", "Privates", "Qutemarks", "quick"
     )
     for mark_files in (
         (int_bookmarks, ext_bookmarks),

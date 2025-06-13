@@ -1,3 +1,0 @@
-noblacklist ${HOME}/.config/yt-dlp
-whitelist ${HOME}/.config/yt-dlp
-private-bin yt-dlp
