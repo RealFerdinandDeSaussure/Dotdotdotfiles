@@ -16,16 +16,6 @@ end
 # shell exclusive MEDIA variable
 set -gx MEDIA "/run/media/$USER/"
 
-# environment variables used by other programs
-# shell and pager color settings
-set -gx LS_COLORS 'ow=34'
-set -gx LESS_TERMCAP_md (printf "\e[01;36m")
-set -gx LESS_TERMCAP_me (printf "\e[0m")
-set -gx LESS_TERMCAP_se (printf "\e[0m")
-set -gx LESS_TERMCAP_so (printf "\e[01;47;41m")
-set -gx LESS_TERMCAP_ue (printf "\e[0m")
-set -gx LESS_TERMCAP_us (printf "\e[01;35m")
-
 # use nvim as a pager for man pages
 set -gx MANPAGER "nvim +Man! "
 

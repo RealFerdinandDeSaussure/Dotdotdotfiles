@@ -14,9 +14,9 @@ white = "#{{{__BASE06}}}"
 yellow = "#{{{__BASE0A}}}"
 
 [colors.bright]
-black = "#{{{__BASE02}}}"
+black = "#{{{__BASE03}}}"
 blue = "#{{{__BASE04}}}"
-cyan = "#{{{__BASE03}}}"
+cyan = "#{{{__BASE02}}}"
 green = "#{{{__BASE05}}}"
 magenta = "#{{{__BASE01}}}"
 red = "#{{{__BASE0F}}}"
