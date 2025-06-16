@@ -59,6 +59,10 @@
 (general-goleader
   :keymaps          'motion
   "s"               '°toggle-scratch-buffer
+  "rc"              (general-l
+                      (find-file (expand-file-name "init.el" user-emacs-directory)))
+  "O"               (general-l
+                      (find-file °org-home))
   "S"               (general-l
                       (°split-window-and-do
                        (°toggle-scratch-buffer))))
@@ -78,8 +82,6 @@
 
 (general-leader
   :keymaps          'motion
-  "rc"              (general-l
-                      (find-file (expand-file-name "init.el" user-emacs-directory)))
   "k"               'kill-current-buffer
   "K"               'kill-buffer-and-window
   "q"               'find-file

@@ -14,6 +14,10 @@
                                   (tags-todo "-PRIORITY=\"A\"&-SCHEDULED={.+}"
                                              ((org-agenda-sorting-strategy '(priority-down))))))))
   :general-config
+  (general-goleader
+    :states         'motion
+    "O"             (general-l
+                      (find-file °org-home)))
   (:states          'normal
    :keymaps         'org-mode-map
    "{"              '°org-prev-element
