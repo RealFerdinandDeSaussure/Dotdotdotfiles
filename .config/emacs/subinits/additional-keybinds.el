@@ -59,8 +59,6 @@
 (general-goleader
   :keymaps          'motion
   "s"               '°toggle-scratch-buffer
-  "rc"              (general-l
-                      (find-file (expand-file-name "init.el" user-emacs-directory)))
   "O"               (general-l
                       (find-file °org-home))
   "S"               (general-l
