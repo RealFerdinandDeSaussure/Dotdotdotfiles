@@ -74,6 +74,7 @@
 (general-def
   :keymaps         'motion
   "C-u"            'evil-scroll-up
+  "ü"              'find-file
   "<escape>"       (general-l
                      (evil-ex-nohighlight)
                      (evil-force-normal-state)))
@@ -82,7 +83,6 @@
   :keymaps          'motion
   "k"               'kill-current-buffer
   "K"               'kill-buffer-and-window
-  "q"               'find-file
   "v"               'evil-window-split
   "s"               'evil-window-vsplit
   "S"               (general-l

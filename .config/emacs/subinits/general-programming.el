@@ -137,10 +137,11 @@
   :straight (:type built-in)
   :commands (project-root project-current)
   :general
+  (:keymaps         'motion
+   "Ü"              'project-find-file)
   (general-leader
-    :keymaps         'motion
-    "Q"              'project-find-file
-    "C-q"            'project-switch-project))
+    :keymaps        'motion
+    "Ü"             'project-switch-project))
 
 (use-package quickrun
   :general
