@@ -133,10 +133,8 @@
   :commands (project-root project-current)
   :general
   (:keymaps         'motion
-   "Ü"              'project-find-file)
-  (general-leader
-    :keymaps        'motion
-    "Ü"             'project-switch-project))
+   "Ü"              'project-find-file
+   "C-ü"            'project-switch-project))
 
 (use-package quickrun
   :general
