@@ -1,0 +1,16 @@
+# %-LOCATION:$HOME/.config/gtk-4.0/settings.ini-% -*-conf-*-
+# DO EDITS HERE: $HOME/.local/share/skel/gtk4.skel
+[Settings]
+gtk-theme-name=Arc
+gtk-icon-theme-name=Adwaita
+gtk-font-name={{{FONT_SANS}}} 10
+gtk-cursor-theme-name=Adwaita
+gtk-cursor-theme-size=0
+gtk-toolbar-style=GTK_TOOLBAR_BOTH_HORIZ
+gtk-toolbar-icon-size=GTK_ICON_SIZE_LARGE_TOOLBAR
+gtk-enable-event-sounds=1
+gtk-enable-input-feedback-sounds=1
+gtk-xft-antialias=1
+gtk-xft-hinting=1
+gtk-xft-hintstyle=hintmedium
+gtk-im-module=fcitx
