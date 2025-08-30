@@ -73,16 +73,22 @@
 
 ;; autocompletion
 (use-package corfu
-  :hook ((prog-mode text-mode) . (lambda () (°with-buffer-not-remote (corfu-mode 1))))
+  :hook ((prog-mode) . (lambda () (°with-buffer-not-remote (corfu-mode 1))))
   :custom
-  (evil-collection-corfu-setup)
   (corfu-cycle t)
   (corfu-auto t)
   (corfu-auto-delay 0.3)
   (corfu-prefix 2)
   (corfu-quit-no-match t)
   :config
-  (add-hook 'evil-insert-state-exit-hook #'corfu-quit))
+  (add-hook 'evil-insert-state-exit-hook #'corfu-quit)
+  (mapc #'evil-declare-repeat
+        #'(corfu-expand
+           corfu-complete))
+  (mapc #'evil-declare-not-repeat
+        #'(corfu-next
+           corfu-previous))
+  (evil-collection-corfu-setup))
 
 (use-package corfu-popupinfo
   :straight (:type built-in)
