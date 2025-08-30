@@ -19,10 +19,10 @@ export QT_STYLE_OVERRIDE=adwaita
 # set Java options
 export JDK_JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel"
 
-# setup ibus as default input method for all applications
-export GTK_IM_MODULE=ibus
-export XMODIFIERS=@im=ibus
-export QT_IM_MODULE=ibus
+# setup fcitx as default input method for all applications
+export XMODIFIERS=@im=fcitx
+export QT_IM_MODULE=fcitx
+export QT_IM_MODULES="wayland;fcitx"
 
 # define file locations for some programs by environment variable
 export GNUPGHOME=${HOME}/.config/gnupg
