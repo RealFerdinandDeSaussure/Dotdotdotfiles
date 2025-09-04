@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=swaybg
+Comment=Set the background image for all wayland screens
+#OnlyShowIn=
+TryExec=/usr/bin/swaybg
+Exec=sh -c "sleep 2 && /usr/bin/swaybg -i /home/nicolai/Bilder/wallpaper.jpg -m fill"
+Hidden=false
+NoDisplay=false
+StartupNotify=false

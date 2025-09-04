@@ -14,6 +14,9 @@
 !.config/aria2
 !.config/aria2/*
 
+!.config/autostart
+!.config/autostart/*
+
 !.config/bpython
 !.config/bpython/config
 
