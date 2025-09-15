@@ -212,8 +212,6 @@ Start terminal if it isn't running already."
                              minibuffer-local-map)
    "C-,"            'embark-act
    "C-;"            'embark-dwim)
-  :custom
-  (embark-quit-after-action nil)
   :config
   (evil-collection-embark-setup)
   ;; don't ask for confirmation when killing a buffer with embark
