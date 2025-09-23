@@ -69,7 +69,10 @@
                  (:extraPaths
                   ,(vconcat
                     (file-expand-wildcards (file-name-concat venv-project-path "lib*" "python*" "site-packages")))
-                  :useLibraryCodeForTypes t))))))))))
+                  :useLibraryCodeForTypes t))))))
+       ((equal lang "go")
+        '(:gopls
+          (:ui.completion.completeFunctionCalls :json-false)))))))
 
 ;; autocompletion
 (use-package corfu

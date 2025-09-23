@@ -213,13 +213,14 @@ dedicated virtual environment."
   :hook (python-ts-mode . blacken-mode))
 
 ;; golang settings
-(use-package go-mode
+(use-package go-ts-mode
   :straight (:type built-in)
-  :hook (go-mode . go-ts-mode)
+  :hook
+  (go-mode . go-ts-mode)
   :config
   (evil-collection-go-mode-setup)
   (add-hook
-   'go-mode-hook
+   'go-mode-ts-hook
    (lambda ()
      (make-local-variable 'write-file-functions)
      (add-to-list 'write-file-functions (°nillify-func (eglot-format-buffer))))))
@@ -236,7 +237,5 @@ dedicated virtual environment."
   ("\\.volume\\'" . systemd-mode)
   :config
   (electric-pair-mode 1))
-
-(use-package caddyfile-mode)
 
 (provide 'language-specific)
