@@ -217,10 +217,12 @@ dedicated virtual environment."
   :straight (:type built-in)
   :hook
   (go-mode . go-ts-mode)
+  :custom
+  (go-ts-mode-indent-offset 4)
   :config
   (evil-collection-go-mode-setup)
   (add-hook
-   'go-mode-ts-hook
+   'go-ts-mode-hook
    (lambda ()
      (make-local-variable 'write-file-functions)
      (add-to-list 'write-file-functions (°nillify-func (eglot-format-buffer))))))
