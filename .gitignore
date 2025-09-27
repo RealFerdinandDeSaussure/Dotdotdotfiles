@@ -1,10 +1,5 @@
 *
 
-!Code/
-!Code/Scripts
-!Code/Scripts/global
-!Code/Scripts/global/*
-
 !.config/
 
 !.config/alacritty
@@ -116,12 +111,9 @@
 !.local
 
 !.local/bin
-!.local/bin/ansible-pass-client
-!.local/bin/merge-configs
-!.local/bin/mpull
-!.local/bin/pacupdate
-!.local/bin/playlistctl
-!.local/bin/screenshot
+!.local/bin/*
+# dmenu is a symbolic link to whatever launcher I'm using currently
+.local/bin/dmenu
 
 !.local/share
 

@@ -18,8 +18,8 @@ function sync_folder -a origin target
     end
 
     if [ -n "$deletions" ]
-        set -p deletions (set_color -o; echo "The following files will be deleted:"; set_color normal)
-        printf '%s\n' $deletions | longless
+        set -a deletions (set_color -o; echo "All files listed above will be deleted!"; set_color normal)
+        printf '%s\n' $deletions
         read -P 'Type "yes" if you want to continue: ' answer
         test "$answer" != "yes" && exit 1
     end
