@@ -2,41 +2,44 @@
 
 argparse 'r/skip-replaygain' -- $argv || exit 1
 
-set base_folder "$HOME/Musik/Zwischenspeicher"
+set base_folder $HOME/Musik/Zwischenspeicher
 set record_folder $base_folder/Alben
-mkdir -p "$record_folder"
+mkdir -p $record_folder
 
 which opusenc >/dev/null || exit 1
 
 function process_record_folder -S -a folder
-    set opus_folder "$record_folder/opus/"(basename "$folder")
+    set opus_folder $record_folder/opus/(basename $folder)
     # return if the folder already exists
-    test -e "$opus_folder" && begin
+    test -e $opus_folder && begin
         echo "Folder\"$opus_folder\" already exists. Skipping..."
         return
     end
 
-    mkdir -p "$opus_folder"
+    mkdir -p $opus_folder
 
     set_color -o; echo "Preparing "(basename "$folder")"..."; set_color normal
-    cd "$folder"
+    cd $folder
 
     for f in *.flac
-        set new_f (string split -r -m 1 -f 1 '.' -- $f)".opus"
+        set new_f (string split -r -m 1 -f 1 '.' -- $f).opus
         opusenc --music --bitrate 128 $f $new_f || return 1
     end
-    mv *.opus "$opus_folder"/
+    mv *.opus $opus_folder/
 
     if not set -q _flag_r
-        rsgain custom -a --tagmode=i --opus-mode=s "$opus_folder"/*.opus
+        rsgain custom -a --tagmode=i --opus-mode=s $opus_folder/*.opus || return 1
     end
     
     set_color -o; echo "Finished processing "(basename "$folder")"."; set_color normal
 end
 
-
-for flac_folder in $argv
-    if [ -d "$flac_folder" -a (count "$flac_folder/"*.flac) -gt 0 ]
-        process_record_folder $flac_folder || exit 1
+for f in $argv
+    if [ -d $f -a (count $f/*.flac) -gt 0 ]
+        set -a flac_folders (realpath $f) || exit 1
     end
+end
+
+for f in $flac_folders
+    process_record_folder $f || exit 1
 end
