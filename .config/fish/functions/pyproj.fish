@@ -17,19 +17,22 @@ function pyproj -d "Activate python virtual environment for current project"
         return
     end
 
-    set toplevel (git rev-parse --show-toplevel)
-    test $status -ne 0 && return
-    if [ $toplevel = "$HOME" ]
+    set toplevel (git rev-parse --show-toplevel 2>/dev/null)
+    if [ "$toplevel" = "$HOME" ] && [ "$(pwd)" = "$HOME" ]
         echo "Cannot create virtual environment for home folder project."
         return 1
+    else if [ "$toplevel" = "$HOME" ] || [ -z "$toplevel" ]
+        set -gx PYTHONPROJECTNAME (basename (pwd))
+    else
+        set -gx PYTHONPROJECTNAME (basename $toplevel)
+        set proj_id (git rev-list --parents HEAD | tail -n1) || return 1
     end
-    set proj_id (git rev-list --parents HEAD | tail -n1)
-    set -gx PYTHONPROJECTNAME (basename $toplevel)
-    set venv_dir $HOME/.local/share/python/venv/$PYTHONPROJECTNAME-$proj_id
 
-    mkdir -p $venv_dir
-    if [ ! -e $venv_dir/bin/activate.fish ]
-        python -m venv $venv_dir
+    set venv_dir "$HOME/.local/share/python/venv/$PYTHONPROJECTNAME-$proj_id"
+
+    mkdir -p $venv_dir || return 1
+    if [ ! -e "$venv_dir/bin/activate.fish" ]
+        python -m venv $venv_dir || return 1
         set first_run 1
     end
 
