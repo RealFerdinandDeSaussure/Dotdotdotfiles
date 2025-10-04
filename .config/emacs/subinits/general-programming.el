@@ -97,7 +97,7 @@
   :straight (:type built-in)
   :after corfu
   :custom
-  (corfu-popupinfo-delay '(0.3 . 0.3))
+  (corfu-popupinfo-delay '(0.2 . 0.2))
   :config
   (corfu-popupinfo-mode)
   (add-hook 'evil-insert-state-exit-hook #'corfu-popupinfo--hide))
@@ -166,7 +166,8 @@
   (:keymaps         '(yas-keymap yas/keymap)
    "M-j"            'yas-next-field-or-maybe-expand
    "M-k"            'yas-prev-field
-   "M-S-j"          'yas-skip-and-clear-field)
+   "M-S-j"          'yas-skip-and-clear-field
+   "TAB"            nil)
   (general-leader
     :states         'normal
     :keymaps        'snippet-mode-map
