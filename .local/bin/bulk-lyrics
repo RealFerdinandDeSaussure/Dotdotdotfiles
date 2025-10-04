@@ -1,37 +1,149 @@
-#!/usr/bin/env fish
+#!/usr/bin/env python
 
-for i in $argv
-    test -e "$i".lyr && continue
-    set ext (string match -rg '\.([^.]+)$' -- "$i")
-    switch $ext
-        case mp3
-            set artist "tpe1"
-            set title "tit2"
-        case m4a
-            set artist "©art"
-            set title "©nam"
-        case '*'
-            set artist "artist"
-            set title "title"
-    end
-    mutagen-inspect $i | awk -F= '{ if (tolower($1) == "'$artist'") print $2 }' | read artist
-    mutagen-inspect $i | awk -F= '{ if (tolower($1) == "'$title'") print $2 }' | read title
-    or begin
-        echo "Insufficent metadata for $i."
-        continue
-    end
+import asyncio
+from functools import partial
+import sys
+from pathlib import Path
+from urllib.parse import urljoin
+import re
 
-    clyrics $artist $title | while read line
-        set -a lyrics $line
-    end
+import aiofiles
+import aiohttp
+import mutagen
+from bs4 import BeautifulSoup
+from bs4.element import Tag
+from mutagen.easyid3 import EasyID3
+from mutagen.mp3 import MP3
 
-    if [ -z "$lyrics" ]
-        echo "No lyrics found for $artist - $title." >&2
-    else
-        echo "Writing lyrics to $i.lyr." >&2
-        printf "%s\n" $lyrics | string replace \r '' | string replace '’' "'" | tee "$i".lyr | head -n 3
-        echo ...
-    end
+INT_URL = "https://idiot.hassbanane.de/"
+RE_CLEAN_UP = {
+    "RE_I": (re.compile(r"\bi\b"), r"I"),
+    "RE_SINGLE_QUOTES": (re.compile(r"[`´‘’]"), r"'"),
+    "RE_DOUBLE_QUOTES": (re.compile(r"[“”„‟⹂]"), r'"'),
+    "RE_START": (
+        re.compile(r"(^|(?<!\.\w)\.\s)(\w)"),
+        lambda m: m.group(1) + m.group(2).upper(),
+    ),
+}
 
-    set -e lyrics
-end
+
+def get_metadata(mutfile) -> tuple[str, ...]:
+    if type(mutfile) is MP3:
+        mutfile = EasyID3(mutfile.filename)
+    return tuple("+".join(x) for x in [mutfile["artist"], mutfile["title"]])
+
+
+def collect_metadata(files: list[str]) -> dict[str, tuple[str]]:
+    meta = {}
+    for f in files:
+        try:
+            m = mutagen.File(f)
+        except mutagen.MutagenError as err:
+            print(err, file=sys.stderr)
+            continue
+
+        if m is None:
+            print(f"{f} is not a valid file.", file=sys.stderr)
+            print("Skipping...", file=sys.stderr)
+            continue
+        meta[f] = get_metadata(m)
+    return meta
+
+
+def parse_search_results(page: str) -> str:
+    soup = BeautifulSoup(page, "html.parser")
+    try:
+        song = soup.find("a", class_="song")["href"]
+        return urljoin(INT_URL, song)
+    except TypeError:
+        return ""
+
+
+def parse_lyrics(page: str) -> str:
+    soup = BeautifulSoup(page, "html.parser")
+    lyrics = []
+    try:
+        start = soup.find(class_="song-lyric").previous_sibling
+        for sib in start.next_siblings:
+            if type(sib) is not Tag:
+                continue
+            if sib.name.startswith("h"):
+                continue
+            lyrics.append(sib.text)
+    except AttributeError:
+        pass
+    return "\n".join(lyrics)
+
+
+async def get_lyrics_page(session: aiohttp.ClientSession, query: str) -> str:
+    try:
+        async with session.get(urljoin(INT_URL, f"search?q={query}")) as resp:
+            page = await resp.text()
+    except aiohttp.ClientError:
+        print(f"Could not connect to {INT_URL}", file=sys.stderr)
+        return ""
+    return parse_search_results(page)
+
+
+async def get_lyrics(session: aiohttp.ClientSession, page_url: str) -> str:
+    try:
+        async with session.get(page_url) as resp:
+            page = await resp.text()
+    except aiohttp.ClientError:
+        print(f"Could not connect to {page_url}", file=sys.stderr)
+        return ""
+    return parse_lyrics(page)
+
+
+def print_preview(song: tuple[str], lyrics: str):
+    lyrics_list = lyrics.split("\n")
+    print(f"\033[1mFound lyrics for {" - ".join(song)}\033[0m:", file=sys.stderr)
+    print("\n".join(lyrics_list[:2]), file=sys.stderr)
+    print("...\n", file=sys.stderr)
+
+
+async def write_lyrics_to_file(filename: str, lyrics: str):
+    lyr_filename = f"{Path(filename).with_suffix(".lyr")}"
+    async with aiofiles.open(lyr_filename, mode="w") as f:
+        await f.write(lyrics)
+    print(f"\033[1mWritten to file: {lyr_filename}\033[0m")
+
+
+def clean_up_lyrics(lyrics: str) -> str:
+    for pat, repl in RE_CLEAN_UP.values():
+        lyrics = pat.sub(repl, lyrics)
+    return lyrics
+
+
+async def retrieve_lyrics(
+    session: aiohttp.ClientSession, filename: str, song: tuple[str]
+):
+    query = "+".join(song)
+    page_url = await get_lyrics_page(session, query)
+    if len(page_url) == 0:
+        return ""
+
+    lyrics = await get_lyrics(session, page_url)
+    if len(lyrics) == 0:
+        return ""
+
+    lyrics = clean_up_lyrics(lyrics)
+    print_preview(song, lyrics)
+    await write_lyrics_to_file(filename, lyrics)
+
+
+async def retrieve_lyrics_from_files(session: aiohttp.ClientSession, files: list[str]):
+    songs = collect_metadata(files)
+    async with asyncio.TaskGroup() as tg:
+        for f, s in songs.items():
+            print(f"Searching for lyrics for {" - ".join(s)}...", file=sys.stderr)
+            tg.create_task(retrieve_lyrics(session, f, s))
+
+
+async def process_cmdline_files(files: list[str]):
+    async with aiohttp.ClientSession() as session:
+        await retrieve_lyrics_from_files(session, files)
+
+
+if __name__ == "__main__":
+    asyncio.run(process_cmdline_files(sys.argv[1:]))
