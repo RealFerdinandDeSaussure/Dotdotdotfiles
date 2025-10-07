@@ -44,11 +44,12 @@
   :custom
   (flymake-diagnostic-functions (list #'eglot-flymake-backend))
   :general-config
-  (general-goleader
-    :states         'motion
+  (general-leader
+    :states         'normal
     :keymaps        'eglot-mode-map
-    "="             'eglot-format-buffer)
-  (general-goleader
+    "="             'eglot-format-buffer
+    "_"             'eglot-rename)
+  (general-leader
     :states          'visual
     :keymaps         'eglot-mode-map
     "="              'eglot-format)

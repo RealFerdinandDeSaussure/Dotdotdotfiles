@@ -122,12 +122,15 @@
    "C-S-l"          'link-hint-copy-link))
 
 ;; use recentf mode to keep file visiting history
+(use-package pcre2el
+  :after visual-regexp-steroids)
+
 (use-package recentf
   :ensure nil
   :general
   (general-goleader
-    :states         'normal
-    "rf"            'consult-recent-file)
+    :states         'motion
+    "ü"             'consult-recent-file)
   :init
   (recentf-mode))
 
@@ -139,8 +142,10 @@
                       (shell-command "merge-configs")
                       (restart-emacs))))
 
-(use-package pcre2el
-  :after visual-regexp-steroids)
+(use-package saveplace
+  :ensure nil
+  :init
+  (save-place-mode))
 
 (use-package visual-regexp)
 
@@ -227,9 +232,11 @@ Start terminal if it isn't running already."
     "b"             '°consult-file-buffers
     "B"             'consult-buffer
     "I"             'consult-imenu
-    "M"             'consult-flymake
-    "g"             'consult-grep
-    "G"             'consult-git-grep)
+    "M"             'consult-flymake)
+  (general-goleader
+    :keymaps        'motion
+    "r"             'consult-grep
+    "R"             'consult-git-grep)
   :custom
   (completion-in-region-function #'consult-completion-in-region)
   :config
