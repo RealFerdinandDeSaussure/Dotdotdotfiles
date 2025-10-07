@@ -225,7 +225,7 @@ dedicated virtual environment."
    'go-ts-mode-hook
    (lambda ()
      (make-local-variable 'write-file-functions)
-     (add-to-list 'write-file-functions (°nillify-func (eglot-format-buffer))))))
+     (add-to-list 'write-file-functions #'°eglot-format-buffer-ignore-errors))))
 
 (use-package go-eldoc
   :hook (go-ts-mode . go-eldoc-setup))

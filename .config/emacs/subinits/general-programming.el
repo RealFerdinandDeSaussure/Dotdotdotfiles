@@ -54,6 +54,14 @@
     "="              'eglot-format)
   :config
   (setopt eglot-workspace-configuration #'°eglot-workspace-configuration)
+
+  (defun °eglot-format-buffer-ignore-errors ()
+    (unless (ignore-errors (eglot-format-buffer))))
+  
+  (defun °eglot-format-buffer-on-write-file ()
+    (add-to-list (make-local-variable 'write-file-functions)
+                 #'°eglot-format-buffer-ignore-errors))
+
   (defun °eglot-workspace-configuration (server)
     (let ((lang (car (mapcar #'cdr (slot-value server 'languages)))))
       (cond
@@ -116,6 +124,7 @@
 
   :config
   (evil-collection-magit-setup)
+
   (defun °force-git-access ()
     (interactive)
     (let ((index-file (file-name-concat
