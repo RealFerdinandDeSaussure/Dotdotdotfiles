@@ -6,13 +6,13 @@
 
 ;; smtp
 (use-package smtpmail
-  :straight nil
+  :ensure nil
   :after mu4e
   :config
   (setq message-send-mail-function 'smtpmail-send-it))
 
 (use-package mu4e
-  :straight nil
+  :ensure nil
   :general
   (:keymaps         'override
    "<f2>"           'mu4e

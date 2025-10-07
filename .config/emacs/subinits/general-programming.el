@@ -13,7 +13,7 @@
 
 ;; syntax checking
 (use-package flymake
-  :straight (:type built-in)
+  :ensure nil
   :hook (flymake-mode . °init-flymake)
   :custom
   (flymake-fringe-indicator-position 'right-fringe)
@@ -39,7 +39,7 @@
 
 ;; language server (eglot)
 (use-package eglot
-  :straight (:type built-in)
+  :ensure nil
   :hook ((python-ts-mode go-ts-mode bash-ts-mode) . (lambda () (°with-buffer-not-remote (eglot-ensure))))
   :custom
   (flymake-diagnostic-functions (list #'eglot-flymake-backend))
@@ -91,27 +91,21 @@
   (corfu-auto-delay 0.3)
   (corfu-prefix 2)
   (corfu-quit-no-match t)
+  (corfu-popupinfo-delay '(0.2 . 0.2))
   :config
-  (add-hook 'evil-insert-state-exit-hook #'corfu-quit)
+  ;; (add-hook 'evil-insert-state-exit-hook #'corfu-quit)
+  ;; (add-hook 'evil-insert-state-exit-hook #'corfu-popupinfo--hide)
   (mapc #'evil-declare-repeat
         #'(corfu-expand
            corfu-complete))
   (mapc #'evil-declare-not-repeat
         #'(corfu-next
            corfu-previous))
+  (corfu-popupinfo-mode)
   (evil-collection-corfu-setup))
 
-(use-package corfu-popupinfo
-  :straight (:type built-in)
-  :after corfu
-  :custom
-  (corfu-popupinfo-delay '(0.2 . 0.2))
-  :config
-  (corfu-popupinfo-mode)
-  (add-hook 'evil-insert-state-exit-hook #'corfu-popupinfo--hide))
-
 (use-package completion-preview
-  :straight (:type built-in)
+  :ensure nil
   :hook (prog-mode . completion-preview-mode))
 
 (use-package magit
@@ -132,8 +126,12 @@
       (when (yes-or-no-p (concat "Really delete " index-file "?"))
         (delete-file index-file)))))
 
+;; get updated transient version of transient to stay up compatible with current magit version
+(use-package transient
+  :hook magit-status)
+
 (use-package outline
-  :straight (:type built-in)
+  :ensure nil
   :hook (prog-mode . outline-minor-mode)
   :general-config
   (:states          'normal
@@ -147,7 +145,7 @@
       (outline-cycle))))
 
 (use-package project
-  :straight (:type built-in)
+  :ensure nil
   :commands (project-root project-current)
   :general
   (:keymaps         'motion

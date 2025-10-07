@@ -20,19 +20,20 @@
 
 ;; authentication/security settings
 (use-package password-cache
-  :straight (:type built-in)
+  :ensure nil
   :defer t
   :custom
   (password-cache-expiry 3600 "Cache passwords for 60 minutes."))
 
 ;; use pass auth-sources
 (use-package auth-source-pass
+  :ensure nil
   :config
   (auth-source-pass-enable))
 
 ;; dired settings
 (use-package dired
-  :straight (:type built-in)
+  :ensure nil
   :general-config
   (:keymaps          'dired-mode-map
    "SPC"             nil
@@ -43,7 +44,7 @@
 
 ;; tramp settings
 (use-package tramp
-  :straight (:type built-in)
+  :ensure nil
   :defer t
   :custom
   (tramp-default-method "ssh")
@@ -59,6 +60,7 @@
 
 ;; ewwwwwwwwwwwwwwwwwww settings
 (use-package eww
+  :ensure nil
   :general
   (:keymaps         'override
    "<f1>"           'eww
@@ -121,6 +123,7 @@
 
 ;; use recentf mode to keep file visiting history
 (use-package recentf
+  :ensure nil
   :general
   (general-goleader
     :states         'normal
@@ -153,7 +156,7 @@
 
 (use-package vterm
   ;; use locally installed package (from AUR) of emacs-vterm
-  :straight nil
+  :ensure nil
   :general
   (:keymaps         'override
    :states          '(motion emacs insert)
@@ -258,7 +261,7 @@ Start terminal if it isn't running already."
   (setq completion-styles '(hotfuzz)))
 
 (use-package which-key
-  :straight (:type built-in)
+  :ensure nil
   :custom
   (which-key-max-description-length .45)
   (which-key-add-column-padding 2)
@@ -266,7 +269,7 @@ Start terminal if it isn't running already."
   (which-key-mode))
 
 (use-package xdg
-  :straight (:type built-in)
+  :ensure nil
   :commands xdg-user-dir)
 
 (provide 'emacs-extensions)

@@ -3,6 +3,7 @@
 ;; language specific major modes and their settings
 ;; elisp helpers
 (use-package edebug
+  :ensure nil
   :general-config
   (:states          'emacs
    :keymaps         'edebug-mode-map
@@ -98,7 +99,7 @@
 ;; make shell scripts executable after save if they include a shebang
 (add-hook 'after-save-hook #'executable-make-buffer-file-executable-if-script-p)
 (use-package sh-script
-  :straight (:type built-in)
+  :ensure nil
   :hook (sh-mode . bash-ts-mode))
 
 (use-package fish-mode
@@ -113,17 +114,6 @@
 
 (use-package pkgbuild-mode
   :commands pkgbuild-mode)
-
-;; latex
-(use-package tex
-  :straight auctex
-  :defer t
-  :custom
-  (TeX-auto-save t)
-  (TeX-parse-self t)
-  (TeX-master nil)
-  :config
-  (add-hook 'LaTeX-mode-hook 'visual-line-mode))
 
 ;; markdown
 (use-package markdown-mode
@@ -143,7 +133,7 @@
 
 ;; python settings
 (use-package python
-  :straight (:type built-in)
+  :ensure nil
   :hook ((python-mode . python-ts-mode)
          (python-ts-mode . °°python-setup-local))
   :custom
@@ -214,7 +204,7 @@ dedicated virtual environment."
 
 ;; golang settings
 (use-package go-ts-mode
-  :straight (:type built-in)
+  :ensure nil
   :hook
   (go-mode . go-ts-mode)
   :custom

@@ -1,6 +1,6 @@
 ;; -*- lexical-binding: t -*-
 (use-package org
-  :straight (:type built-in)
+  :ensure nil
   :hook (org-mode . °init-org-mode)
   :custom
   (org-log-done 'time)

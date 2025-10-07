@@ -249,15 +249,6 @@ Start eshell if it isn't running already."
                         (:exec . ("pytest"))))
     (setenv "PYTHONPATH" old-py-path)))
 
-;;;###autoload
-(defun °straight-update ()
-  "Fetch, merge and rebuild all straight packages."
-  (interactive)
-  (when (y-or-n-p "Fetch package remotes and rebuild modified packages? ")
-    (straight-pull-all)
-    (straight-check-all)
-    (restart-emacs)))
-
 ;; general functions
 ;;;###autoload
 (defun °add-hook-to-mode (hook function mode &optional depth)

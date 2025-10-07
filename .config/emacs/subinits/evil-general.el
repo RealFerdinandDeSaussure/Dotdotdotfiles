@@ -46,11 +46,14 @@
   (evil-ex-define-cmd "mv" '°mv-buf-and-file))
 
 (use-package evil-collection
-  :after evil)
+  :after evil
+  :config
+  (evil-collection-elpaca-setup))
 
 ;; initial general.el setup here, all keybinds in the respective packages or in
 ;; additional.el
 (use-package general
+  :ensure (:wait t)
   :init
   (setq general-override-states '(insert emacs hybrid normal visual motion operator replace))
   :config

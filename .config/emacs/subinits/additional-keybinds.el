@@ -18,7 +18,7 @@
 ;; global F-key binds
 (general-def
   :keymaps          'override
-  "<f12>"           '°straight-update)
+  "<f12>"           'elpaca-update-all)
 
 ;; window navigation
 (general-def
@@ -114,8 +114,8 @@
 
 ;;  evil-ex and minibuffer keybinds
 (general-def
-  :keymaps          '(evil-ex-completion-map evil-ex-search-keymap read-expression-map
-                                             minibuffer-local-map)
+  :keymaps          '(evil-ex-completion-map
+                      evil-ex-search-keymap read-expression-map minibuffer-local-map)
   "C-a"             'move-beginning-of-line
   "C-e"             'move-end-of-line
   "C-f"             'forward-char
