@@ -109,7 +109,7 @@
 
 (use-package evil-replace-with-register
   :general
-  (general-goleader
+  (general-leader
     :states         'normal
     "r"             'evil-replace-with-register))
 

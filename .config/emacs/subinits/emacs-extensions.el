@@ -122,7 +122,7 @@
 ;; use recentf mode to keep file visiting history
 (use-package recentf
   :general
-  (general-leader
+  (general-goleader
     :states         'normal
     "rf"            'consult-recent-file)
   :init
@@ -256,6 +256,14 @@ Start terminal if it isn't running already."
   :defer t
   :init
   (setq completion-styles '(hotfuzz)))
+
+(use-package which-key
+  :straight (:type built-in)
+  :custom
+  (which-key-max-description-length .45)
+  (which-key-add-column-padding 2)
+  :init
+  (which-key-mode))
 
 (use-package xdg
   :straight (:type built-in)
