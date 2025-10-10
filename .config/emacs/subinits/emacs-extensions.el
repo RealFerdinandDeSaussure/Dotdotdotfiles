@@ -236,7 +236,8 @@ Start terminal if it isn't running already."
   (general-goleader
     :keymaps        'motion
     "r"             'consult-grep
-    "R"             'consult-git-grep)
+    "R"             'consult-git-grep
+    "Ü"             'consult-find)
   :custom
   (completion-in-region-function #'consult-completion-in-region)
   :config

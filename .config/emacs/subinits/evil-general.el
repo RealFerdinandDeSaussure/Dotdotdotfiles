@@ -117,7 +117,7 @@
     "r"             'evil-replace-with-register))
 
 (use-package evil-goggles
-  :hook (after-init . evil-goggles-mode)
+  :after evil
   :custom
   (evil-goggles-duration 0.500)
   (evil-goggles-blocking-duration 0.001)
@@ -126,7 +126,9 @@
   (evil-goggles-enable-paste nil)
   (evil-goggles-enable-commentary nil)
   (evil-goggles-enable-surround nil)
-  (evil-goggles-enable-delete nil))
+  (evil-goggles-enable-delete nil)
+  :config
+  (evil-goggles-mode 1))
 
 (use-package evil-mc
   :custom
