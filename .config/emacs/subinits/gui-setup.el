@@ -116,6 +116,8 @@
               :regexp t :select t :popup t :align below :size 0.2)
              ('inferior-python-mode
               :select t :popup t :align below :size 0.2)
+             ("*ielm*"
+              :select t :popup t :align below :size 0.35)
              ("*vterm*"
               :regexp t :select t :popup t :align below :size 0.2))))
 

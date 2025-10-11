@@ -114,6 +114,30 @@
         (set-window-buffer helpful-win buf t)
       (display-buffer buf #'display-buffer-pop-up-window 0)))))
 
+;; ielm settings
+(use-package ielm
+  :ensure nil
+  :general
+  (:keymaps 'override
+   :states  '(motion insert)
+   "C-¹"    '°ielm-toggle)
+  :custom
+  (ielm-header "")
+  :config
+  (dolist (func #'(eldoc-mode corfu-mode))
+    (add-hook 'ielm-mode-hook func))
+
+  (defun °ielm-toggle ()
+    "Hide or show ielm."
+    (interactive)
+    (let* ((ielm-buf "*ielm*")
+           (ielm-win (get-buffer-window ielm-buf)))
+      (if ielm-win
+          (delete-window ielm-win)
+        (if (get-buffer ielm-buf)
+            (pop-to-buffer ielm-buf)
+          (ielm))))))
+
 ;; vimperator-style link-hints
 (use-package link-hint
   :general
@@ -165,30 +189,28 @@
   :general
   (:keymaps         'override
    :states          '(motion emacs insert)
-   "C-¼"            '°vterm)
+   "C-¼"            '°vterm-toggle)
   :custom
   (vterm-shell (concat "/" (file-name-concat "usr" "bin" "fish") " -C __vterm_setup"))
   :general-config
   (:states          'emacs
    :keymaps         'vterm-mode-map
    "C-h k"          'helpful-key
-   "C-c $"          '°vterm)
+   "C-c $"          '°vterm-toggle)
   (:keymaps         'vterm-mode-map
    "M-:"            'eval-expression)
 
   :config
   (evil-collection-vterm-setup)
 
-  (defun °vterm ()
+  (defun °vterm-toggle ()
     "Hide or show vterm window.
 Start terminal if it isn't running already."
     (interactive)
     (let* ((vterm-buf "*vterm*")
            (vterm-win (get-buffer-window vterm-buf)))
       (if vterm-win
-          (progn
-            (select-window vterm-win)
-            (delete-window))
+          (delete-window vterm-win)
         (if (get-buffer vterm-buf)
             (pop-to-buffer vterm-buf)
           (vterm-other-window)))))

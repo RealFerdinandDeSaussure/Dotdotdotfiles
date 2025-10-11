@@ -93,9 +93,10 @@
   (corfu-prefix 2)
   (corfu-quit-no-match t)
   (corfu-popupinfo-delay '(0.2 . 0.2))
+  :general-config
+  (:keymaps     'corfu-map
+   "RET"        nil)
   :config
-  ;; (add-hook 'evil-insert-state-exit-hook #'corfu-quit)
-  ;; (add-hook 'evil-insert-state-exit-hook #'corfu-popupinfo--hide)
   (mapc #'evil-declare-repeat
         #'(corfu-expand
            corfu-complete))
@@ -196,7 +197,7 @@
     :states         'insert
     :keymaps        'yas-minor-mode-map
     "SPC"           yas-maybe-expand
-    "<return>"      yas-maybe-expand)  
+    "RET"           yas-maybe-expand)  
 
   ;; expansion for some python snippets
   (general-def
