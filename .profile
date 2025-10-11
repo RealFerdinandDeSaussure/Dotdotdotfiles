@@ -1,6 +1,6 @@
 # define PATHs
-export PATH=${HOME}/.local/bin:/usr/local/bin:${PATH}
 export GOPATH=${HOME}/.local/share/go
+export PATH=${HOME}/.local/bin:${GOPATH}/bin:${PATH}
 export WINEPREFIX=${HOME}/.local/share/wine
 export MAILDIR=${HOME}/.local/share/mail
 export PYTHONPYCACHEPREFIX=${HOME}/.cache/python
