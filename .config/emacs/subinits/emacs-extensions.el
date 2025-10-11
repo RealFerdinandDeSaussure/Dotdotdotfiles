@@ -11,9 +11,9 @@
 
 ;; spellchecking settings
 (setq ispell-program-name "hunspell")
-(defvar °ispell-dicts-in-use
+(defvar +ispell-dicts-in-use
   '("de_DE" "en_AU")
-  "List of dicts to cycle through by using °ispell-cycle-dicts.")
+  "List of dicts to cycle through by using +ispell-cycle-dicts.")
 
 ;; use more conservative sentence definition
 (setq sentence-end-double-space nil)
@@ -37,7 +37,7 @@
   :general-config
   (:keymaps          'dired-mode-map
    "SPC"             nil
-   "t"               '°dired-mark-toggle
+   "t"               '+dired-mark-toggle
    "T"               'dired-toggle-marks)
   :config
   (evil-collection-dired-setup))
@@ -56,7 +56,7 @@
   :config
   (add-hook 'find-file-hook (lambda ()
                               (when (file-remote-p default-directory)
-                                (°source-ssh-env)))))
+                                (+source-ssh-env)))))
 
 ;; ewwwwwwwwwwwwwwwwwww settings
 (use-package eww
@@ -64,14 +64,14 @@
   :general
   (:keymaps         'override
    "<f1>"           'eww
-   "S-<f1>"         (general-l (°split-window-and-do (call-interactively 'eww))))
+   "S-<f1>"         (general-l (+split-window-and-do (call-interactively 'eww))))
   :config
   (evil-collection-eww-setup))
 
 ;; sexier builtin help
 (use-package helpful
   :init
-  (defun °helpful-previous-buffer ()
+  (defun +helpful-previous-buffer ()
     (interactive)
     (let ((switch-to-prev-buffer-skip
            (lambda (window buffer bury-or-kill)
@@ -92,7 +92,7 @@
                       minibuffer-local-map)
    "C-h k"          'helpful-key)
   :custom
-  (helpful-switch-buffer-function #'°display-buffer-pop-up-if-not-helpful)
+  (helpful-switch-buffer-function #'+display-buffer-pop-up-if-not-helpful)
   :general-config
   (:states          'motion
    "M-H"            'helpful-kill-buffers)
@@ -101,7 +101,7 @@
    "q"              'delete-window)
   :config
   (evil-collection-helpful-setup)
-  (defun °display-buffer-pop-up-if-not-helpful (buf)
+  (defun +display-buffer-pop-up-if-not-helpful (buf)
     "Display BUF in current window if it is in helpful-mode. Pop up a new window
     otherwise."
     (let ((helpful-win nil))
@@ -120,14 +120,14 @@
   :general
   (:keymaps 'override
    :states  '(motion insert)
-   "C-¹"    '°ielm-toggle)
+   "C-¹"    '+ielm-toggle)
   :custom
   (ielm-header "")
   :config
   (dolist (func #'(eldoc-mode corfu-mode))
     (add-hook 'ielm-mode-hook func))
 
-  (defun °ielm-toggle ()
+  (defun +ielm-toggle ()
     "Hide or show ielm."
     (interactive)
     (let* ((ielm-buf "*ielm*")
@@ -189,21 +189,21 @@
   :general
   (:keymaps         'override
    :states          '(motion emacs insert)
-   "C-¼"            '°vterm-toggle)
+   "C-¼"            '+vterm-toggle)
   :custom
   (vterm-shell (concat "/" (file-name-concat "usr" "bin" "fish") " -C __vterm_setup"))
   :general-config
   (:states          'emacs
    :keymaps         'vterm-mode-map
    "C-h k"          'helpful-key
-   "C-c $"          '°vterm-toggle)
+   "C-c $"          '+vterm-toggle)
   (:keymaps         'vterm-mode-map
    "M-:"            'eval-expression)
 
   :config
   (evil-collection-vterm-setup)
 
-  (defun °vterm-toggle ()
+  (defun +vterm-toggle ()
     "Hide or show vterm window.
 Start terminal if it isn't running already."
     (interactive)
@@ -251,7 +251,7 @@ Start terminal if it isn't running already."
   :general
   (general-leader
     :keymaps        'normal
-    "b"             '°consult-file-buffers
+    "b"             '+consult-file-buffers
     "B"             'consult-buffer
     "I"             'consult-imenu
     "M"             'consult-flymake)
@@ -263,7 +263,7 @@ Start terminal if it isn't running already."
   :custom
   (completion-in-region-function #'consult-completion-in-region)
   :config
-  (defun °consult-file-buffers ()
+  (defun +consult-file-buffers ()
     "Consult menu to switch to file buffers only."
     (interactive)
     (consult--read

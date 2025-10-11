@@ -15,19 +15,19 @@
               cursor-in-non-selected-windows nil)
 (dolist (hook '(prog text conf))
   (add-hook
-   (°concat-symbols hook '-mode-hook)
+   (+concat-symbols hook '-mode-hook)
    #'hl-line-mode))
 
 ;; window splitting settings --> REMOVE?
-(setq split-window-preferred-function '°split-window-sensibly)
+(setq split-window-preferred-function '+split-window-sensibly)
 
 ;; keep track of window layout changes
-(defun °°first-push-to-window-layout-stack (&rest args)
+(defun ++first-push-to-window-layout-stack (&rest args)
   (unless (eql (count-windows) 1)
-    (°°window-layout-stack-push)))
+    (++window-layout-stack-push)))
 ;; only add this advice to high-level functions to avoid infinite recursion
-(advice-add #'delete-other-windows :before #'°°first-push-to-window-layout-stack)
-(advice-add #'evil-window-delete :before #'°°first-push-to-window-layout-stack)
+(advice-add #'delete-other-windows :before #'++first-push-to-window-layout-stack)
+(advice-add #'evil-window-delete :before #'++first-push-to-window-layout-stack)
 
 (dolist (hook '(prog-mode-hook text-mode-hook conf-mode-hook))
   (add-hook hook (lambda ()
@@ -42,7 +42,7 @@
 
 (use-package dimmer
   :config
-  (defun °dimmer-config-change-handler ()
+  (defun +dimmer-config-change-handler ()
     "Advise to only force process if no predicate is truthy."
     (let ((ignore (cl-some (lambda (f) (and (fboundp f) (funcall f)))
                            dimmer-prevent-dimming-predicates)))
@@ -50,32 +50,32 @@
         (when (fboundp 'dimmer-process-all)
           (dimmer-process-all t)))))
 
-  (defun °corfu-frame-p ()
+  (defun +corfu-frame-p ()
     (string-match-p "^ \\*corfu\\(-popupinfo\\)?\\*$" (buffer-name)))
 
-  (advice-add 'dimmer-config-change-handler :override #'°dimmer-config-change-handler)
-  (add-to-list 'dimmer-prevent-dimming-predicates #'°corfu-frame-p)
+  (advice-add 'dimmer-config-change-handler :override #'+dimmer-config-change-handler)
+  (add-to-list 'dimmer-prevent-dimming-predicates #'+corfu-frame-p)
   (dimmer-mode 1))
 
 ;; modeline
 (use-package telephone-line
   :init
   (require 'project)
-  (telephone-line-defsegment °telephone-line-buffer-modified-segment ()
+  (telephone-line-defsegment +telephone-line-buffer-modified-segment ()
     (unless buffer-read-only
       (if (buffer-modified-p)
           (telephone-line-raw "!")
         (telephone-line-raw "-"))))
 
   (telephone-line-defsegment
-   °telephone-line-project-segment ()
+   +telephone-line-project-segment ()
    (unless (file-remote-p default-directory)
        (file-name-nondirectory (directory-file-name (project-root (project-current))))))
   
   (setq telephone-line-lhs
-        '((evil     .   (°telephone-line-buffer-modified-segment
+        '((evil     .   (+telephone-line-buffer-modified-segment
                          telephone-line-evil-tag-segment))
-          (accent   .   (°telephone-line-project-segment))
+          (accent   .   (+telephone-line-project-segment))
           (nil      .   (telephone-line-buffer-name-segment)))
         telephone-line-rhs
         '((nil      .   (telephone-line-misc-info-segment))

@@ -4,7 +4,7 @@
 
 ;; macros
 ;;;###autoload
-(defmacro °flet (bindings &rest body)
+(defmacro +flet (bindings &rest body)
   "Like flet but using cl-letf and therefore not deprecated."
   `(cl-letf ,(mapcar
               (lambda (binding)
@@ -14,27 +14,27 @@
      ,@body))
 
 ;;;###autoload
-(defmacro °nillify-func (&rest funcs)
+(defmacro +nillify-func (&rest funcs)
   "Return a function that runs FUNCS but always returns nil."
   `(lambda ()
      ,@funcs
      nil))
 
 ;;;###autoload
-(defmacro °split-window-and-do (&rest funcs)
+(defmacro +split-window-and-do (&rest funcs)
   `(progn
      (ignore-errors
        (select-window (funcall split-window-preferred-function)))
      ,@funcs))
 
 ;;;###autoload
-(defmacro °with-buffer-not-remote (&rest body)
+(defmacro +with-buffer-not-remote (&rest body)
   "Only evaluate BODY if current buffer does not point to a remote file."
   `(unless (and (buffer-file-name) (file-remote-p (buffer-file-name)))
       ,@body))
 
 ;;;###autoload
-(defmacro °defun-newline-paste (func-name &rest open-funcs)
+(defmacro +defun-newline-paste (func-name &rest open-funcs)
   "Create a function that pastes after opening lines with OPEN-FUNCS."
   `(defun ,func-name (count)
      (interactive "p")
@@ -47,7 +47,7 @@
 
 ;; evil related-functions
 ;;;###autoload
-(defun °evil-dry-open-below (count)
+(defun +evil-dry-open-below (count)
   "Open LINE number of lines below but stay in current line."
   (interactive "p")
   (save-excursion
@@ -55,7 +55,7 @@
     (open-line count)))
 
 ;;;###autoload
-(defun °evil-dry-open-above (count)
+(defun +evil-dry-open-above (count)
   "Open LINE number of lines above but stay in current line."
   (interactive "p")
   ;; this does not work with save-excursion if it's done at the beginning of
@@ -67,7 +67,7 @@
     (move-to-column col)))
 
 ;;;###autoload
-(defun °evil-search-visual-selection (direction count)
+(defun +evil-search-visual-selection (direction count)
   "Search for visually selected text in buffer.
 DIRECTION can be forward or backward.  Don't know what COUNT does."
   (when (> (mark) (point))
@@ -91,38 +91,38 @@ DIRECTION can be forward or backward.  Don't know what COUNT does."
     (when (fboundp 'evil-ex-search-next)
       (evil-ex-search-next count))))
 
-;;;###autoload (autoload '°evil-paste-with-newline-above "my-functions")
-(°defun-newline-paste
- °evil-paste-with-newline-above
+;;;###autoload (autoload '+evil-paste-with-newline-above "my-functions")
+(+defun-newline-paste
+ +evil-paste-with-newline-above
  (evil-open-above 1))
 
-;;;###autoload (autoload '°evil-paste-with-newline-below "my-functions")
-(°defun-newline-paste
- °evil-paste-with-newline-below
+;;;###autoload (autoload '+evil-paste-with-newline-below "my-functions")
+(+defun-newline-paste
+ +evil-paste-with-newline-below
  (evil-open-below 1))
 
-;;;###autoload (autoload '°evil-lisp-paste-with-newline-above "my-functions")
-(°defun-newline-paste
- °evil-lisp-paste-with-newline-above
- (°evil-lisp-open-above 1))
+;;;###autoload (autoload '+evil-lisp-paste-with-newline-above "my-functions")
+(+defun-newline-paste
+ +evil-lisp-paste-with-newline-above
+ (+evil-lisp-open-above 1))
 
-;;;###autoload (autoload '°evil-lisp-paste-with-newline-below "my-functions")
-(°defun-newline-paste
- °evil-lisp-paste-with-newline-below
- (°evil-lisp-open-below 1))
+;;;###autoload (autoload '+evil-lisp-paste-with-newline-below "my-functions")
+(+defun-newline-paste
+ +evil-lisp-paste-with-newline-below
+ (+evil-lisp-open-below 1))
 
 ;; lisp related functions
 ;;;###autoload
-(defun °evil-lisp-append-line (count)
+(defun +evil-lisp-append-line (count)
   (interactive "p")
-  (°°evil-lisp-end-of-depth-in-line)
+  (++evil-lisp-end-of-depth-in-line)
   (evil-insert count))
 
-(defun °°evil-lisp-end-of-depth-in-line ()
+(defun ++evil-lisp-end-of-depth-in-line ()
   "Go to last point of current syntax depth on the current line."
   ;; if we're on a parens move into its scope
-  (unless (eq (length (°get-line)) 0) ; don't move if on empty line
-    (let ((depth (°°syntax-depth))
+  (unless (eq (length (+get-line)) 0) ; don't move if on empty line
+    (let ((depth (++syntax-depth))
           (line-end (save-excursion
                       (end-of-line)
                       (point))))
@@ -131,30 +131,30 @@ DIRECTION can be forward or backward.  Don't know what COUNT does."
           (catch 'end-of-depth
             (while (< (point) line-end)
               (forward-char)
-              (when (< (°°syntax-depth) depth)
+              (when (< (++syntax-depth) depth)
                 (throw 'end-of-depth t))))
         (backward-char)))))
 
 ;;;###autoload
-(defun °evil-lisp-insert-line (count)
+(defun +evil-lisp-insert-line (count)
   (interactive "p")
-  (°°evil-lisp-beginning-of-depth-in-line)
+  (++evil-lisp-beginning-of-depth-in-line)
   (when (looking-at "\s")
-    (°evil-lisp-first-non-blank))
+    (+evil-lisp-first-non-blank))
   (evil-insert count))
 
 ;;;###autoload
-(defun °evil-lisp-first-non-blank ()
+(defun +evil-lisp-first-non-blank ()
     (interactive)
   (evil-first-non-blank)
   (while (and (equal (thing-at-point 'char) "(")
-              (not (°°in-string-p)))
+              (not (++in-string-p)))
     (evil-forward-char)))
 
 ;;;###autoload
-(defun °evil-lisp-open-above (count)
+(defun +evil-lisp-open-above (count)
   (interactive "p")
-  (°°evil-lisp-beginning-of-depth-in-line)
+  (++evil-lisp-beginning-of-depth-in-line)
   (save-excursion
     (newline 1)
     (indent-according-to-mode))
@@ -164,18 +164,18 @@ DIRECTION can be forward or backward.  Don't know what COUNT does."
   (evil-insert-state 1))
 
 ;;;###autoload
-(defun °evil-lisp-open-below (count)
+(defun +evil-lisp-open-below (count)
   (interactive "p")
-  (°°evil-lisp-end-of-depth-in-line)
+  (++evil-lisp-end-of-depth-in-line)
   (newline 1)
   (indent-according-to-mode)
   (setq evil-insert-count count
         evil-insert-lines t)
   (evil-insert-state 1))
 
-(defun °°evil-lisp-beginning-of-depth-in-line ()
+(defun ++evil-lisp-beginning-of-depth-in-line ()
   "Go to first point of current syntax depth on the current line."
-  (let ((depth (°°syntax-depth))
+  (let ((depth (++syntax-depth))
         (line-beginning (save-excursion
                       (beginning-of-line)
                       (point))))
@@ -184,13 +184,13 @@ DIRECTION can be forward or backward.  Don't know what COUNT does."
         (catch 'beginning-of-depth
           (while (> (point) line-beginning)
             (backward-char)
-            (when (< (°°syntax-depth) depth)
+            (when (< (++syntax-depth) depth)
               (throw 'beginning-of-depth t))))
       (forward-char))))
 
 ;; functions related to other packages
 ;;;###autoload
-(defun °dired-mark-toggle ()
+(defun +dired-mark-toggle ()
   "Toggle mark for currently selected file."
   (interactive)
   (let ((inhibit-read-only t))
@@ -204,7 +204,7 @@ DIRECTION can be forward or backward.  Don't know what COUNT does."
                  (list dired-marker-char ?\040)))))))
 
 ;;;###autoload
-(defun °eshell ()
+(defun +eshell ()
   "Hide or show eshell window.
 Start eshell if it isn't running already."
   (interactive)
@@ -215,18 +215,18 @@ Start eshell if it isn't running already."
     (eshell)))
 
 ;;;###autoload
-(defun °ispell-cycle-dicts ()
-  "Cycle through the dicts in `°ispell-dicts-in-use'."
+(defun +ispell-cycle-dicts ()
+  "Cycle through the dicts in `+ispell-dicts-in-use'."
   (interactive)
   (ispell-change-dictionary
    (catch 'dict
      (while t
-       (nconc °ispell-dicts-in-use (list (pop °ispell-dicts-in-use)))
-       (unless (string= ispell-current-dictionary (car °ispell-dicts-in-use))
-         (throw 'dict (car °ispell-dicts-in-use)))))))
+       (nconc +ispell-dicts-in-use (list (pop +ispell-dicts-in-use)))
+       (unless (string= ispell-current-dictionary (car +ispell-dicts-in-use))
+         (throw 'dict (car +ispell-dicts-in-use)))))))
 
 ;;;###autoload
-(defun °python-remove-breakpoints ()
+(defun +python-remove-breakpoints ()
   "Remove all breakpoint declarations in buffer."
   (interactive)
   (let ((counter 0))
@@ -238,7 +238,7 @@ Start eshell if it isn't running already."
     (message "%s breakpoint%s removed." counter (if (= counter 1) "" "s"))))
 
 ;;;###autoload
-(defun °python-test ()
+(defun +python-test ()
   "Run pytest."
   (interactive)
   (let ((old-py-path (getenv "PYTHONPATH"))
@@ -251,13 +251,13 @@ Start eshell if it isn't running already."
 
 ;; general functions
 ;;;###autoload
-(defun °add-hook-to-mode (hook function mode &optional depth)
+(defun +add-hook-to-mode (hook function mode &optional depth)
   "Add FUNCTION to HOOK but limit it to MODE.  See `add-hook' for option DEPTH."
-  (add-hook (°concat-symbols mode '-hook)
+  (add-hook (+concat-symbols mode '-hook)
             (lambda ()
               (add-hook hook function depth t))))
 
-(defun °delete-this-file ()
+(defun +delete-this-file ()
   "Delete file in current buffer."
   (interactive)
   (let* ((buf (current-buffer))
@@ -267,7 +267,7 @@ Start eshell if it isn't running already."
       (delete-file file))))
 
 ;;;###autoload
-(defun °eval-visual-region ()
+(defun +eval-visual-region ()
   "Evaluate region."
   (interactive)
   (when (> (mark) (point))
@@ -277,7 +277,7 @@ Start eshell if it isn't running already."
    (evil-normal-state)))
 
 ;;;###autoload
-(defun °eval-line ()
+(defun +eval-line ()
   "Evaluate current line."
   (interactive)
   (save-excursion
@@ -285,7 +285,7 @@ Start eshell if it isn't running already."
     (eval-last-sexp nil)))
 
 ;;;###autoload
-(defun °eval-at-point ()
+(defun +eval-at-point ()
   "Move out to closest sexp and evaluate."
   (interactive)
   (let ((point-char (thing-at-point 'char))
@@ -308,28 +308,28 @@ Start eshell if it isn't running already."
     (eval-region reg-start reg-end t)))
 
 ;;;###autoload
-(defun °get-line ()
+(defun +get-line ()
   "Uniform way to get content of current line."
   (buffer-substring-no-properties (line-beginning-position) (line-end-position)))
 
 ;;;###autoload
-(defun °git-top-level-directory ()
+(defun +git-top-level-directory ()
   "Returns the name of the top level directory of the current git project."
   (when (executable-find "git")
     (file-name-nondirectory (directory-file-name (string-trim (shell-command-to-string "git rev-parse --show-toplevel"))))))
 
 ;;;###autoload
-(defun °git-first-commit ()
+(defun +git-first-commit ()
   "Returns the hash of the first comment of the current git project."
   (when (executable-find "git")
     (car (split-string (shell-command-to-string "git rev-list --reverse --parents HEAD") "\n"))))
 
-(defun °°in-string-p ()
+(defun ++in-string-p ()
   "Returns t if point is within a string according to syntax-ppss.  Otherwise nil."
   (not (eq (nth 3 (syntax-ppss)) nil)))
 
 ;;;###autoload
-(defun °last-name (name)
+(defun +last-name (name)
   "Return the last name portion of NAME."
   (when (string-to-list name)
     (setq name (string-join
@@ -338,23 +338,23 @@ Start eshell if it isn't running already."
                 " ")) ; to accomodate for comma-separated last names at the beginning
     (let* ((nlist (reverse (split-string (downcase name))))
            (lname (capitalize (pop nlist)))
-           (pres (mapcar #'downcase °last-name-prefixes))
+           (pres (mapcar #'downcase +last-name-prefixes))
            (pre (pop nlist))
            (rpre (cl-position pre pres :test #'string=)))
       (if rpre
-          (concat (nth rpre °last-name-prefixes) " " lname)
+          (concat (nth rpre +last-name-prefixes) " " lname)
         lname))))
 
 ;;;###autoload
-(defun °restore-window-layout ()
-  "Restore window layout that is on top of `°°window-layout-stack'."
+(defun +restore-window-layout ()
+  "Restore window layout that is on top of `++window-layout-stack'."
   (interactive)
-  (let ((layout (pop °°window-layout-stack)))
+  (let ((layout (pop ++window-layout-stack)))
     (when layout
       (set-window-configuration layout))))
 
 ;;;###autoload
-(defun °select-printer ()
+(defun +select-printer ()
   (interactive)
   (let* ((stdout (string-trim (shell-command-to-string "lpstat -a 2>/dev/null")))
          (lines (if (string= stdout "")
@@ -366,7 +366,7 @@ Start eshell if it isn't running already."
     (message (format "`printer-name' set to \"%s\"" printer-name))))
 
 ;;;###autoload
-(defun °source-ssh-env ()
+(defun +source-ssh-env ()
   "Read environment variables for the ssh environment from '~/.ssh/environment'."
   (let (pos1 pos2 (var-strs '("SSH_AUTH_SOCK" "SSH_AGENT_PID")))
     (unless (cl-some 'getenv var-strs)
@@ -384,7 +384,7 @@ Start eshell if it isn't running already."
            var-strs))))))
 
 ;;;###autoload
-(defun °split-window-sensibly (&optional window)
+(defun +split-window-sensibly (&optional window)
   "Prefer horizontal splits for state-of-the-art widescreen monitors. Also don't
   split when there's 3 or more windows open."
   (if (or
@@ -409,17 +409,17 @@ Start eshell if it isn't running already."
 
 
 ;;;###autoload
-(defun °sudo-this-file ()
+(defun +sudo-this-file ()
   "Open 'find-file' with sudo prefix on current buffer."
   (interactive)
   (find-file (file-name-concat "/sudo::/" (buffer-file-name))))
 
-(defun °°syntax-depth ()
+(defun ++syntax-depth ()
   "Return depth at point within syntax tree. "
   (nth 0 (syntax-ppss)))
 
 ;;;###autoload
-(defun °toggle-scratch-buffer ()
+(defun +toggle-scratch-buffer ()
   "Go back and forth between scratch buffer and most recent other buffer."
   (interactive)
   (if (string= (buffer-name) "*scratch*")
@@ -427,25 +427,25 @@ Start eshell if it isn't running already."
     (switch-to-buffer "*scratch*")))
 
 ;;;###autoload
-(defun °window-clear-side ()
+(defun +window-clear-side ()
   "Clear selected pane from vertically split windows."
   (interactive)
   (cl-flet ((clear
              (direction)
              (while
                  (ignore-errors
-                   (funcall (°concat-symbols 'windmove- direction)))
+                   (funcall (+concat-symbols 'windmove- direction)))
                (delete-window))))
     (mapc #'clear '(up down))))
 
-(defun °°window-layout-stack-push ()
-  (push (current-window-configuration) °°window-layout-stack))
+(defun ++window-layout-stack-push ()
+  (push (current-window-configuration) ++window-layout-stack))
 
 ;; variables
-(defvar °last-name-prefixes '("von" "de" "van" "Al")
-  "List of possible last name prefixes for `°last-name' to consider.")
+(defvar +last-name-prefixes '("von" "de" "van" "Al")
+  "List of possible last name prefixes for `+last-name' to consider.")
 
-(defvar °°window-layout-stack nil
+(defvar ++window-layout-stack nil
   "Stack of recently recorded layout changes.")
 
 (provide 'my-functions.el)

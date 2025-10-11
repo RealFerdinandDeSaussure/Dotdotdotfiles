@@ -12,8 +12,8 @@
   :keymaps          'override
   :states           '(motion emacs)
   "M-o"             'delete-other-windows
-  "M-i"             '°restore-window-layout
-  "M-O"             '°window-clear-side)
+  "M-i"             '+restore-window-layout
+  "M-O"             '+window-clear-side)
 
 ;; global F-key binds
 (general-def
@@ -50,25 +50,25 @@
   "<escape>"       (general-l
                      (evil-ex-nohighlight)
                      (evil-force-normal-state))
-  "ö"              '°evil-dry-open-below
-  "Ö"              '°evil-dry-open-above
+  "ö"              '+evil-dry-open-below
+  "Ö"              '+evil-dry-open-above
 
   "_"               'goto-last-change
   "-"               'goto-last-change-reverse)
 
 (general-goleader
   :keymaps          'motion
-  "s"               '°toggle-scratch-buffer
+  "s"               '+toggle-scratch-buffer
   "O"               (general-l
-                      (find-file °org-home))
+                      (find-file +org-home))
   "S"               (general-l
-                      (°split-window-and-do
-                       (°toggle-scratch-buffer))))
+                      (+split-window-and-do
+                       (+toggle-scratch-buffer))))
 
 (general-leader
   :states         'normal
-  "P"             '°evil-paste-with-newline-above
-  "p"             '°evil-paste-with-newline-below)
+  "P"             '+evil-paste-with-newline-above
+  "p"             '+evil-paste-with-newline-below)
 
 ;; motion state bindings
 (general-def
@@ -107,10 +107,10 @@
   :keymaps         'visual
   "*"              (lambda (count)
                      (interactive "P")
-                     (°evil-search-visual-selection 'forward count))
+                     (+evil-search-visual-selection 'forward count))
   "#"              (lambda (count)
                      (interactive "P")
-                     (°evil-search-visual-selection 'backward count)))
+                     (+evil-search-visual-selection 'backward count)))
 
 ;;  evil-ex and minibuffer keybinds
 (general-def
@@ -161,8 +161,8 @@
 (general-leader
   :states           'motion
   :keymaps          'lisp-mode-shared-map
-  "e"               '°eval-at-point
-  "E"               '°eval-line
+  "e"               '+eval-at-point
+  "E"               '+eval-line
   "M-e"             'eval-buffer
   "C-e"             'eval-defun)
 
@@ -170,10 +170,10 @@
   :states            'motion
   :keymaps           'lisp-mode-shared-map
   "hg"              (general-l
-                      (°split-window-and-do
+                      (+split-window-and-do
                        (info "elisp")))
   "hG"              (general-l
-                      (°split-window-and-do
+                      (+split-window-and-do
                        (info-emacs-manual)))
   "hb"              'describe-bindings
   "hm"              'describe-mode)
@@ -183,10 +183,10 @@
   :states           'normal
   :keymaps          'python-mode-map
   "C-$"             'run-python
-  "cB"              '°python-remove-breakpoints
+  "cB"              '+python-remove-breakpoints
   "S-<return>"      (general-l
                       (if (string-match-p "^test_" (buffer-file-name))
-                          '°python-test
+                          '+python-test
                         'quickrun)))
 
 (general-def
@@ -197,6 +197,6 @@
 (general-leader
   :states           'visual
   :keymaps          'lisp-mode-shared-map
-  "e"               '°eval-visual-region)
+  "e"               '+eval-visual-region)
 
 (provide 'additional-keybinds)

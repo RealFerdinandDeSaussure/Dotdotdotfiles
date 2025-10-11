@@ -14,7 +14,7 @@
 ;; syntax checking
 (use-package flymake
   :ensure nil
-  :hook (flymake-mode . °init-flymake)
+  :hook (flymake-mode . +init-flymake)
   :custom
   (flymake-fringe-indicator-position 'right-fringe)
   :general-config
@@ -22,7 +22,7 @@
    "]m"         'flymake-goto-next-error
    "[m"         'flymake-goto-prev-error)
   :config
-  (defun °init-flymake ()
+  (defun +init-flymake ()
     (make-local-variable 'evil-insert-state-exit-hook)
     (make-local-variable 'evil-insert-state-entry-hook)
     (add-hook 'evil-insert-state-exit-hook
@@ -40,7 +40,7 @@
 ;; language server (eglot)
 (use-package eglot
   :ensure nil
-  :hook ((python-ts-mode go-ts-mode bash-ts-mode) . (lambda () (°with-buffer-not-remote (eglot-ensure))))
+  :hook ((python-ts-mode go-ts-mode bash-ts-mode) . (lambda () (+with-buffer-not-remote (eglot-ensure))))
   :custom
   (flymake-diagnostic-functions (list #'eglot-flymake-backend))
   :general-config
@@ -54,25 +54,25 @@
     :keymaps         'eglot-mode-map
     "="              'eglot-format)
   :config
-  (setopt eglot-workspace-configuration #'°eglot-workspace-configuration)
+  (setopt eglot-workspace-configuration #'+eglot-workspace-configuration)
 
-  (defun °eglot-format-buffer-ignore-errors ()
+  (defun +eglot-format-buffer-ignore-errors ()
     (unless (ignore-errors (eglot-format-buffer))))
   
-  (defun °eglot-format-buffer-on-write-file ()
+  (defun +eglot-format-buffer-on-write-file ()
     (add-to-list (make-local-variable 'write-file-functions)
-                 #'°eglot-format-buffer-ignore-errors))
+                 #'+eglot-format-buffer-ignore-errors))
 
-  (defun °eglot-workspace-configuration (server)
+  (defun +eglot-workspace-configuration (server)
     (let ((lang (car (mapcar #'cdr (slot-value server 'languages)))))
       (cond
        ((equal lang "python")
         (let ((venv-project-path
-               (file-name-concat °python-venv-path (°python-venv-project))))
+               (file-name-concat +python-venv-path (+python-venv-project))))
           (if (file-directory-p venv-project-path)
               `(:python
-                (:venvPath ,°python-venv-path
-                 :venv ,(°python-venv-project)
+                (:venvPath ,+python-venv-path
+                 :venv ,(+python-venv-project)
                  :pythonPath ,(file-name-concat venv-project-path "bin" "python")
                  :analysis
                  (:extraPaths
@@ -85,7 +85,7 @@
 
 ;; autocompletion
 (use-package corfu
-  :hook ((prog-mode) . (lambda () (°with-buffer-not-remote (corfu-mode 1))))
+  :hook ((prog-mode) . (lambda () (+with-buffer-not-remote (corfu-mode 1))))
   :custom
   (corfu-cycle t)
   (corfu-auto t)
@@ -111,7 +111,7 @@
   :hook (prog-mode . completion-preview-mode))
 
 (use-package magit
-  :hook ((magit-mode . °source-ssh-env)
+  :hook ((magit-mode . +source-ssh-env)
          (with-editor-mode . evil-insert-state))
   :general
   (general-goleader
@@ -121,7 +121,7 @@
   :config
   (evil-collection-magit-setup)
 
-  (defun °force-git-access ()
+  (defun +force-git-access ()
     (interactive)
     (let ((index-file (file-name-concat
                        (project-root (project-current)) (file-name-as-directory ".git") "index.lock")))
@@ -138,10 +138,10 @@
   :general-config
   (:states          'normal
    :keymaps         'outline-minor-mode-map
-   "<tab>"          '°outline-cycle
+   "<tab>"          '+outline-cycle
    "<backtab>"      'outline-cycle-buffer)
   :config
-  (defun °outline-cycle ()
+  (defun +outline-cycle ()
     (interactive)
     (when (outline-on-heading-p)
       (outline-cycle))))
@@ -206,12 +206,12 @@
     ":"              yas-maybe-expand)
 
   ;; yas related functions
-  (defun °yas-choose-greeting (name lang)
+  (defun +yas-choose-greeting (name lang)
     "Create a list of possible greetings from NAME and LANG and call
 yas-choose-value on it."
     (setq name (capitalize (or name "")))
     (cl-flet
-        ((ncat (x) (concat x " " (°last-name name))))
+        ((ncat (x) (concat x " " (+last-name name))))
       (let
           ((name-list (pcase lang
                         ('de `(,@(mapcar #'ncat '("Liebe Frau" "Lieber Herr"))
@@ -223,11 +223,11 @@ yas-choose-value on it."
                                "Hello")))))
         (yas-choose-value (cl-remove-duplicates name-list :test #'equal)))))
 
-  (defun °yas-content (snippet)
+  (defun +yas-content (snippet)
     "Return plain-text content of SNIPPET."
     (yas--template-content (yas-lookup-snippet snippet)))
 
-  (defun °yas-func-padding (count &optional down)
+  (defun +yas-func-padding (count &optional down)
     "Add COUNT empty lines above current position.
 
 If DOWN is non-nil, then add lines below instead."
@@ -243,23 +243,23 @@ If DOWN is non-nil, then add lines below instead."
         (save-excursion
           (while (and (> counter 0) non-break)
             (forward-line direction)
-            (if (string= "" (°get-line))
+            (if (string= "" (+get-line))
                 (setq counter (1- counter))
               (setq non-break nil)))
           (make-string counter ?\n)))))
 
-  (defun °yas-indented-p (line)
+  (defun +yas-indented-p (line)
     "Return t if LINE is indented, else return nil."
     (if (string-match-p "^\s" line) t nil))
 
-  (defun °yas-snippet-key ()
+  (defun +yas-snippet-key ()
     "Retrieve the key of the snippet that's currently being edited."
     (save-excursion
       (goto-char 0)
       (search-forward-regexp "# key:[[:space:]]*")
       (thing-at-point 'symbol t)))
 
-  (defun °yas-python-class-field-splitter (arg-string)
+  (defun +yas-python-class-field-splitter (arg-string)
     "Return ARG-STRING as a conventional Python class field assignment block."
     (if (= (length arg-string) 0)
         ""
@@ -270,7 +270,7 @@ If DOWN is non-nil, then add lines below instead."
         (setq field-list (split-string clean-string ", +"))
         (string-join (mapcar (lambda (s) (concat "self." s " = " s "\n")) field-list)))))
 
-  (defun °yas-python-doc-wrapper (docstring side)
+  (defun +yas-python-doc-wrapper (docstring side)
     "Wrap DOCSTRING in quotes on either left or right SIDE."
     (let* ((line-length (+ (python-indent-calculate-indentation) 6 (length docstring)))
            (nl ""))

@@ -28,7 +28,7 @@
                                                    (blink-cursor-mode -1))))
 
   ;; evil commands and ex-commands
-  (evil-define-command °mv-buf-and-file (new-filename)
+  (evil-define-command +mv-buf-and-file (new-filename)
     "Renames both current buffer and file it's visiting to NEW-NAME."
     (interactive "<a>")
     (let ((name (buffer-name))
@@ -43,7 +43,7 @@
             (set-visited-file-name new-filename)
             (set-buffer-modified-p nil))))))
 
-  (evil-ex-define-cmd "mv" '°mv-buf-and-file))
+  (evil-ex-define-cmd "mv" '+mv-buf-and-file))
 
 (use-package evil-collection
   :after evil
@@ -75,7 +75,7 @@
    "SPC SPC"       'vertigo-evil-set-digit-argument)
   :general-config
   (:states          'motion
-   "<C-S-SPC>"      '°vertigo-reuse-last-arg)
+   "<C-S-SPC>"      '+vertigo-reuse-last-arg)
   :custom
   (vertigo-home-row '(?a ?s ?d ?f ?g ?h ?j ?k ?l ?ö))
   (vertigo-cut-off 9)
@@ -89,14 +89,14 @@
 
   (evil-declare-motion #'vertigo-set-digit-argument)
   (evil-add-command-properties #'vertigo-set-digit-argument :jump t)
-  (defun °vertigo--remember-arg (func num)
-    (setq-local °vertigo--last-arg num)
+  (defun +vertigo--remember-arg (func num)
+    (setq-local +vertigo--last-arg num)
     (funcall func num))
-  (advice-add #'vertigo--set-digit-argument :around #'°vertigo--remember-arg)
-  (defun °vertigo-reuse-last-arg ()
+  (advice-add #'vertigo--set-digit-argument :around #'+vertigo--remember-arg)
+  (defun +vertigo-reuse-last-arg ()
     (interactive)
-    (if (boundp '°vertigo--last-arg)
-        (vertigo--set-digit-argument °vertigo--last-arg)
+    (if (boundp '+vertigo--last-arg)
+        (vertigo--set-digit-argument +vertigo--last-arg)
       (message "No previously used vertigo."))))
 
 (use-package evil-commentary

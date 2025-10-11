@@ -12,12 +12,12 @@
 
 ;; set up autoloads for all non-essential custom functions
 (setq generated-autoload-file (expand-file-name "custom-autoloads.el" emacs-subinit-dir))
-(defun °update-my-function-autoloads ()
+(defun +update-my-function-autoloads ()
   (loaddefs-generate emacs-subinit-dir generated-autoload-file))
-(add-hook 'kill-emacs-hook #'°update-my-function-autoloads)
+(add-hook 'kill-emacs-hook #'+update-my-function-autoloads)
 ;; if the autoloads file doesn't exist yet, create it
 (unless (file-exists-p generated-autoload-file)
-  (°update-my-function-autoloads)
+  (+update-my-function-autoloads)
   (kill-buffer (find-buffer-visiting generated-autoload-file)))
 ;; and now load it
 (load generated-autoload-file)

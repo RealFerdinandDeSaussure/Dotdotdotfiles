@@ -21,11 +21,11 @@
    "c"              'evil-cp-change
    "d"              'evil-cp-delete
    "S"              'evil-cp-change-whole-line
-   "^"              '°evil-lisp-first-non-blank
-   "A"              '°evil-lisp-append-line
-   "I"              '°evil-lisp-insert-line
-   "o"              '°evil-lisp-open-below
-   "O"              '°evil-lisp-open-above
+   "^"              '+evil-lisp-first-non-blank
+   "A"              '+evil-lisp-append-line
+   "I"              '+evil-lisp-insert-line
+   "o"              '+evil-lisp-open-below
+   "O"              '+evil-lisp-open-above
    "C-<"            'evil-cp-<
    "C->"            'evil-cp->)
   (:states          'visual
@@ -39,8 +39,8 @@
     "^"             'evil-first-non-blank
     "o"             'evil-open-below
     "O"             'evil-open-above
-    "p"             '°evil-lisp-paste-with-newline-below
-    "P"             '°evil-lisp-paste-with-newline-above)
+    "p"             '+evil-lisp-paste-with-newline-below
+    "P"             '+evil-lisp-paste-with-newline-above)
   :config
   (evil-cp--enable-surround-operators))
 
@@ -135,23 +135,23 @@
 (use-package python
   :ensure nil
   :hook ((python-mode . python-ts-mode)
-         (python-ts-mode . °°python-setup-local))
+         (python-ts-mode . ++python-setup-local))
   :custom
   (python-fill-docstring-style 'symmetric)
   (python-indent-offset 4)
   :config
-  (defvar °python-venv-path
+  (defvar +python-venv-path
     (file-name-concat (getenv "HOME") ".local" "share" "python" "venv")
     "Path to directory that stores python virtual environments per project.")
 
-  (defun °python-ts-create-test-for-defun-at-point ()
+  (defun +python-ts-create-test-for-defun-at-point ()
     "Create or jump to a test function for the Python function at point.
 Creates a test_{function_name} in a corresponding test file in the tests directory.
 If the test function already exists, jumps to it instead of creating a new one."
     (interactive)
     (when-let* ((func-name (treesit-defun-name (treesit-defun-at-point)))
                 (buf-name (file-name-base buffer-file-name))
-                (base-dir (or (bound-and-true-p °python-test-dir)
+                (base-dir (or (bound-and-true-p +python-test-dir)
                               (project-root (project-current))
                               (file-name-directory buffer-file-name)))
                 (test-dir (file-name-concat base-dir "tests")))
@@ -178,23 +178,23 @@ If the test function already exists, jumps to it instead of creating a new one."
           (insert "\n")) 
         (insert (format "def test_%s():\n" func-name)))))
 
-  (defun °python-venv-project ()
+  (defun +python-venv-project ()
     "Unique name for current python project. Will be used for the name of its
 dedicated virtual environment."
-    (concat (°git-top-level-directory) "-" (°git-first-commit)))
+    (concat (+git-top-level-directory) "-" (+git-first-commit)))
 
   ;; auto-fill
   (auto-fill-mode)
 
   ;; python-specific config overrides
-  (defun °°python-setup-local ()
+  (defun ++python-setup-local ()
     (setq-local comment-auto-fill-only-comments t
                 ;; width settings
                 fill-column 79
                 electric-pair-open-newline-between-pairs nil)
 
     ;; python virtual env specific settings
-    (let ((venv (file-name-concat °python-venv-path (°python-venv-project))))
+    (let ((venv (file-name-concat +python-venv-path (+python-venv-project))))
       (when (file-exists-p venv)
         (setq-local python-interpreter (file-name-concat venv "bin" "python")
                     python-shell-virtualenv-root venv)))))
@@ -215,7 +215,7 @@ dedicated virtual environment."
    'go-ts-mode-hook
    (lambda ()
      (make-local-variable 'write-file-functions)
-     (add-to-list 'write-file-functions #'°eglot-format-buffer-ignore-errors))))
+     (add-to-list 'write-file-functions #'+eglot-format-buffer-ignore-errors))))
 
 (use-package go-eldoc
   :hook (go-ts-mode . go-eldoc-setup))
