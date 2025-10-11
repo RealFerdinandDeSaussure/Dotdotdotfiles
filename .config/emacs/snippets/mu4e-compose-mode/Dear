@@ -1,7 +1,7 @@
 # key: Dear
 # name: Anrede (engl.)
-# expand-env: ((sender-name (plist-get (car (°mu4e-message-field mu4e-compose-parent-message :from)) :name)))
+# expand-env: ((sender-name (plist-get (car (+mu4e-message-field mu4e-compose-parent-message :from)) :name)))
 # --
-${1:$$(°yas-choose-greeting sender-name 'en)},
+${1:$$(+yas-choose-greeting sender-name 'en)},
 
 $0

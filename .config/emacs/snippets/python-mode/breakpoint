@@ -1,5 +1,5 @@
 # key: bp
 # name: breakpoint
-# condition: (string-match-p "^[[:space:]]*bp$" (°get-line))
+# condition: (string-match-p "^[[:space:]]*bp$" (+get-line))
 # --
 breakpoint()

@@ -1,6 +1,6 @@
 # key: if
 # name: if
-# condition: (string-match-p "^[[:space:]]*if$" (°get-line))
+# condition: (string-match-p "^[[:space:]]*if$" (+get-line))
 # --
 if [ $1 ]
     ${0:true}

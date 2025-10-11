@@ -1,7 +1,7 @@
 # -*- mode: snippet -*-
 # name: switch
 # key: switch
-# condition: (string-match-p "^[[:space:]]*switch$" (°get-line))
+# condition: (string-match-p "^[[:space:]]*switch$" (+get-line))
 # --
 switch ${1:$var}
     case $0

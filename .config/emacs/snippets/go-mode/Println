@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: Println
 # key: pln
-# condition: (string-match-p "^[[:space:]]*pln$" (°get-line))
+# condition: (string-match-p "^[[:space:]]*pln$" (+get-line))
 # --
 fmt.Println("$0")

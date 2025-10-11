@@ -1,8 +1,8 @@
 # -*- mode: snippet -*-
 # name: function
 # key: def
-# condition: (string-match-p "^[[:space:]]*def$" (°get-line))
+# condition: (string-match-p "^[[:space:]]*def$" (+get-line))
 # --
 def ${1:my_func}($2):
-    ${3:$(°yas-python-doc-wrapper yas-text 'left)}${3:TODO: Docstring for $1}${3:$(°yas-python-doc-wrapper yas-text 'right)}
+    ${3:$(+yas-python-doc-wrapper yas-text 'left)}${3:TODO: Docstring for $1}${3:$(+yas-python-doc-wrapper yas-text 'right)}
     $0

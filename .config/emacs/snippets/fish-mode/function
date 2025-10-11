@@ -1,7 +1,7 @@
 # key: function
 # name: function
-# condition: (string-match-p "^[[:space:]]*function$" (°get-line))
+# condition: (string-match-p "^[[:space:]]*function$" (+get-line))
 # --
-`(°yas-func-padding 2)`function $1
+`(+yas-func-padding 2)`function $1
     ${0:return}
-end`(°yas-func-padding 2 t)`
+end`(+yas-func-padding 2 t)`

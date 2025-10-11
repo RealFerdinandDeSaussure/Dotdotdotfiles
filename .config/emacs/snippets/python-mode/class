@@ -1,9 +1,9 @@
 # -*- mode: snippet -*-
 # name: class
 # key: class
-# condition: (string-match-p "^[[:space:]]*class" (°get-line))
+# condition: (string-match-p "^[[:space:]]*class" (+get-line))
 # --
 class ${1:MyClass}($2):
-    ${3:$(°yas-python-doc-wrapper yas-text 'left)}${3:TODO: Docstring for $1}${3:$(°yas-python-doc-wrapper yas-text 'right)}
+    ${3:$(+yas-python-doc-wrapper yas-text 'left)}${3:TODO: Docstring for $1}${3:$(+yas-python-doc-wrapper yas-text 'right)}
     def __init__(self$4):
-        ${4:$(°yas-python-class-field-splitter yas-text)}$0
+        ${4:$(+yas-python-class-field-splitter yas-text)}$0

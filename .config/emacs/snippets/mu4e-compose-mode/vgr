@@ -1,5 +1,5 @@
 # key: vgr
 # name: Viele Grüße
 # --
-`(if (eq 2 (length (split-string (°get-line)))) "V" "v")`iele Grüße
+`(if (eq 2 (length (split-string (+get-line)))) "V" "v")`iele Grüße
 $0

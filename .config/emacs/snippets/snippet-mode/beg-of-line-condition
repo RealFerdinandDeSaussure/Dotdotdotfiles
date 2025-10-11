@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: Condition: Beginning of line
 # key: ^
-# condition: (string-match-p "^# condition:" (°get-line))
+# condition: (string-match-p "^# condition:" (+get-line))
 # --
-(string-match-p "^[[:space:]]*${0:`(°yas-snippet-key)`}$" (°get-line))
+(string-match-p "^[[:space:]]*${0:`(+yas-snippet-key)`}$" (+get-line))

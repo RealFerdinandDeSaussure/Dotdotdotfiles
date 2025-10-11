@@ -2,5 +2,5 @@
 # name: Herzliche Grüße
 # key: hgr
 # --
-`(if (eq 2 (length (split-string (°get-line)))) "H" "h")`erzliche Grüße
+`(if (eq 2 (length (split-string (+get-line)))) "H" "h")`erzliche Grüße
 $0

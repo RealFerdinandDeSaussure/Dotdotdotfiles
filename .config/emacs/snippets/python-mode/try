@@ -1,6 +1,6 @@
 # key: try
 # name: try
-# condition: (string-match-p "^[[:space:]]*try$" (°get-line))
+# condition: (string-match-p "^[[:space:]]*try$" (+get-line))
 # --
 try:
     ${1:pass}

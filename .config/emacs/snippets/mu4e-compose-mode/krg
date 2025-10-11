@@ -2,5 +2,5 @@
 # name: Kind regards
 # key: krg
 # --
-`(if (eq 2 (length (split-string (°get-line)))) "K" "k")`ind regards,
+`(if (eq 2 (length (split-string (+get-line)))) "K" "k")`ind regards,
 $0
