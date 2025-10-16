@@ -1,8 +1,7 @@
 # -*- mode: snippet -*-
 # name: for loop with range
 # key: forang
-# condition: (string-match-p "^[[:space:]]*forang" (+get-line))
 # --
-for ${1:k, v} := range ${2:myIter} {
+for ${1:i, v} := range ${2:myIter} {
     $0
 }

@@ -1,7 +1,6 @@
 # -*- mode: snippet -*-
 # name: while-like for
 # key: for
-# condition: (string-match-p "^[[:space:]]*for" (+get-line))
 # --
 for $1 {
     $0

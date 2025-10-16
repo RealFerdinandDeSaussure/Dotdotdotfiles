@@ -183,13 +183,17 @@
     "YY"            'yas-load-snippet-buffer-and-close
     "Yy"            'yas-load-snippet-buffer)
   (general-leader
-    :keymaps        '(go-mode-map fish-mode-map python-mode-map mu4e-compose-mode-map)
     :states         'normal
     "Yn"            'yas-new-snippet
     "Ye"            'yas-visit-snippet-file
     "Yi"            'yas-insert-snippet
     "Yt"            'yas-describe-tables)
-
+  (general-leader
+    :states         'visual
+    "Yi"            'yas-insert-snippet)
+  
+  :custom
+  (yas-buffer-local-condition yas-not-string-or-comment-condition)
   :config
   (yas-reload-all)
   ;; bind this here because yas-maybe-expand needs to be loaded first

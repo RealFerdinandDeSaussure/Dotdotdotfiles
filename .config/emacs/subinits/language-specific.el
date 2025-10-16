@@ -211,11 +211,12 @@ dedicated virtual environment."
   (go-ts-mode-indent-offset 4)
   :config
   (evil-collection-go-mode-setup)
-  (add-hook
-   'go-ts-mode-hook
-   (lambda ()
-     (make-local-variable 'write-file-functions)
-     (add-to-list 'write-file-functions #'+eglot-format-buffer-ignore-errors))))
+
+  (add-hook 'go-ts-mode-hook #'+go-mode-setup)
+
+  (defun +go-mode-setup ()
+    (make-local-variable 'write-file-functions)
+    (add-to-list 'write-file-functions #'+eglot-format-buffer-ignore-errors)))
 
 (use-package go-eldoc
   :hook (go-ts-mode . go-eldoc-setup))
