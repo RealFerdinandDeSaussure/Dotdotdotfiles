@@ -1,6 +1,8 @@
-# key: elif
-# name: else if
+# key: if
+# name: if
+# expand-env: ((yas-wrap-around-region t))
+# condition: (or (region-active-p) (string-blank-p (+string-replace-first "if" "" (+get-line))))
 # --
-else if ${1:true} {
+if ${1:true} {
 $0
 }
