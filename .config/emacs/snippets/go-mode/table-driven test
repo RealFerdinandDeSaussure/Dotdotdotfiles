@@ -3,20 +3,20 @@
 # key: testst
 # --
 tests := []struct{
-name      string
-input     ${1:T}
-want      ${2:T}
-wantError bool
+	name      string
+	input     ${1:T}
+	want      ${2:T}
+	wantError bool
 }{
-{${4:"test name", input, want, false}},
+	{${4:"test name", input, want, false}},
 }
 
 for i:= range tests {
-t.Run(tests[i].name, func(t *testing.T) {
-$0
-
-if result != tests[i].want {
-t.Errorf("want %+v but got %+v", tests[i].want, result)
-}
-})
+	t.Run(tests[i].name, func(t *testing.T) {
+		$0
+		
+		if result != tests[i].want {
+			t.Errorf("want %+v but got %+v", tests[i].want, result)
+		}
+	})
 }

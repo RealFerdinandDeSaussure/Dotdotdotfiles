@@ -4,5 +4,5 @@
 # condition: (or (region-active-p) (string-blank-p (+string-replace-first "if" "" (+get-line))))
 # --
 if ${1:true} {
-$0
+	$0
 }
