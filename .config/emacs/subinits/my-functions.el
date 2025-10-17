@@ -419,6 +419,15 @@ Start eshell if it isn't running already."
   (nth 0 (syntax-ppss)))
 
 ;;;###autoload
+(defun +string-replace-first (from-string to-string in-string)
+  (let ((pos (string-match from-string in-string nil t)))
+    (if pos
+        (concat (substring in-string 0 pos)
+                to-string
+                (substring in-string (+ pos (length from-string))))
+      in-string)))
+
+;;;###autoload
 (defun +toggle-scratch-buffer ()
   "Go back and forth between scratch buffer and most recent other buffer."
   (interactive)
