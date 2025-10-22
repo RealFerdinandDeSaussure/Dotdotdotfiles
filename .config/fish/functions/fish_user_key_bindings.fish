@@ -23,6 +23,10 @@ function fish_user_key_bindings
     bind -M insert alt-a __fish_away_bind
     bind -M insert ctrl-shift-g __fish_lass_bind
 
+    # only use kill-word, not kill-token
+    bind -M insert ctrl-backspace backward-kill-word
+    bind -M insert alt-backspace backward-kill-word
+
     # better line editing
     bind -M insert ctrl-shift-q edit_command_buffer
     bind ctrl-shift-q edit_command_buffer
