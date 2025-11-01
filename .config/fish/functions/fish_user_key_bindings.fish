@@ -28,8 +28,11 @@ function fish_user_key_bindings
     bind -M insert alt-backspace backward-kill-word
 
     # better line editing
-    bind -M insert ctrl-shift-q edit_command_buffer
-    bind ctrl-shift-q edit_command_buffer
+    bind -M insert ctrl-shift-q 'edit_command_buffer; fish_vi_cursor'
+    bind ctrl-shift-q 'edit_command_buffer; fish_vi_cursor'
+
+    # reset cursor after man on commandline
+    bind -M insert alt-h '__fish_man_page; fish_vi_cursor'
 
     # keybindings for path navigation
     bind -M insert alt-shift-h 'prevd; commandline -f repaint'
