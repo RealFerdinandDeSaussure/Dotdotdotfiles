@@ -11,7 +11,7 @@
 (setq auto-save-file-name-transforms
       `(("^/\\([^/]+/\\)*\\([^/]+\\)" ,(file-name-concat emacs-auto-save-dir "\\2") t)))
 
-;; package management is handled by elpaca instead of project.el
+;; package management is handled by elpaca instead of package.el
 (setq package-enable-at-startup nil)
 
 ;; fix issues with gtk induced performance penalties

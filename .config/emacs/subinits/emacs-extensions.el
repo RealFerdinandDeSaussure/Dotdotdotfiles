@@ -93,9 +93,6 @@
    "C-h k"          'helpful-key)
   :custom
   (helpful-switch-buffer-function #'+display-buffer-pop-up-if-not-helpful)
-  :general-config
-  (:states          'motion
-   "M-H"            'helpful-kill-buffers)
   :config
   (evil-collection-helpful-setup)
   (defun +display-buffer-pop-up-if-not-helpful (buf)

@@ -172,7 +172,13 @@
   :general
   (:keymaps         'motion
    "Ü"              'project-find-file
-   "C-ü"            'project-switch-project))
+   "C-ü"            'project-switch-project)
+  :custom
+  (project-switch-commands
+   (list
+    (list #'project-find-file "Find file" "f")
+    (list #'consult-git-grep "Find regexp" "g")
+    (list #'project-find-dir "Find directory" "d"))))
 
 (use-package quickrun
   :general
