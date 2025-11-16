@@ -84,11 +84,9 @@
   "k"               'kill-current-buffer
   "K"               'kill-buffer-and-window
   "v"               'evil-window-split
+  "V"               '+evil-window-split-alternate-buffer
   "s"               'evil-window-vsplit
-  "S"               (general-l
-                      (evil-window-vsplit) (evil-window-right 1))
-  "V"               (general-l
-                      (evil-window-split) (evil-window-down 1)))
+  "S"               '+evil-window-vsplit-alternate-buffer)
 
 ;; insert state keybinds
 (general-def

@@ -6,7 +6,9 @@
         evil-want-keybinding nil
         evil-echo-state nil
         evil-symbol-word-search t
-        evil-want-Y-yank-to-eol t)
+        evil-want-Y-yank-to-eol t
+        evil-split-window-below t
+        evil-vsplit-window-right t)
   :config
   (evil-mode 1)
   ;; workaround for view-mode keybinding behavior
@@ -43,7 +45,21 @@
             (set-visited-file-name new-filename)
             (set-buffer-modified-p nil))))))
 
-  (evil-ex-define-cmd "mv" '+mv-buf-and-file))
+  (evil-ex-define-cmd "mv" '+mv-buf-and-file)
+
+  (evil-define-command +evil-window-vsplit-alternate-buffer (&optional count)
+  :repeat nil
+  (interactive "<f>")
+  (let ((buf (car (evil-alternate-buffer))))
+    (evil-window-vsplit)
+    (evil-buffer buf)))
+
+  (evil-define-command +evil-window-split-alternate-buffer (&optional count)
+  :repeat nil
+  (interactive "<f>")
+  (let ((buf (car (evil-alternate-buffer))))
+    (evil-window-split)
+    (evil-buffer buf))))
 
 (use-package evil-collection
   :after evil
