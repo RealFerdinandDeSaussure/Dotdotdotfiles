@@ -11,6 +11,23 @@
 ;; mode associations
 (push '(".gitignore" . prog-mode) auto-mode-alist)
 
+;; eldoc settings
+(use-package eldoc
+  :ensure nil
+  :general-config
+  (general-goleader
+    :states         'motion
+    :keymaps        'prog-mode-map
+    "h."            '+eldoc-doc-buffer-toggle)
+  :config
+  (defun +eldoc-doc-buffer-toggle ()
+    "Hide or show eldoc buffer window."
+    (interactive)
+    (let ((eldoc-win (get-buffer-window eldoc--doc-buffer)))
+      (if eldoc-win
+          (quit-window nil eldoc-win)
+        (eldoc-doc-buffer t)))))
+
 ;; syntax checking
 (use-package flymake
   :ensure nil
@@ -50,9 +67,12 @@
     "="             'eglot-format-buffer
     "_"             'eglot-rename)
   (general-leader
-    :states          'visual
-    :keymaps         'eglot-mode-map
-    "="              'eglot-format)
+    :states         'visual
+    :keymaps        'eglot-mode-map
+    "="             'eglot-format)
+  (general-goleader
+    :states         'motion
+    "gh."           'eldoc-doc-buffer)
   :config
   (setopt eglot-workspace-configuration #'+eglot-workspace-configuration)
 

@@ -89,6 +89,12 @@
   "s"               'evil-window-vsplit
   "S"               '+evil-window-vsplit-alternate-buffer)
 
+;; describe keybinds using the helpful prefix
+(general-goleader
+  :keymaps      'motion
+  "hb"          'describe-bindings
+  "hm"          'describe-mode)
+
 ;; insert state keybinds
 (general-def
   :keymaps          'insert
@@ -174,9 +180,7 @@
                        (info "elisp")))
   "hG"              (general-l
                       (+split-window-and-do
-                       (info-emacs-manual)))
-  "hb"              'describe-bindings
-  "hm"              'describe-mode)
+                       (info-emacs-manual))))
 
 ;; python keybinds
 (general-leader

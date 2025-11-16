@@ -211,7 +211,7 @@ Start eshell if it isn't running already."
   (if (get-buffer-window "*eshell*")
       (progn
         (select-window (get-buffer-window "*eshell*"))
-        (delete-window))
+        (quit-window))
     (eshell)))
 
 ;;;###autoload

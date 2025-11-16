@@ -130,7 +130,7 @@
     (let* ((ielm-buf "*ielm*")
            (ielm-win (get-buffer-window ielm-buf)))
       (if ielm-win
-          (delete-window ielm-win)
+          (quit-window nil ielm-win)
         (if (get-buffer ielm-buf)
             (pop-to-buffer ielm-buf)
           (ielm))))))
@@ -207,7 +207,7 @@ Start terminal if it isn't running already."
     (let* ((vterm-buf "*vterm*")
            (vterm-win (get-buffer-window vterm-buf)))
       (if vterm-win
-          (delete-window vterm-win)
+          (quit-window nil vterm-win)
         (if (get-buffer vterm-buf)
             (pop-to-buffer vterm-buf)
           (vterm-other-window)))))
@@ -215,7 +215,7 @@ Start terminal if it isn't running already."
   ;; delete vterm window on exit
   (add-hook 'vterm-exit-functions
             (lambda (buf event)
-              (delete-window (get-buffer-window buf)))))
+              (quit-window nil (get-buffer-window buf)))))
 
 
 (use-package vertico
