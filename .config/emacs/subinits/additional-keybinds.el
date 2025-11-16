@@ -39,10 +39,11 @@
   :states         'motion
   "<tab>"         'evil-switch-to-windows-last-buffer)
 
-(general-goleader
-  :states         'motion
-  :keymaps        'Info-mode-map
-  "g"             'evil-goto-first-line)
+;; override evil macro keybind in special mode
+(general-def
+  :keymaps  'special-mode-map
+  :states   '(motion normal)
+  "q"       'quit-window)
 
 ;; normal state keybinds
 (general-def
@@ -148,7 +149,8 @@
 (general-goleader
   :states           'motion
   :keymaps          'Info-mode-map
-  "n"               'Info-goto-node)
+  "n"               'Info-goto-node
+  "g"               'evil-goto-first-line)
 
 ;; isearch keybinds
 (general-def

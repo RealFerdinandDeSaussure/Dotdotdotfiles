@@ -96,9 +96,6 @@
   :general-config
   (:states          'motion
    "M-H"            'helpful-kill-buffers)
-  (:keymaps         'helpful-mode-map
-   :states          'normal
-   "q"              'delete-window)
   :config
   (evil-collection-helpful-setup)
   (defun +display-buffer-pop-up-if-not-helpful (buf)
@@ -110,9 +107,9 @@
          (unless helpful-win
            (when (eq (buffer-local-value 'major-mode (window-buffer win)) 'helpful-mode)
              (setq helpful-win win)))))
-    (if helpful-win
-        (set-window-buffer helpful-win buf t)
-      (display-buffer buf #'display-buffer-pop-up-window 0)))))
+      (if helpful-win
+          (set-window-buffer helpful-win buf t)
+        (display-buffer buf #'display-buffer-pop-up-window 0)))))
 
 ;; ielm settings
 (use-package ielm
