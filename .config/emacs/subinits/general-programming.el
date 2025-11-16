@@ -70,9 +70,6 @@
     :states         'visual
     :keymaps        'eglot-mode-map
     "="             'eglot-format)
-  (general-goleader
-    :states         'motion
-    "gh."           'eldoc-doc-buffer)
   :config
   (setopt eglot-workspace-configuration #'+eglot-workspace-configuration)
 
