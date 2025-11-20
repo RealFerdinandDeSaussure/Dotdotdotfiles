@@ -65,7 +65,8 @@
     :states         'normal
     :keymaps        'eglot-mode-map
     "="             'eglot-format-buffer
-    "_"             'eglot-rename)
+    "_"             'eglot-rename
+    "."             'eglot-code-actions)
   (general-leader
     :states         'visual
     :keymaps        'eglot-mode-map
