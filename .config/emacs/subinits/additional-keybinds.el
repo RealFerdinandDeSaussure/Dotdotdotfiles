@@ -60,8 +60,6 @@
 (general-goleader
   :keymaps          'motion
   "s"               '+toggle-scratch-buffer
-  "O"               (general-l
-                      (find-file +org-home))
   "S"               (general-l
                       (+split-window-and-do
                        (+toggle-scratch-buffer))))

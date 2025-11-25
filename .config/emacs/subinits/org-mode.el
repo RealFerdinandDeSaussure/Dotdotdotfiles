@@ -13,11 +13,12 @@
                                   (agenda "")
                                   (tags-todo "-PRIORITY=\"A\"&-SCHEDULED={.+}&+TODO=\"TODO\""
                                              ((org-agenda-sorting-strategy '(priority-down))))))))
-  :general-config
+  :general
   (general-goleader
     :states         'motion
     "O"             (general-l
                       (find-file +org-home)))
+  :general-config
   (:states          'normal
    :keymaps         'org-mode-map
    "{"              '+org-prev-element
@@ -74,7 +75,10 @@
   :config
   (evil-set-initial-state 'org-agenda-mode 'normal)
   (evil-collection-org-setup)
-
+  ;; add my org-home file to agenda files if variable +org-home is bound
+  (when (boundp '+org-home)
+    (add-to-list 'org-agenda-files +org-home))
+  
   (dolist (action #'(org-forward-sentence
                      org-backward-sentence
                      +org-prev-element
