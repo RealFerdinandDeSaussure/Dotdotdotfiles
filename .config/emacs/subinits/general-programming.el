@@ -113,8 +113,17 @@
   (corfu-popupinfo-delay '(0.2 . 0.2))
   :general-config
   (:keymaps     'corfu-map
-   "RET"        nil)
+   "RET"        nil
+   "<tab>"      '+corfu-cp-complete)
   :config
+  (defun +corfu-cp-complete ()
+    "If completion-preview is active, use that for completion, otherwise simply
+run corfu-complete."
+    (interactive)
+    (if completion-preview-active-mode
+        (completion-preview-insert)
+      (corfu-complete)))
+
   (mapc #'evil-declare-repeat
         #'(corfu-expand
            corfu-complete))
