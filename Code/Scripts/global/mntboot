@@ -1,9 +1,0 @@
-#!/bin/bash
-
-if ! cryptsetup status cryptboot >/dev/null 2>&1; then
-    cryptsetup open --key-file /crypto_keyfile.bin /dev/sda2 cryptboot
-fi
-
-if ! findmnt /boot >/dev/null 2>&1; then
-    mount /dev/mapper/cryptboot /boot
-fi
