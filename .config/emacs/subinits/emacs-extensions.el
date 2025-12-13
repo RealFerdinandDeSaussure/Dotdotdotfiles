@@ -284,7 +284,6 @@ targets."
               :around #'+embark-hide-which-key-indicator))
 
 (use-package consult
-  :autoload +consult-find-file-with-preview
   :general
   (general-leader
     :keymaps        'normal
@@ -299,19 +298,7 @@ targets."
     "Ü"             'consult-find)
   :custom
   (completion-in-region-function #'consult-completion-in-region)
-  (read-file-name-function #'+consult-find-file-with-preview)
   :config
-  ;; enable preview for find-file
-  (defun +consult-find-file-with-preview (prompt &optional dir default mustmatch initial pred)
-    (interactive)
-    (let ((default-directory (or dir default-directory))
-          (minibuffer-completing-file-name t))
-      (consult--read #'read-file-name-internal :state (consult--file-preview)
-                     :prompt prompt
-                     :initial initial
-                     :require-match mustmatch
-                     :predicate pred)))
-
   (defun +consult-file-buffers ()
     "Consult menu to switch to file buffers only."
     (interactive)
