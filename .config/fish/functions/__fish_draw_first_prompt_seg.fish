@@ -1,4 +1,4 @@
 function __fish_draw_first_prompt_seg -a bg_color content
-    __fish_chcol black $bg_color; and printf ' '$content
-    set -g fish_color_prompt_first_seg_bg $bg_color
+    set_color -b $bg_color black; and printf ' '$content
+    set_color $bg_color
 end
