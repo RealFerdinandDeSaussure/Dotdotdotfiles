@@ -152,7 +152,7 @@ function handle_candidate -S -a candidate
         # make sure the gpg entry is password-unlocked so dmenu doesn't hang
         pass show $candidate >/dev/null 2>&1 || return 1
         set field (pass field -l $candidate | dmenu)
-        or begin
+        if [ -z "$field" ]
             notify-send "No field for $candidate selected."
             return 1
         end

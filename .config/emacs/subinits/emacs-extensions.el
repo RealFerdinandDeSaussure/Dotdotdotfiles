@@ -142,10 +142,10 @@
    "C-l"            'link-hint-open-link
    "C-S-l"          'link-hint-copy-link))
 
-;; use recentf mode to keep file visiting history
 (use-package pcre2el
   :after visual-regexp-steroids)
 
+;; use recentf mode to keep file visiting history
 (use-package recentf
   :ensure nil
   :general
