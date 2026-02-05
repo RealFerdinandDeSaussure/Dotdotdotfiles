@@ -11,7 +11,7 @@ function __vterm_setup
     end
 
     function vterm_prompt_end;
-        vterm_printf '51;A'(whoami)'@'(hostname)':'(pwd)
+        vterm_printf '51;A'(whoami)'@'(hostnamectl hostname)':'(pwd)
     end
 
     function vterm_cmd --description 'Run an Emacs command among the ones been defined in vterm-eval-cmds.'
