@@ -190,20 +190,6 @@ DIRECTION can be forward or backward.  Don't know what COUNT does."
 
 ;; functions related to other packages
 ;;;###autoload
-(defun +dired-mark-toggle ()
-  "Toggle mark for currently selected file."
-  (interactive)
-  (let ((inhibit-read-only t))
-    (when (not (dired-between-files))
-      (save-excursion
-        (beginning-of-line)
-        (apply 'subst-char-in-region
-               (point) (1+ (point))
-               (if (eq (following-char) ?\040)
-                   (list ?\040 dired-marker-char)
-                 (list dired-marker-char ?\040)))))))
-
-;;;###autoload
 (defun +eshell ()
   "Hide or show eshell window.
 Start eshell if it isn't running already."

@@ -35,14 +35,16 @@
   (auth-source-pass-enable))
 
 ;; dired settings
-(use-package dired
-  :ensure nil
+(use-package dirvish
   :general-config
-  (:keymaps          'dired-mode-map
-   "SPC"             nil
-   "t"               '+dired-mark-toggle
-   "T"               'dired-toggle-marks)
+  (:states           'motion
+   "M-ü"             'dirvish-dwim)
+  (:keymaps          'dirvish-mode-map
+   :states           '(motion normal)
+   "T"               'dired-toggle-marks
+   "q"               'dirvish-quit)
   :config
+  (dirvish-override-dired-mode)
   (evil-collection-dired-setup))
 
 ;; tramp settings
