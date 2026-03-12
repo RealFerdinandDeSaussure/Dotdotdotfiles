@@ -1,9 +1,0 @@
-#!/bin/bash
-
-which import >/dev/null || { notify-send "Screenshot" "'import' command not found."; exit 1; }
-
-filename=$(xdg-user-dir PICTURES)/Screenshot_$(date +%Y%m%d-%M%S%N).png
-
-import -display $DISPLAY -window root "$filename" || exit 1
-
-notify-send -i "$filename" "Screenshot" "Screenshot saved to $filename."
