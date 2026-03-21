@@ -1,5 +1,9 @@
-function jumpToStart () {
-    mp.set_property('time-pos', 0)
+function prevOrStart () {
+    if (mp.get_property('time-pos') <= 2) {
+        mp.command('playlist-prev')
+    } else {
+        mp.set_property('time-pos', 0)
+    }
 }
 
 function jumpToRandom () {
@@ -20,5 +24,5 @@ function getRandomInt (min, max) {
     return Math.floor(Math.random() * (max - min)) + parseInt(min)
 }
 
-mp.add_key_binding(null, 'jump-to-start', jumpToStart)
+mp.add_key_binding(null, 'jump-to-start', prevOrStart)
 mp.add_key_binding(null, 'jump-to-random', jumpToRandom)
