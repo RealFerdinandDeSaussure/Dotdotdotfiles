@@ -21,6 +21,11 @@
 ;; clipboard settings
 (setq save-interprogram-paste-before-kill t)
 
+;; get a more recent version of compat from ELPA in case any packages require it
+(unload-feature 'compat t)
+(use-package compat
+  :ensure (:source "ELPA"))
+
 ;; authentication/security settings
 (use-package password-cache
   :ensure nil
