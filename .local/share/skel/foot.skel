@@ -1,4 +1,5 @@
 # %-LOCATION:$HOME/.config/foot/foot.ini-% -*-conf-*-
+# DO EDITS HERE: $HOME/.local/share/skel/foot.skel
 
  # shell=$SHELL (if set, otherwise user's default shell from /etc/passwd)
 # term=foot (or xterm-256color if built with -Dterminfo=disabled)
