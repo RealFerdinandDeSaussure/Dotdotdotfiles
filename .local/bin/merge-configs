@@ -1,11 +1,55 @@
 #!/bin/fish
 
 set SKEL_FILES_PATH "$HOME/.local/share/skel"
-set VENDOR_SKEL_FILES_PATH "$HOME/.local/share/vendor-skel"
+
+function mergevars
+    argparse i -- $argv
+    set file_string $argv
+
+    # get all marked fields in the file
+    for match in (string match -ra -- '\{\{\{[^\}]+\}\}\}' $file_string)
+        set field (string trim -c '{}' -- $match)
+
+        # if i flag was passed, skip on "custom" fields
+        if set -q _flag_i && [ "$field" = custom ]
+            continue
+        end
+
+        # skip command substitutions indicated by a leading "!"
+        if [ (string sub -l 1 -- "$field" ) = "!" ]
+            continue
+        end
+
+        # check if var is set
+        if not set -q $field
+            echo -e "Warning: Variable \e[1m$field\e[0m not specified." >&2
+        end
+        set file_string (string replace -- "$match" "$$field" $file_string)
+    end
+
+    # print the result
+    string join -- \n $file_string
+end
+
+function mergecmds
+    set file_string $argv
+
+    for match in (string match -ra -- '\{\{\{![^\}]+\}\}\}' $file_string)
+        set cmd (string sub -s 2 (string trim -c '{}' -- $match))
+        # capture command output
+        if not set out (eval $cmd)
+            echo "Attempting to run command '$cmd' returned a non-zero exit code."
+            return 1
+        end
+        set file_string (string replace -- "$match" "$(string join -- \n $out)" $file_string)
+    end
+
+    # print the result
+    string join -- \n $file_string
+end
 
 function inject_custom
     # inject the contents of custom_file into target_lines at the specified point
-
     argparse 'c=' -- $argv
 
     set custom_file $_flag_c
@@ -31,12 +75,9 @@ function safe_write -a write_file
     if [ -z "$target_lines" ]
         echo -e "\tSkipping merge for \e[1m$write_file\e[0m..." >&2
         return 1
-    else if [ "$ACTIVE_PATH" = "$VENDOR_SKEL_FILES_PATH" ]
-        sudo mkdir -p (dirname "$write_file")
-        string join -- \n $target_lines | sudo tee "$write_file" >/dev/null || return 1
     else
         mkdir -p (dirname "$write_file")
-        string join -- \n $target_lines > "$write_file" || return 1
+        string join -- \n $target_lines >"$write_file" || return 1
     end
 end
 
@@ -52,41 +93,42 @@ function process_skel -a skel_file
     set location (eval echo $location)
     set custom (eval echo $custom)
 
-    if [ -n "$custom" -a ! -f "$custom" ]
-        echo -e "\e[1m$skel_file\e[0m points to a custom file that does not exist." >&2
-        echo -e "\tSkipping custom file merging..." >&2
-        set custom ''
-    end
-
     if [ -z "$location" ]
         echo -e "\e[1m$skel_file\e[0m has no line specifying its target location." >&2
         return 1
     end
 
+    set file_string (cat $skel_file | tail -n +2)
+
+    # variable substitution
     if [ -z "$custom" ]
-        safe_write "$location" (mergevars -q $skel_file | tail -n +2)
-        or return 1
+        set file_string (mergevars -- $file_string) || return 1
     else
-        set merged_var_lines (mergevars -q -i custom $skel_file | tail -n +2)
-        safe_write "$location" (inject_custom -c $custom -- $merged_var_lines)
-        or return 1
+        set file_string (mergevars -i -- $file_string) || return 1
+        # check if a custom file actually exists
+        if [ ! -f "$custom" ]
+            echo -e "\e[1m$skel_file\e[0m points to a custom file that does not exist." >&2
+            echo -e "\tSkipping custom file merging..." >&2
+            set file_string (string replace "{{{custom}}}" "" -- $file_string) || return 1
+        else
+            set file_string (inject_custom -c $custom -- $file_string) || return 1
+        end
     end
 
+    # command subtitution
+    set file_string (mergecmds $file_string) || return 1
+
+    # write $file_string to file
+    safe_write "$location" $file_string
     # copy permissions from skel file to destination
-    if [ "$ACTIVE_PATH" = "$VENDOR_SKEL_FILES_PATH" ]
-        sudo chmod $permissions "$location"
-        or return 1
-    else
-        chmod $permissions "$location"
-        or return 1
-    end
+    chmod $permissions "$location"
 end
 
 function prompt -a file
     read -P "About to merge $file. Continue? [Y/n] " -n 1 answer
     set answer (string lower -- $answer)
     test -z "$answer"; and set answer y
-    if [ "$answer" = "y" ]
+    if [ "$answer" = y ]
         return 0
     else
         return 1
@@ -94,20 +136,14 @@ function prompt -a file
 end
 
 function main
-    argparse -n merge-configs 'v/vendor' 'p/prompt' -- "$argv" || return 1
-    # set where to find the files to parse
-    if [ -n "$_flag_v" ]
-        set -g ACTIVE_PATH $VENDOR_SKEL_FILES_PATH
-    else
-        set -g ACTIVE_PATH $SKEL_FILES_PATH
-    end
+    argparse -n merge-configs p/prompt -- "$argv" || return 1
 
-    if [ ! -d "$ACTIVE_PATH" ]
-        echo -e "\e[1m$ACTIVE_PATH\e[0m is not a valid path..." >&2
+    if [ ! -d "$SKEL_FILES_PATH" ]
+        echo -e "\e[1m$SKEL_FILES_PATH\e[0m is not a valid path..." >&2
         return 1
     end
 
-    for file in "$ACTIVE_PATH"/*
+    for file in "$SKEL_FILES_PATH"/*
         if [ -n "$_flag_p" ]
             prompt "$file" || continue
         end

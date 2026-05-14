@@ -73,6 +73,8 @@
     "="             'eglot-format)
   :config
   (setopt eglot-workspace-configuration #'+eglot-workspace-configuration)
+  (add-to-list 'eglot-server-programs
+               '(fish-mode . ("fish-lsp" "start")))
 
   (defun +eglot-format-buffer-ignore-errors ()
     (unless (ignore-errors (eglot-format-buffer))))
