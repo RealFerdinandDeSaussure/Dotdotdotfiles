@@ -299,7 +299,7 @@
 [urgency_low]
     # IMPORTANT: colors have to be defined in quotation marks.
     # Otherwise the "#" and following would be interpreted as a comment.
-    background = "#{{{__BASE01}}}"
+    background = "#{{{__BASE01}}}de"
     foreground = "#{{{__BASE03}}}"
     highlight = "#{{{__BASE0D}}}"
     timeout = 10
@@ -307,7 +307,7 @@
     #default_icon = /path/to/icon
 
 [urgency_normal]
-    background = "#{{{__BASE02}}}"
+    background = "#{{{__BASE02}}}de"
     foreground = "#{{{__BASE05}}}"
     highlight = "#{{{__BASE0D}}}"
     timeout = 10
