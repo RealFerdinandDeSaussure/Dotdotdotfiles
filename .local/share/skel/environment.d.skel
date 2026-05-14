@@ -1,0 +1,3 @@
+# %-LOCATION:$HOME/.config/environment.d/profile.conf-%
+# DO EDITS HERE: $HOME/.local/share/skel/environment.d.skel
+{{{!perl -0777 -nE 'say "$1=$2" while /^export\s+(\w+)=([^"\']*?$|".*?"|\'.*?\')/gms' $HOME/.profile}}}
