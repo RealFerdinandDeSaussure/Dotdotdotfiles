@@ -26,6 +26,7 @@ abbr -a -g gps git push
 abbr -a -g gri grep -i
 abbr -a -g gst git status
 abbr -a -g jctl journalctl
+abbr -a -g jctlu journalctl --user
 abbr -a -g lo libreoffice
 abbr -a -g mc merge-configs
 abbr -a -g mksri makepkg -sri
