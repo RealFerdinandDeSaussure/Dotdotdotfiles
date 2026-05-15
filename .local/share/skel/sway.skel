@@ -413,4 +413,5 @@ bar {
 }
 
 exec swayidle -w
-exec systemctl --user import-environment WAYLAND_DISPLAY
+exec_always systemctl --user import-environment WAYLAND_DISPLAY
+exec_always systemctl --user start sway-session.target
