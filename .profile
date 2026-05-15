@@ -14,7 +14,7 @@ export SSH_AUTH_SOCK=${XDG_RUNTIME_DIR}/ssh-agent.socket
 
 # define default applications with some common variables
 export EDITOR=nvim
-export TERMINAL=alacritty
+export TERMINAL=footclient
 export BROWSER=qutebrowser
 
 # define style for QT applications

@@ -53,6 +53,6 @@ function fish_user_key_bindings
     # toggle shadow mode
     bind -M insert alt-\? 'if set -q fish_private_mode; exec fish; else; exec fish --private; end'
 
-    # unbind Ctrl+L for alacritty
+    # unbind Ctrl+L to use in terminal
     bind --erase -M insert --preset ctrl-l
 end
