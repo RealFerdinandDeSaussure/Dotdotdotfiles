@@ -70,7 +70,7 @@ export FZF_DEFAULT_OPTS="\
 --color=header:#${__BASE0D},info:#${__BASE0A},pointer:#${__BASE0C},marker:#${__BASE0C},prompt:#${__BASE09} \
 --bind=alt-j:down,alt-k:up --reverse \
 "
-export FZF_DEFAULT_COMMAND="command find -P \$dir -mindepth 1 \( -regex '\.?/snp' -o -path '*/Steam' -o -path '*/.cache' -o -path '*/.git' \) -prune -o -print 2>/dev/null"
+export FZF_DEFAULT_COMMAND="/usr/bin/find -P \$dir -mindepth 1 \( -regex '\.?/snp' -o -path '*/Steam' -o -path '*/.cache' -o -path '*/.git' \) -prune -o -print 2>/dev/null"
 export FZF_OVERLAY_OPTS="--no-border --margin 10%,8% --no-height --layout reverse-list"
 export FZF_ALT_C_COMMAND=$FZF_DEFAULT_COMMAND
 export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND

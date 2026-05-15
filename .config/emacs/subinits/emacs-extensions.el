@@ -305,6 +305,7 @@ targets."
     "Ü"             'consult-find)
   :custom
   (completion-in-region-function #'consult-completion-in-region)
+  (consult-find-args "find -P . \( -path '*/Steam' -o -path '*/.cache' -o -path '*/.git' \) -prune -o -true")
   :config
   (defun +consult-file-buffers ()
     "Consult menu to switch to file buffers only."
