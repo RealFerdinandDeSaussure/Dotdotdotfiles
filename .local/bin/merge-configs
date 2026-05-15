@@ -109,7 +109,7 @@ function process_skel -a skel_file
         if [ ! -f "$custom" ]
             echo -e "\e[1m$skel_file\e[0m points to a custom file that does not exist." >&2
             echo -e "\tSkipping custom file merging..." >&2
-            set file_string (string replace "{{{custom}}}" "" -- $file_string) || return 1
+            set file_string (string replace "{{{custom}}}" "" -- $file_string) # no return 1 here, this is allowed to fail
         else
             set file_string (inject_custom -c $custom -- $file_string) || return 1
         end
