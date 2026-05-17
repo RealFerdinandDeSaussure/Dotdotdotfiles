@@ -1,25 +1,27 @@
 # %-LOCATION:$HOME/.mbsyncrc-% -*-conf-*-
 # %-CUSTOM:$HOME/.mbsyncrc-custom-%
+# %-VARIABLE:MY_MAIL=(pass field "Email" random/persönliche_informationen)-%
+# %-VARIABLE:PROVIDER=(string match -rg '@([^.]+)' $MY_MAIL)-%
 # DO EDITS HERE: $HOME/.local/share/skel/mbsync.skel
-IMAPAccount posteo
-Host posteo.de
-User {{{$MAIL_ADDRESS}}}
-PassCmd "pass show {{{$PASSWORD_STORE_PASS_MAIL}}} | head -n 1"
+IMAPAccount {{{$PROVIDER}}}
+Host {{{(string split -f2 @ $MY_MAIL)}}}
+User {{{$MY_MAIL}}}
+PassCmd "pass show {{{(pass field "Email Pass" random/persönliche_informationen)}}} | head -n 1"
 TLSType IMAPS
 CertificateFile /etc/ssl/certs/ca-certificates.crt
 
-IMAPStore posteo-remote
-Account posteo
+IMAPStore {{{$PROVIDER}}}-remote
+Account {{{$PROVIDER}}}
 
-MaildirStore posteo-local
-Path ~/.local/share/mail/posteo/
-Inbox ~/.local/share/mail/posteo/Inbox
+MaildirStore {{{$PROVIDER}}}-local
+Path ~/.local/share/mail/{{{$PROVIDER}}}/
+Inbox ~/.local/share/mail/{{{$PROVIDER}}}/Inbox
 Trash Trash
 SubFolders Verbatim
 
-Channel posteo
-Far :posteo-remote:
-Near :posteo-local:
+Channel {{{$PROVIDER}}}
+Far :{{{$PROVIDER}}}-remote:
+Near :{{{$PROVIDER}}}-local:
 Patterns *
 Create Both
 Remove Both
