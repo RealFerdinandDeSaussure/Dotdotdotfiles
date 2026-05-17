@@ -1,3 +1,3 @@
-function mctl --wraps=ncmpcpp --description 'alias mctl ncmpcpp'
-    ncmpcpp $argv; 
+function mctl --wraps=rmpc --description 'alias mctl rmpc'
+    rmpc $argv; 
 end
