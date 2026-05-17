@@ -4,24 +4,24 @@
 indexed_colors = []
 
 [colors.normal]
-black = "#{{{__BASE00}}}"
-blue = "#{{{__BASE0D}}}"
-cyan = "#{{{__BASE0C}}}"
-green = "#{{{__BASE0B}}}"
-magenta = "#{{{__BASE0E}}}"
-red = "#{{{__BASE08}}}"
-white = "#{{{__BASE06}}}"
-yellow = "#{{{__BASE0A}}}"
+black = "#{{{$__BASE00}}}"
+blue = "#{{{$__BASE0D}}}"
+cyan = "#{{{$__BASE0C}}}"
+green = "#{{{$__BASE0B}}}"
+magenta = "#{{{$__BASE0E}}}"
+red = "#{{{$__BASE08}}}"
+white = "#{{{$__BASE06}}}"
+yellow = "#{{{$__BASE0A}}}"
 
 [colors.bright]
-black = "#{{{__BASE03}}}"
-blue = "#{{{__BASE04}}}"
-cyan = "#{{{__BASE02}}}"
-green = "#{{{__BASE05}}}"
-magenta = "#{{{__BASE01}}}"
-red = "#{{{__BASE0F}}}"
-white = "#{{{__BASE07}}}"
-yellow = "#{{{__BASE09}}}"
+black = "#{{{$__BASE03}}}"
+blue = "#{{{$__BASE04}}}"
+cyan = "#{{{$__BASE02}}}"
+green = "#{{{$__BASE05}}}"
+magenta = "#{{{$__BASE01}}}"
+red = "#{{{$__BASE0F}}}"
+white = "#{{{$__BASE07}}}"
+yellow = "#{{{$__BASE09}}}"
 
 [colors.cursor]
 cursor = "#ebdbb2"
@@ -55,7 +55,7 @@ shape = "Underline"
 style = "Bold"
 
 [font.normal]
-family = "{{{FONT_TERMINAL}}}"
+family = "{{{$FONT_TERMINAL}}}"
 
 [hints]
 alphabet = "jfkdlsöaurieowpq"

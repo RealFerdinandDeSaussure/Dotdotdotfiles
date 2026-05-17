@@ -1,9 +1,10 @@
-# %-LOCATION:$HOME/.mbsyncrc-% %-CUSTOM:$HOME/.mbsyncrc-custom-% -*-conf-*-
+# %-LOCATION:$HOME/.mbsyncrc-% -*-conf-*-
+# %-CUSTOM:$HOME/.mbsyncrc-custom-%
 # DO EDITS HERE: $HOME/.local/share/skel/mbsync.skel
 IMAPAccount posteo
 Host posteo.de
-User {{{MAIL_ADDRESS}}}
-PassCmd "pass show {{{PASSWORD_STORE_PASS_MAIL}}} | head -n 1"
+User {{{$MAIL_ADDRESS}}}
+PassCmd "pass show {{{$PASSWORD_STORE_PASS_MAIL}}} | head -n 1"
 TLSType IMAPS
 CertificateFile /etc/ssl/certs/ca-certificates.crt
 

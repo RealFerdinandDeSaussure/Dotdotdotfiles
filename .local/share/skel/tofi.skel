@@ -53,7 +53,7 @@
 	# Default text color
 	#
 	# All text defaults to this color if not otherwise specified.
-	text-color = "#{{{__BASE07}}}"
+	text-color = "#{{{$__BASE07}}}"
 
 	# All pieces of text have the same theming attributes available:
 	#
@@ -71,25 +71,25 @@
 	#     Radius of background box corners in pixels
 
 	# Prompt text theme
-	prompt-color = "#{{{__BASE0D}}}"
-	# prompt-background = "#{{{__BASE0E}}}d9"
+	prompt-color = "#{{{$__BASE0D}}}"
+	# prompt-background = "#{{{$__BASE0E}}}d9"
 	prompt-background-padding = 0
 	prompt-background-corner-radius = 5
 
 	# Placeholder text theme
-	placeholder-color = "#{{{__BASE0E}}}"
-	# placeholder-background = "#{{{__BASE00}}}d9"
+	placeholder-color = "#{{{$__BASE0E}}}"
+	# placeholder-background = "#{{{$__BASE00}}}d9"
 	placeholder-background-padding = 0
 	placeholder-background-corner-radius = 0
 
 	# Input text theme
-	input-color = "#{{{__BASE0D}}}"
-	# input-background = "#{{{__BASE00}}}d9"
+	input-color = "#{{{$__BASE0D}}}"
+	# input-background = "#{{{$__BASE00}}}d9"
 	input-background-padding = 0
 	input-background-corner-radius = 0
 
 	# Default result text theme
-	# default-result-background = "#{{{__BASE00}}}d9"
+	# default-result-background = "#{{{$__BASE00}}}d9"
 	default-result-background-padding = 0
 	default-result-background-corner-radius = 0
 
@@ -104,13 +104,13 @@
 	# alternate-result-background-corner-radius = 0
 
 	# Selection text
-	selection-color = "#{{{__BASE0E}}}"
-	# selection-background = "#{{{__BASE00}}}d9"
+	selection-color = "#{{{$__BASE0E}}}"
+	# selection-background = "#{{{$__BASE00}}}d9"
 	selection-background-padding = 0
 	selection-background-corner-radius = 0
 
 	# Matching portion of selection text
-	selection-match-color = "#{{{__BASE0C}}}"
+	selection-match-color = "#{{{$__BASE0C}}}"
 
 
 #
@@ -173,7 +173,7 @@
 	height = 100%
 
 	# Window background color
-	background-color = "#{{{__BASE00}}}d9"
+	background-color = "#{{{$__BASE00}}}d9"
 
 	# Width of the border outlines in pixels.
 	outline-width = 0

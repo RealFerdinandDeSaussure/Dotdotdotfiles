@@ -3,7 +3,7 @@
 ################
 # OSD settings #
 ################
-osd-font = {{{FONT_SANS}}}
+osd-font = {{{$FONT_SANS}}}
 osd-border-size = 1
 osd-font-size = 28
 osd-bar-w = 95
@@ -11,9 +11,9 @@ osd-bar-h = 1.2
 osd-duration = 4000
 sub-scale = 0.8
 sub-border-size = 1.5
-sub-color = '#{{{__BASE07}}}'
-sub-border-color = '#{{{__BASE00}}}'
-sub-shadow-color = '#{{{__BASE01}}}'
-osd-color = '#{{{__BASE07}}}'
-osd-border-color = '#{{{__BASE00}}}'
-osd-shadow-color = '#{{{__BASE01}}}'
+sub-color = '#{{{$__BASE07}}}'
+sub-border-color = '#{{{$__BASE00}}}'
+sub-shadow-color = '#{{{$__BASE01}}}'
+osd-color = '#{{{$__BASE07}}}'
+osd-border-color = '#{{{$__BASE00}}}'
+osd-shadow-color = '#{{{$__BASE01}}}'

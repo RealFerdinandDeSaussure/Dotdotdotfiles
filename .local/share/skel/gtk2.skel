@@ -2,7 +2,7 @@
 # DO EDITS HERE: $HOME/.local/share/skel/gtk2.skel
 gtk-theme-name="Arc"
 gtk-icon-theme-name="Adwaita"
-gtk-font-name="{{{FONT_SANS}}} 10"
+gtk-font-name="{{{$FONT_SANS}}} 10"
 gtk-cursor-theme-name="Adwaita"
 gtk-cursor-theme-size=0
 gtk-toolbar-style=GTK_TOOLBAR_BOTH_HORIZ
@@ -16,4 +16,4 @@ gtk-xft-hinting=1
 gtk-xft-hintstyle="hintmedium"
 gtk-im-module="fcitx"
 
-gtk-color-scheme = "bg_color:#{{{__BASE00}}}\nfg_color:#{{{__BASE05}}}\nbase_color:#{{{__BASE00}}}\ntext_color:#{{{__BASE05}}}\nselected_bg_color:#{{{__BASE02}}}\nselected_fg_color:#{{{__BASE05}}}\ntooltip_bg_color:#{{{__BASE00}}}\ntooltip_fg_color:#{{{__BASE04}}}\ntitlebar_bg_color:#{{{__BASE00}}}\ntitlebar_fg_color:#{{{__BASE0D}}}\nmenubar_bg_color:#{{{__BASE00}}}\nmenubar_fg_color:#{{{__BASE0D}}}\ntoolbar_bg_color:#{{{__BASE00}}}\ntoolbar_fg_color:#{{{__BASE0A}}}\nmenu_bg_color:#{{{__BASE00}}}\nmenu_fg_color:#{{{__BASE05}}}\npanel_bg_color:#{{{__BASE00}}}\npanel_fg_color:#{{{__BASE0B}}}\nlink_color:#{{{__BASE09}}}"
+gtk-color-scheme = "bg_color:#{{{$__BASE00}}}\nfg_color:#{{{$__BASE05}}}\nbase_color:#{{{$__BASE00}}}\ntext_color:#{{{$__BASE05}}}\nselected_bg_color:#{{{$__BASE02}}}\nselected_fg_color:#{{{$__BASE05}}}\ntooltip_bg_color:#{{{$__BASE00}}}\ntooltip_fg_color:#{{{$__BASE04}}}\ntitlebar_bg_color:#{{{$__BASE00}}}\ntitlebar_fg_color:#{{{$__BASE0D}}}\nmenubar_bg_color:#{{{$__BASE00}}}\nmenubar_fg_color:#{{{$__BASE0D}}}\ntoolbar_bg_color:#{{{$__BASE00}}}\ntoolbar_fg_color:#{{{$__BASE0A}}}\nmenu_bg_color:#{{{$__BASE00}}}\nmenu_fg_color:#{{{$__BASE05}}}\npanel_bg_color:#{{{$__BASE00}}}\npanel_fg_color:#{{{$__BASE0B}}}\nlink_color:#{{{$__BASE09}}}"

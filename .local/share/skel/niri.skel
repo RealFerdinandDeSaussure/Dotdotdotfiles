@@ -1,4 +1,5 @@
-// %-LOCATION:$HOME/.config/niri/config.kdl-% %-CUSTOM:$HOME/.config/niri/custom-% -*-kdl-*-
+// %-LOCATION:$HOME/.config/niri/config.kdl-% -*-kdl-*-
+// %-CUSTOM:$HOME/.config/niri/custom-%
 // DO EDITS HERE: $HOME/.local/share/skel/niri.skel
 
 // Check the wiki for a full description of the configuration:
@@ -64,9 +65,9 @@ layout {
 
         width 3
 
-        active-gradient from="#{{{__BASE0E}}}" to="#{{{__BASE0D}}}" angle=67 in="oklch decreasing hue"
-        inactive-color "#{{{__BASE01}}}"
-        urgent-color "#{{{__BASE08}}}"
+        active-gradient from="#{{{$__BASE0E}}}" to="#{{{$__BASE0D}}}" angle=67 in="oklch decreasing hue"
+        inactive-color "#{{{$__BASE01}}}"
+        urgent-color "#{{{$__BASE08}}}"
     }
 
     shadow {
@@ -74,7 +75,7 @@ layout {
         softness 30
         spread 10
         offset x=2 y=5
-        color "#{{{__BASE00}}}77"
+        color "#{{{$__BASE00}}}77"
     }
 
     struts {

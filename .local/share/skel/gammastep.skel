@@ -57,8 +57,8 @@ adjustment-method=wayland
 ; Keep in mind that longitudes west of Greenwich (e.g. the Americas)
 ; are negative numbers.
 [manual]
-lat={{{LOCATION_LAT}}}
-lon={{{LOCATION_LON}}}
+lat={{{$LOCATION_LAT}}}
+lon={{{$LOCATION_LON}}}
 
 ; Configuration of the adjustment-method
 ; type 'gammastep -m METHOD:help' to see the settings.

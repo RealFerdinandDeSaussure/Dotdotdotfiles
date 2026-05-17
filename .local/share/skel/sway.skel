@@ -1,27 +1,28 @@
-# %-LOCATION:$HOME/.config/sway/config-% %-CUSTOM:$HOME/.config/sway/custom-% -*-conf-*-
+# %-LOCATION:$HOME/.config/sway/config-% -*-conf-*-
+# %-CUSTOM:$HOME/.config/sway/custom-%
 # DO EDITS HERE: $HOME/.local/share/skel/sway.skel
 
 # Base16 color setup
-set $base00 #{{{__BASE00}}}
-set $base01 #{{{__BASE01}}}
-set $base02 #{{{__BASE02}}}
-set $base03 #{{{__BASE03}}}
-set $base04 #{{{__BASE04}}}
-set $base05 #{{{__BASE05}}}
-set $base06 #{{{__BASE06}}}
-set $base07 #{{{__BASE07}}}
-set $base08 #{{{__BASE08}}}
-set $base09 #{{{__BASE09}}}
-set $base0A #{{{__BASE0A}}}
-set $base0B #{{{__BASE0B}}}
-set $base0C #{{{__BASE0C}}}
-set $base0D #{{{__BASE0D}}}
-set $base0E #{{{__BASE0E}}}
-set $base0F #{{{__BASE0F}}}
+set $base00 #{{{$__BASE00}}}
+set $base01 #{{{$__BASE01}}}
+set $base02 #{{{$__BASE02}}}
+set $base03 #{{{$__BASE03}}}
+set $base04 #{{{$__BASE04}}}
+set $base05 #{{{$__BASE05}}}
+set $base06 #{{{$__BASE06}}}
+set $base07 #{{{$__BASE07}}}
+set $base08 #{{{$__BASE08}}}
+set $base09 #{{{$__BASE09}}}
+set $base0A #{{{$__BASE0A}}}
+set $base0B #{{{$__BASE0B}}}
+set $base0C #{{{$__BASE0C}}}
+set $base0D #{{{$__BASE0D}}}
+set $base0E #{{{$__BASE0E}}}
+set $base0F #{{{$__BASE0F}}}
 
 # input setup
 input "type:keyboard" {
-    xkb_file {{{HOME}}}/.config/xkb/custom.xkb
+    xkb_file {{{$HOME}}}/.config/xkb/custom.xkb
     xkb_numlock enabled
 }
 input "1133:16505:Logitech_G_Pro" {
@@ -58,7 +59,7 @@ set $ws9 "9  "
 set $ws10 "10  "
 
 # set other variables
-set $font {{{FONT_SANS}}}
+set $font {{{$FONT_SANS}}}
 set $i3scriptsdir $HOME/.config/i3/scripts
 set $i3blockletsdir $HOME/.config/i3blocks/blocklets
 set $mod Mod4
@@ -76,7 +77,7 @@ set $i3b_up1 "pkill -RTMIN+1 i3blocks"
 include custom
 
 # screen settings
-output * bg {{{HOME}}}/Bilder/wallpaper.jpg fill
+output * bg {{{$HOME}}}/Bilder/wallpaper.jpg fill
 
 ## focus settings
 # never let windows take focus
@@ -103,9 +104,9 @@ smart_gaps on
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec {{{TERMINAL}}}
+bindsym $mod+Return exec {{{$TERMINAL}}}
 # start a terminal on workspace 1
-bindsym $mod+Shift+Return workspace $ws1; exec {{{TERMINAL}}}
+bindsym $mod+Shift+Return workspace $ws1; exec {{{$TERMINAL}}}
 
 # kill focused window
 bindsym $mod+q kill

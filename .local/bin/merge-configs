@@ -20,28 +20,9 @@ function mergevars
             continue
         end
 
-        # check if var is set
-        if not set -q $field
-            echo -e "Warning: Variable \e[1m$field\e[0m not specified." >&2
-        end
-        set file_string (string replace -- "$match" "$$field" $file_string)
-    end
-
-    # print the result
-    string join -- \n $file_string
-end
-
-function mergecmds
-    set file_string $argv
-
-    for match in (string match -ra -- '\{\{\{![^\}]+\}\}\}' $file_string)
-        set cmd (string sub -s 2 (string trim -c '{}' -- $match))
-        # capture command output
-        if not set out (eval $cmd)
-            echo "Attempting to run command '$cmd' returned a non-zero exit code."
-            return 1
-        end
-        set file_string (string replace -- "$match" "$(string join -- \n $out)" $file_string)
+        set repl (eval printf "%s\n" $field)
+        test -z "$repl" && echo -e "\e[1mWarning\e[0m: \"$field\" evaluated to empty string." >&2
+        set file_string (string replace -- "$match" "$(string join -- \n $repl)" $file_string)
     end
 
     # print the result
@@ -81,42 +62,56 @@ function safe_write -a write_file
     end
 end
 
-function get_meta_line -a skel_file field
-    head -n 1 $skel_file | string match -r -- '(?<=%-'$field':).+?(?=-%)'
+function get_meta_line -a line field
+    string match -r -- '(?<=%-'$field':).+?(?=-%)' "$line"
 end
 
 function process_skel -a skel_file
-    set location (get_meta_line "$skel_file" LOCATION)
-    set custom (get_meta_line "$skel_file" CUSTOM)
-    set permissions (stat -c "%a" "$skel_file")
-    # resolve variables in string
-    set location (eval echo $location)
-    set custom (eval echo $custom)
-
-    if [ -z "$location" ]
+    # parse location line
+    set file_string (cat $skel_file)
+    if not set location (get_meta_line $file_string[1] LOCATION)
         echo -e "\e[1m$skel_file\e[0m has no line specifying its target location." >&2
         return 1
     end
+    # pop location line
+    set file_string $file_string[2..]
 
-    set file_string (cat $skel_file | tail -n +2)
+    # pop custom line if it exists
+    if set custom (get_meta_line $file_string[1] CUSTOM)
+        set file_string $file_string[2..]
+    end
+
+    # get custom variables
+    while true
+        if set variable (get_meta_line $file_string[1] VARIABLE)
+            set -x (string split -f1 = "$variable") (eval printf "%s\n" (string split -m1 -f2 = "$variable")) || return 1
+            set file_string $file_string[2..]
+        else
+            break
+        end
+    end
+
+    set permissions (stat -c "%a" "$skel_file")
+    # resolve variables in string
+    set location (eval echo -n $location)
+    set custom (eval echo -n $custom)
 
     # variable substitution
     if [ -z "$custom" ]
         set file_string (mergevars -- $file_string) || return 1
     else
-        set file_string (mergevars -i -- $file_string) || return 1
         # check if a custom file actually exists
         if [ ! -f "$custom" ]
             echo -e "\e[1m$skel_file\e[0m points to a custom file that does not exist." >&2
             echo -e "\tSkipping custom file merging..." >&2
+            # getting rid of custom fields as they will otherwise stay as is
+            # inside the skel file
             set file_string (string replace "{{{custom}}}" "" -- $file_string) # no return 1 here, this is allowed to fail
         else
             set file_string (inject_custom -c $custom -- $file_string) || return 1
         end
+        set file_string (mergevars -i -- $file_string) || return 1
     end
-
-    # command subtitution
-    set file_string (mergecmds $file_string) || return 1
 
     # write $file_string to file
     safe_write "$location" $file_string

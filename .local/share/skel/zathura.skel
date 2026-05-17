@@ -6,46 +6,46 @@ set database sqlite
 set incremental-search true
 
 # colors
-set default-bg                  "#{{{__BASE00}}}"
-set default-fg                  "#{{{__BASE01}}}"
+set default-bg                  "#{{{$__BASE00}}}"
+set default-fg                  "#{{{$__BASE01}}}"
 
-set statusbar-fg                "#{{{__BASE04}}}"
-set statusbar-bg                "#{{{__BASE02}}}"
+set statusbar-fg                "#{{{$__BASE04}}}"
+set statusbar-bg                "#{{{$__BASE02}}}"
 
-set inputbar-bg                 "#{{{__BASE00}}}"
-set inputbar-fg                 "#{{{__BASE07}}}"
+set inputbar-bg                 "#{{{$__BASE00}}}"
+set inputbar-fg                 "#{{{$__BASE07}}}"
 
-set index-active-bg             "#{{{__BASE0B}}}"
-set index-active-fg             "#{{{__BASE00}}}"
-set index-bg                    "#{{{__BASE00}}}"
+set index-active-bg             "#{{{$__BASE0B}}}"
+set index-active-fg             "#{{{$__BASE00}}}"
+set index-bg                    "#{{{$__BASE00}}}"
 
-set notification-bg             "#{{{__BASE00}}}"
-set notification-fg             "#{{{__BASE07}}}"
+set notification-bg             "#{{{$__BASE00}}}"
+set notification-fg             "#{{{$__BASE07}}}"
 
-set notification-error-bg       "#{{{__BASE00}}}"
-set notification-error-fg       "#{{{__BASE08}}}"
+set notification-error-bg       "#{{{$__BASE00}}}"
+set notification-error-fg       "#{{{$__BASE08}}}"
 
-set notification-warning-bg     "#{{{__BASE00}}}"
-set notification-warning-fg     "#{{{__BASE08}}}"
+set notification-warning-bg     "#{{{$__BASE00}}}"
+set notification-warning-fg     "#{{{$__BASE08}}}"
 
-set highlight-color             "rgba({{{__BASE0D_R}}},{{{__BASE0D_G}}},{{{__BASE0D_B}}},0.5)"
-set highlight-active-color      "rgba({{{__BASE0A_R}}},{{{__BASE0A_G}}},{{{__BASE0A_B}}},0.5)"
-set highlight-fg                "#{{{__BASE00}}}"
+set highlight-color             "rgba({{{$__BASE0D_R}}},{{{$__BASE0D_G}}},{{{$__BASE0D_B}}},0.5)"
+set highlight-active-color      "rgba({{{$__BASE0A_R}}},{{{$__BASE0A_G}}},{{{$__BASE0A_B}}},0.5)"
+set highlight-fg                "#{{{$__BASE00}}}"
 
-set completion-bg               "#{{{__BASE01}}}"
-set completion-fg               "#{{{__BASE0D}}}"
+set completion-bg               "#{{{$__BASE01}}}"
+set completion-fg               "#{{{$__BASE0D}}}"
 
-set completion-highlight-bg     "#{{{__BASE0D}}}"
-set completion-highlight-fg     "#{{{__BASE00}}}"
+set completion-highlight-bg     "#{{{$__BASE0D}}}"
+set completion-highlight-fg     "#{{{$__BASE00}}}"
 
-set completion-group-bg         "#{{{__BASE00}}}"
-set completion-group-fg         "#{{{__BASE0E}}}"
+set completion-group-bg         "#{{{$__BASE00}}}"
+set completion-group-fg         "#{{{$__BASE0E}}}"
 
-set recolor-lightcolor          "#{{{__BASE00}}}"
-set recolor-darkcolor           "#{{{__BASE06}}}"
+set recolor-lightcolor          "#{{{$__BASE00}}}"
+set recolor-darkcolor           "#{{{$__BASE06}}}"
 
-set render-loading-bg           "#{{{__BASE00}}}"
-set render-loading-fg           "#{{{__BASE07}}}"
+set render-loading-bg           "#{{{$__BASE00}}}"
+set render-loading-fg           "#{{{$__BASE07}}}"
 
 set recolor                     "false"
 set recolor-keephue             "false"

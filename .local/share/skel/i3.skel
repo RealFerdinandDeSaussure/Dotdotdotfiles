@@ -4,22 +4,22 @@
 # shorthand for exec without startup notification
 set $execno exec --no-startup-id
 # Base16 color setup
-set $base00 #{{{__BASE00}}}
-set $base01 #{{{__BASE01}}}
-set $base02 #{{{__BASE02}}}
-set $base03 #{{{__BASE03}}}
-set $base04 #{{{__BASE04}}}
-set $base05 #{{{__BASE05}}}
-set $base06 #{{{__BASE06}}}
-set $base07 #{{{__BASE07}}}
-set $base08 #{{{__BASE08}}}
-set $base09 #{{{__BASE09}}}
-set $base0A #{{{__BASE0A}}}
-set $base0B #{{{__BASE0B}}}
-set $base0C #{{{__BASE0C}}}
-set $base0D #{{{__BASE0D}}}
-set $base0E #{{{__BASE0E}}}
-set $base0F #{{{__BASE0F}}}
+set $base00 #{{{$__BASE00}}}
+set $base01 #{{{$__BASE01}}}
+set $base02 #{{{$__BASE02}}}
+set $base03 #{{{$__BASE03}}}
+set $base04 #{{{$__BASE04}}}
+set $base05 #{{{$__BASE05}}}
+set $base06 #{{{$__BASE06}}}
+set $base07 #{{{$__BASE07}}}
+set $base08 #{{{$__BASE08}}}
+set $base09 #{{{$__BASE09}}}
+set $base0A #{{{$__BASE0A}}}
+set $base0B #{{{$__BASE0B}}}
+set $base0C #{{{$__BASE0C}}}
+set $base0D #{{{$__BASE0D}}}
+set $base0E #{{{$__BASE0E}}}
+set $base0F #{{{$__BASE0F}}}
 
 # Basic color configuration using the Base16 variables for windows and borders.
 # Property Name         Border  BG      Text    Indicator Child Border
@@ -43,7 +43,7 @@ set $ws9 "9  "
 set $ws10 "10  "
 
 # set other variables
-set $font {{{FONT_SANS}}}
+set $font {{{$FONT_SANS}}}
 set $i3scriptsdir $HOME/.config/i3/scripts
 set $i3blockletsdir $HOME/.config/i3blocks/blocklets
 set $mod Mod4

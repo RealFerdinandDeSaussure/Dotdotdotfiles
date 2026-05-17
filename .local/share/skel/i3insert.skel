@@ -31,31 +31,31 @@ function dotool {
 function translate_char {
     case $1 in
         M)
-            echo "{{{MAIL_ADDRESS_ALT}}}"
+            echo "{{{$MAIL_ADDRESS_ALT}}}"
             ;;
         m)
-            echo "{{{MAIL_ADDRESS}}}"
+            echo "{{{$MAIL_ADDRESS}}}"
             ;;
         N)
-            echo "{{{REAL_NAME}}}"
+            echo "{{{$REAL_NAME}}}"
             ;;
         n)
-            grep --color=never -o '\S*$' <<< "{{{REAL_NAME}}}"
+            grep --color=never -o '\S*$' <<< "{{{$REAL_NAME}}}"
             ;;
         v)
-            cut -d' ' -f 1 <<< "{{{REAL_NAME}}}"
+            cut -d' ' -f 1 <<< "{{{$REAL_NAME}}}"
             ;;
         s)
-            echo "{{{ADDRESS_STREET}}}"
+            echo "{{{$ADDRESS_STREET}}}"
             ;;
         p)
-            echo "{{{ADDRESS_ZIP}}}"
+            echo "{{{$ADDRESS_ZIP}}}"
             ;;
         o)
-            echo "{{{ADDRESS_CITY}}}"
+            echo "{{{$ADDRESS_CITY}}}"
             ;;
         f)
-            echo "{{{PHONE_NUMBER}}}"
+            echo "{{{$PHONE_NUMBER}}}"
             ;;
     esac
 }

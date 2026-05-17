@@ -1,4 +1,5 @@
-;; %-LOCATION:$HOME/.config/emacs/subinits/mu4e-setup.el-% %-CUSTOM:$HOME/.config/mu4e-contexts-% -*-emacs-lisp-*-
+;; %-LOCATION:$HOME/.config/emacs/subinits/mu4e-setup.el-% -*-emacs-lisp-*-
+;; %-CUSTOM:$HOME/.config/mu4e-contexts-%
 ;; DO EDITS HERE: $HOME/.local/share/skel/mu4e-setup.skel
 ;; -*- lexical-binding: t -*-
 ;; set mu4e as emacs default mail program
@@ -85,14 +86,14 @@
         `(,(make-mu4e-context
             :name "posteo"
             :match-func (lambda (msg) (+mu4e-match-maildir msg "posteo"))
-            :vars '((user-mail-address . "{{{MAIL_ADDRESS}}}")
-                    (user-full-name . "{{{REAL_NAME}}}")
+            :vars '((user-mail-address . "{{{$MAIL_ADDRESS}}}")
+                    (user-full-name . "{{{$REAL_NAME}}}")
                     (mu4e-sent-folder . "/posteo/Sent")
                     (mu4e-drafts-folder . "/posteo/Drafts")
                     (mu4e-trash-folder . "/posteo/Trash")
                     (mu4e-refile-folder . "/posteo/Archiv")
                     (mu4e-get-mail-command . "mbsync posteo")
-                    (smtpmail-mail-address . "{{{MAIL_ADDRESS}}}")
+                    (smtpmail-mail-address . "{{{$MAIL_ADDRESS}}}")
                     (smtpmail-stream-type . ssl)
                     (smtpmail-smtp-server . "posteo.de")
                     (smtpmail-smtp-service . 465)
