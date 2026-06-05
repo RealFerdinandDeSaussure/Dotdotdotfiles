@@ -5,7 +5,7 @@ if [ -z "$CLIPBOARD_STATE" ]; then
     script_loc=$(dirname -- "$( readlink -f -- "$0"; )";)/$(basename "$0")
     wl-paste --watch "$script_loc"
 else
-    clip_content="$(cat | tr -dc '[:graph]' | tr -d \&\'\"\<\>)"
+    clip_content="$(cat | tr -dc '[:graph:]' | tr -d \&\'\"\<\>)"
     if [[ -z "$clip_content" ]]; then
          stdbuf -oL echo ""
          exit
