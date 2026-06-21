@@ -9,7 +9,10 @@
 (setq save-abbrevs 'silently)
 
 ;; mode associations
-(push '(".gitignore" . prog-mode) auto-mode-alist)
+(dolist (ext-mode
+         '((".gitignore" . prog-mode)
+           (".lua" . lua-ts-mode)))
+  (push ext-mode auto-mode-alist))
 
 ;; eldoc settings
 (use-package eldoc
@@ -57,7 +60,10 @@
 ;; language server (eglot)
 (use-package eglot
   :ensure nil
-  :hook ((python-ts-mode go-ts-mode bash-ts-mode) . (lambda () (+with-buffer-not-remote (eglot-ensure))))
+  :hook ((python-ts-mode
+          go-ts-mode
+          bash-ts-mode
+          lua-ts-mode) . (lambda () (+with-buffer-not-remote (eglot-ensure))))
   :custom
   (flymake-diagnostic-functions (list #'eglot-flymake-backend))
   :general-config
