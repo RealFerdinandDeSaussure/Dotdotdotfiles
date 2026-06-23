@@ -1,0 +1,154 @@
+#!/usr/bin/env python
+
+import asyncio
+import os
+import sys
+import tempfile
+import json
+import shutil
+
+QR_PROPERTY = "user-data/decode-qr"
+DECODE_FUNCTION = "decode-qr-to-prop"
+
+
+async def run_mpv(socket_path: str, webcam: str, stop_event: asyncio.Event):
+    proc = await asyncio.create_subprocess_shell(
+        f"mpv --input-ipc-server={socket_path} av://v4l2:{webcam} --profile=low-latency --untimed",
+        stderr=asyncio.subprocess.PIPE,
+        stdout=asyncio.subprocess.PIPE,
+    )
+    if proc.returncode is not None:
+        err = await proc.stderr.read()
+        print(err.decode())
+        exit(1)
+
+    await asyncio.wait(
+        [
+            asyncio.create_task(proc.communicate()),
+            asyncio.create_task(stop_event.wait()),
+        ],
+        return_when=asyncio.FIRST_COMPLETED,
+    )
+    if proc.returncode is None:
+        proc.kill()
+    stop_event.set()
+
+
+def get_ipc_cmd(cmd: list) -> bytes:
+    ipc_cmd = json.dumps({"command": cmd})
+    return (ipc_cmd + "\n").encode()
+
+
+async def get_script_name(
+    reader: asyncio.StreamReader, writer: asyncio.StreamWriter
+) -> str:
+    ipc_cmd = get_ipc_cmd(["get_property", "user-data/active-scripts/qr-scan"])
+    while True:
+        writer.write(ipc_cmd)
+        await writer.drain()
+        try:
+            json_msg = await reader.readline()
+            if json_msg == b"":
+                return ""
+            else:
+                json_msg = json.loads(json_msg.decode())
+                return json_msg["data"]
+        except KeyError:
+            continue
+
+
+def try_unpack_qr_code(json_msg: bytes) -> str | None:
+    try:
+        data = json.loads(json_msg.decode())
+        if data["event"] == "property-change" and data["name"] == QR_PROPERTY:
+            return data["data"]
+    except KeyError:
+        return None
+
+
+async def connect_to_socket(
+    socket_path: str,
+) -> tuple[asyncio.StreamReader, asyncio.StreamWriter]:
+    while True:
+        try:
+            streams = await asyncio.open_unix_connection(socket_path)
+            break
+        except ConnectionRefusedError:
+            await asyncio.sleep(0.5)
+    return streams
+
+
+async def get_qr_code(socket_path: str, stop_event: asyncio.Event) -> str | None:
+    reader, writer = await connect_to_socket(socket_path)
+    observe_cmd = get_ipc_cmd(["observe_property", 1, QR_PROPERTY])
+    writer.write(observe_cmd)
+    await writer.drain()
+    while True:
+        if stop_event.is_set():
+            writer.close()
+            return None
+        json_msg = await reader.readline()
+        if json_msg == b"":
+            return None
+        data = try_unpack_qr_code(json_msg)
+        if data is None:
+            continue
+        else:
+            writer.close()
+            stop_event.set()
+            return data
+
+
+async def ipc_communicate(socket_path: str, stop_event: asyncio.Event):
+    reader, writer = await connect_to_socket(socket_path)
+    script_name = await get_script_name(reader, writer)
+    ipc_cmd = get_ipc_cmd(["script-message-to", script_name, DECODE_FUNCTION])
+    while True:
+        # we're calling the qr scripting function every second but a set
+        # stop_event should interrupt the sleeping function
+        await asyncio.wait(
+            [
+                asyncio.create_task(asyncio.sleep(1)),
+                asyncio.create_task(stop_event.wait()),
+            ],
+            return_when=asyncio.FIRST_COMPLETED,
+        )
+        if stop_event.is_set():
+            writer.close()
+            return
+        writer.write(ipc_cmd)
+        await writer.drain()
+
+
+async def run(webcam: str):
+    socket = tempfile.NamedTemporaryFile(prefix="mpv-", suffix=".sock")
+    stop_event = asyncio.Event()
+    async with asyncio.TaskGroup() as tg:
+        tg.create_task(run_mpv(socket.name, webcam, stop_event))
+        tg.create_task(ipc_communicate(socket.name, stop_event))
+        qr_task = tg.create_task(get_qr_code(socket.name, stop_event))
+
+    if qr_task.result() is not None:
+        print(qr_task.result())
+
+
+def test_required_exec() -> bool:
+    for exec in ["mpv", "qrtool"]:
+        if shutil.which(exec) is None:
+            return False
+    else:
+        return True
+
+
+if __name__ == "__main__":
+    if not test_required_exec():
+        print("qread requires mpv and qrtool to be installed.")
+        exit(1)
+    try:
+        webcam = sys.argv[1]
+    except IndexError:
+        webcam = os.path.join("/", "dev", "video0")
+    if not os.path.exists(webcam):
+        print(f'Path "f{webcam}" does not exit.')
+        exit(1)
+    asyncio.run(run(webcam))
