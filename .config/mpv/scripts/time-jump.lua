@@ -1,3 +1,5 @@
+mp.set_property("user-data/active-scripts/time-jump", mp.get_script_name())
+
 math.randomseed(os.time())
 
 local function prev_or_start()

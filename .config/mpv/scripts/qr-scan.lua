@@ -1,5 +1,3 @@
-require 'mp.msg'
-
 mp.set_property("user-data/active-scripts/qr-scan", mp.get_script_name())
 
 local function get_qr_string()
@@ -26,7 +24,7 @@ end
 
 local function decode_qr_to_prop()
 	local qrs = get_qr_string()
-    if qrs ~="" then
+    if qrs ~= "" then
         mp.set_property("user-data/decode-qr", qrs)
     end
 end
