@@ -210,6 +210,17 @@ run corfu-complete."
    :keymaps         'quickrun--mode-map
    "q"              'quit-window))
 
+(use-package xref
+  :ensure nil
+  :general-config
+  (general-leader
+    :states      'normal
+    :keymaps     'prog-mode-map
+    "f"          'xref-find-references
+    "F"          'xref-find-references-and-replace)
+  :config
+  (evil-collection-xref-setup))
+
 (use-package yasnippet
   :hook ((go-ts-mode fish-mode snippet-mode python-ts-mode mu4e-compose-mode) . yas-minor-mode)
   :general-config

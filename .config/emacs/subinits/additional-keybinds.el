@@ -4,7 +4,6 @@
 ;; go into this file
 
 ;; evil-collection loads for packages without use-package declarations
-(with-eval-after-load 'xref (evil-collection-xref-setup))
 (with-eval-after-load 'info (evil-collection-info-setup))
 
 ;; use these EVERYWHERE
