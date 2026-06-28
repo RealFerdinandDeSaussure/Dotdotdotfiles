@@ -132,9 +132,10 @@ run corfu-complete."
         (completion-preview-insert)
       (corfu-complete)))
 
-  (mapc #'evil-declare-repeat
+  (mapc #'evil-declare-change-repeat
         #'(corfu-expand
-           corfu-complete))
+           corfu-complete
+           +corfu-cp-complete))
   (mapc #'evil-declare-not-repeat
         #'(corfu-next
            corfu-previous))
