@@ -70,11 +70,6 @@
 !.config/mpv/scripts
 !.config/mpv/scripts/*
 
-!.config/ncmpcpp
-.config/ncmpcpp/*
-!.config/ncmpcpp/config
-!.config/ncmpcpp/bindings
-
 !.config/nvim
 !.config/nvim/init.vim
 !.config/nvim/autoload/
@@ -87,6 +82,9 @@
 
 !.config/qutebrowser
 !.config/qutebrowser/config.py
+
+!.config/rmpc
+!.config/rmpc/config.ron
 
 !.config/swayidle
 !.config/swayidle/config
@@ -111,7 +109,7 @@
 
 !.local/bin
 !.local/bin/*
-# dmenu is a symbolic link to whatever launcher I'm using currently
+# dmenu is a symbolic link to whatever launcher I'm currently using
 .local/bin/dmenu
 
 !.local/share
