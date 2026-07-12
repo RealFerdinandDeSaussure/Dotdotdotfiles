@@ -1,4 +1,10 @@
 ;; -*- lexical-binding: t -*-
+;; run garbage collector when idle
+(run-with-idle-timer 1.2 t #'garbage-collect)
+;; apart from that set the threshold pretty high
+(setq gc-cons-threshold 100000000)
+;; REMEMBER to get rid of these settings should the igc branch get merged
+
 ;; don't pop up buffer for compilation warnings
 (setq native-comp-async-report-warnings-errors 'silent)
 
