@@ -17,14 +17,14 @@ function pyproj -d "Activate python virtual environment for current project"
         end
         # if the delete flag has been set, we should return after deleting the
         # venv
-        if [ ! $_flag_delete ]
+        if not set -q _flag_delete
             return
         end
     end
 
     set toplevel (git rev-parse --show-toplevel 2>/dev/null)
     if [ "$toplevel" = "$HOME" ] && [ "$(pwd)" = "$HOME" ]
-        echo "Cannot use a  virtual environment in the home folder."
+        echo "Cannot use a virtual environment in the home folder."
         return 1
     else if [ "$toplevel" = "$HOME" ] || [ -z "$toplevel" ]
         set -gx PYTHONPROJECTNAME (basename (pwd))
@@ -35,7 +35,7 @@ function pyproj -d "Activate python virtual environment for current project"
 
     set venv_dir "$HOME/.local/share/python/venv/$PYTHONPROJECTNAME-$proj_id"
 
-    if [ $_flag_delete ]
+    if set -q _flag_delete
         rm -rfv "$venv_dir"
         return
     end
