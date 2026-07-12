@@ -201,8 +201,8 @@ bindsym XF86AudioLowerVolume exec $i3blockletsdir/volume 9 volume 5%-
 bindsym Shift+XF86AudioRaiseVolume exec $i3blockletsdir/volume 9 volume 1%+
 bindsym Shift+XF86AudioLowerVolume exec $i3blockletsdir/volume 9 volume 1%-
 bindsym XF86AudioMute exec $i3blockletsdir/volume 9 mute toggle
-bindsym XF86AudioNext exec mpc next
-bindsym XF86AudioPrev exec mpc prev
+bindsym XF86AudioNext exec rmpc next
+bindsym XF86AudioPrev exec rmpc prev
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -313,10 +313,10 @@ mode $mode_resize {
 
 # control mpd
 mode $mode_music {
-        bindsym space exec mpc toggle
-        bindsym l exec mpc next
-        bindsym h exec mpc prev
-        bindsym r exec mpc random
+        bindsym space exec rmpc togglepause
+        bindsym l exec rmpc next
+        bindsym h exec rmpc prev
+        bindsym r exec rmpc random
 
         # volume control
         bindsym plus exec $i3blockletsdir/volume 9 volume 5%+
