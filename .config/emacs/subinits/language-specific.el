@@ -183,9 +183,6 @@ If the test function already exists, jumps to it instead of creating a new one."
 dedicated virtual environment."
     (concat (+git-top-level-directory) "-" (+git-first-commit)))
 
-  ;; auto-fill
-  (auto-fill-mode)
-
   ;; python-specific config overrides
   (defun ++python-setup-local ()
     (setq-local comment-auto-fill-only-comments t
@@ -197,26 +194,19 @@ dedicated virtual environment."
     (let ((venv (file-name-concat +python-venv-path (+python-venv-project))))
       (when (file-exists-p venv)
         (setq-local python-interpreter (file-name-concat venv "bin" "python")
-                    python-shell-virtualenv-root venv)))))
-
-(use-package blacken
-  :hook (python-ts-mode . blacken-mode))
+                    python-shell-virtualenv-root venv)))
+    (+eglot-format-buffer-on-write-file)))
 
 ;; golang settings
 (use-package go-ts-mode
   :ensure nil
   :hook
   (go-mode . go-ts-mode)
+  (go-ts-mode . #'+eglot-format-buffer-on-write-file)
   :custom
   (go-ts-mode-indent-offset 4)
   :config
-  (evil-collection-go-mode-setup)
-
-  (add-hook 'go-ts-mode-hook #'+go-mode-setup)
-
-  (defun +go-mode-setup ()
-    (make-local-variable 'write-file-functions)
-    (add-to-list 'write-file-functions #'+eglot-format-buffer-ignore-errors)))
+  (evil-collection-go-mode-setup))
 
 (use-package go-eldoc
   :hook (go-ts-mode . go-eldoc-setup))

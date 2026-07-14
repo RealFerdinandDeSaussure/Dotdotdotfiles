@@ -79,8 +79,12 @@
     "="             'eglot-format)
   :config
   (setopt eglot-workspace-configuration #'+eglot-workspace-configuration)
+  ;; change default eglot servers or add ones not present in the default config
   (add-to-list 'eglot-server-programs
                '(fish-mode . ("fish-lsp" "start")))
+  (setf
+   (alist-get '(python-mode python-ts-mode) eglot-server-programs nil nil #'equal)
+   '("rass" "tyruff"))
 
   (defun +eglot-format-buffer-ignore-errors ()
     (unless (ignore-errors (eglot-format-buffer))))
@@ -96,15 +100,10 @@
         (let ((venv-project-path
                (file-name-concat +python-venv-path (+python-venv-project))))
           (if (file-directory-p venv-project-path)
-              `(:python
-                (:venvPath ,+python-venv-path
-                 :venv ,(+python-venv-project)
-                 :pythonPath ,(file-name-concat venv-project-path "bin" "python")
-                 :analysis
-                 (:extraPaths
-                  ,(vconcat
-                    (file-expand-wildcards (file-name-concat venv-project-path "lib*" "python*" "site-packages")))
-                  :useLibraryCodeForTypes t))))))
+              `(:ty
+                (:configuration
+                 (:environment
+                  (:python ,venv-project-path)))))))
        ((equal lang "go")
         '(:gopls
           (:ui.completion.completeFunctionCalls :json-false)))))))
