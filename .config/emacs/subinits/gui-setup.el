@@ -118,7 +118,7 @@
               :select t :popup t :align below :size 0.2)
              ("*ielm*"
               :select t :popup t :align below :size 0.35)
-             ("*vterm*"
+             ("*mistty*"
               :regexp t :select t :popup t :align below :size 0.2))))
 
 (provide 'gui-setup)

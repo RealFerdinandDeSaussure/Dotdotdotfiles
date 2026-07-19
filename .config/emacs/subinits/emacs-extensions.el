@@ -193,42 +193,36 @@
   (:keymaps         'vr/minibuffer-keymap
    "<escape>"       'minibuffer-keyboard-quit))
 
-(use-package vterm
-  ;; use locally installed package (from AUR) of emacs-vterm
-  :ensure nil
+(use-package mistty
   :general
   (:keymaps         'override
    :states          '(motion emacs insert)
-   "C-¼"            '+vterm-toggle)
-  :custom
-  (vterm-shell (concat "/" (file-name-concat "usr" "bin" "fish") " -C __vterm_setup"))
+   "C-¼"            '+mistty-toggle)
+  ;; :custom
+  ;; (vterm-shell (concat "/" (file-name-concat "usr" "bin" "fish") " -C __vterm_setup"))
   :general-config
   (:states          'emacs
-   :keymaps         'vterm-mode-map
+   :keymaps         'mistty-mode-map ;check
    "C-h k"          'helpful-key
-   "C-c $"          '+vterm-toggle)
-  (:keymaps         'vterm-mode-map
+   "C-c $"          '+mistty-toggle)
+  (:keymaps         'mistty-mode-map
    "M-:"            'eval-expression)
 
   :config
-  (evil-collection-vterm-setup)
-
-  (defun +vterm-toggle ()
-    "Hide or show vterm window.
+  (defun +mistty-toggle ()
+    "Hide or show mistty window.
 Start terminal if it isn't running already."
     (interactive)
-    (let* ((vterm-buf "*vterm*")
-           (vterm-win (get-buffer-window vterm-buf)))
-      (if vterm-win
-          (quit-window nil vterm-win)
-        (if (get-buffer vterm-buf)
-            (pop-to-buffer vterm-buf)
-          (vterm-other-window)))))
+    (let* ((mistty-buf "*mistty*")
+           (mistty-win (get-buffer-window mistty-buf)))
+      (if mistty-win
+          (quit-window nil mistty-win)
+        (if (get-buffer mistty-buf)
+            (pop-to-buffer mistty-buf)
+          (mistty-other-window)))))
 
-  ;; delete vterm window on exit
-  (add-hook 'vterm-exit-functions
-            (lambda (buf event)
-              (quit-window nil (get-buffer-window buf)))))
+  ;; delete mistty window on exit
+  (add-hook 'mistty-after-process-end-hook #'mistty-kill-buffer-and-window))
 
 
 (use-package vertico
