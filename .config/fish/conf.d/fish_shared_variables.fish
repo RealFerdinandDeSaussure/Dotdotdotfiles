@@ -19,9 +19,6 @@ set -gx MEDIA "/run/media/$USER/"
 # use nvim as a pager for man pages
 set -gx MANPAGER "nvim +Man! "
 
-# set folder for aurmake
-set -gx AURMAKE_FOLDER ~/Downloads/AUR
-
 set -g fish_color_normal white
 set -g fish_color_command brwhite
 set -g fish_color_quote $__BASE0B

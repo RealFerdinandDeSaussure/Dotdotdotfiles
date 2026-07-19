@@ -1,6 +1,9 @@
 function __aurmake_single
     set args
     set pkg
+    set build_folder (mktemp -d)
+    set pos (pwd)
+    set exit_status 0
 
     # the last argument is the package, everything else is assumed to be arguments
     if [ (count $argv) -gt 1 ]
@@ -10,11 +13,7 @@ function __aurmake_single
         set pkg $argv
     end
 
-    set pos (pwd)
-    mkdir -p "$AURMAKE_FOLDER"
-    cd "$AURMAKE_FOLDER"
-    set exit_status 0
-
+    cd $build_folder
     auracle download $pkg | string match -r '/\S+$' | read -l pkg_folder
     if [ $status = "0" ]
         cd $pkg_folder

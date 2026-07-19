@@ -1,8 +1,4 @@
 function aurmake -w cower -d 'Build specified AUR package'
-    if [ -z "$AURMAKE_FOLDER" ]
-        echo '$AURMAKE_FOLDER not set.'
-        return
-    end
     set pkgs (string match -r '(?<!\x2d)\b\S+' -- $argv)
     set args (string match -r '(?<!\S)\x2d(\x2d)?\S+' -- $argv)
 
