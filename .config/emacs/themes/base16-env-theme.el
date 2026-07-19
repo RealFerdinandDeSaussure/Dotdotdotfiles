@@ -32,9 +32,31 @@
 ;; Define the theme
 (deftheme base16-env)
 
-;; Add all the faces to the theme
-(base16-theme-define 'base16-env base16-env-theme-colors)
+;; override terminal colors set in the base16 default theme
+(base16-theme-set-faces
+ 'base16-env
+ base16-env-theme-colors
+ '((term                                         :foreground base05 :background base00)
+   (term-color-black                             :foreground base00 :background base00)
+   (term-color-white                             :foreground base06 :background base06)
+   (term-color-red                               :foreground base08 :background base08)
+   (term-color-yellow                            :foreground base0A :background base0A)
+   (term-color-green                             :foreground base0B :background base0B)
+   (term-color-cyan                              :foreground base0C :background base0C)
+   (term-color-blue                              :foreground base0D :background base0D)
+   (term-color-magenta                           :foreground base0E :background base0E)
 
+   (ansi-color-black                             :foreground base00 :background base00)
+   (ansi-color-white                             :foreground base06 :background base06)
+   (ansi-color-red                               :foreground base08 :background base08)
+   (ansi-color-yellow                            :foreground base0A :background base0A)
+   (ansi-color-green                             :foreground base0B :background base0B)
+   (ansi-color-cyan                              :foreground base0C :background base0C)
+   (ansi-color-blue                              :foreground base0D :background base0D)
+   (ansi-color-magenta                           :foreground base0E :background base0E)))
+
+;; Add all the default faces to the theme
+(base16-theme-define 'base16-env base16-env-theme-colors)
 ;; Mark the theme as provided
 (provide-theme 'base16-env)
 
