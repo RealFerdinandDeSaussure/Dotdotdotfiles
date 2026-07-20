@@ -9,9 +9,11 @@
   (org-priority-default ?C)
   (org-startup-folded 'content)
   (org-agenda-custom-commands '(("G" "Overview by urgency"
-                                 ((tags-todo "+PRIORITY=\"A\"")
+                                 ((tags-todo "+PRIORITY=\"A\"+TODO=\"TODO\"")
                                   (agenda "")
-                                  (tags-todo "-PRIORITY=\"A\"&-SCHEDULED={.+}&+TODO=\"TODO\""
+                                  (tags-todo "-PRIORITY=\"A\"-SCHEDULED={.+}+TODO=\"TODO\""
+                                             ((org-agenda-sorting-strategy '(priority-down))))
+                                  (tags-todo "TODO=\"WAIT\""
                                              ((org-agenda-sorting-strategy '(priority-down))))))))
   :general
   (general-goleader
