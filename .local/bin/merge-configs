@@ -15,11 +15,6 @@ function mergevars
             continue
         end
 
-        # skip command substitutions indicated by a leading "!"
-        if [ (string sub -l 1 -- "$field" ) = "!" ]
-            continue
-        end
-
         set repl (eval printf "%s\n" $field)
         test -z "$repl" && echo -e "\e[1mWarning\e[0m: \"$field\" evaluated to empty string." >&2
         set file_string (string replace -- "$match" "$(string join -- \n $repl)" $file_string)
