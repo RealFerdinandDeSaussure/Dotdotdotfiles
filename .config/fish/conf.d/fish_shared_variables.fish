@@ -3,16 +3,6 @@ set -g fish_default_variables_set
 set -g fish_escape_delay_ms 10
 set -g fish_function_path_local $HOME/.config/fish/functions
 
-# set base16 derived color variables
-for var in __BASE00 __BASE01 __BASE02 __BASE03 __BASE04 __BASE05 __BASE06 \
-            __BASE07 __BASE08 __BASE09 __BASE0A __BASE0B __BASE0C __BASE0D \
-            __BASE0E __BASE0F
-
-    set -g {$var}_R (printf '%d' 0x(string sub -l 2 $$var))
-    set -g {$var}_G (printf '%d' 0x(string sub -s 3 -l 2 $$var))
-    set -g {$var}_B (printf '%d' 0x(string sub -s 5 -l 2 $$var))
-end
-
 # shell exclusive MEDIA variable
 set -gx MEDIA "/run/media/$USER/"
 

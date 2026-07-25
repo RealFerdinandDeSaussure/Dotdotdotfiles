@@ -28,8 +28,8 @@ set notification-error-fg       "#{{{$__BASE08}}}"
 set notification-warning-bg     "#{{{$__BASE00}}}"
 set notification-warning-fg     "#{{{$__BASE08}}}"
 
-set highlight-color             "rgba({{{$__BASE0D_R}}},{{{$__BASE0D_G}}},{{{$__BASE0D_B}}},0.5)"
-set highlight-active-color      "rgba({{{$__BASE0A_R}}},{{{$__BASE0A_G}}},{{{$__BASE0A_B}}},0.5)"
+set highlight-color             "rgba({{{(hex2rgb -r $__BASE0D)}}},{{{(hex2rgb -g $__BASE0D)}}},{{{(hex2rgb -b $__BASE0D)}}},0.5)"
+set highlight-active-color      "rgba({{{(hex2rgb -r $__BASE0A)}}},{{{(hex2rgb -g $__BASE0A)}}},{{{(hex2rgb -b $__BASE0A)}}},0.5)"
 set highlight-fg                "#{{{$__BASE00}}}"
 
 set completion-bg               "#{{{$__BASE01}}}"
