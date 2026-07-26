@@ -1,4 +1,7 @@
 function fish_user_key_bindings
+    # in a true tty we'll just be content with the default keybindings
+    tty | grep -q pts || return
+
     if status --is-interactive && functions -q fzf_key_bindings
         fzf_key_bindings
     end
