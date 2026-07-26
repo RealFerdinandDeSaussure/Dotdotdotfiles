@@ -127,9 +127,9 @@ bright0={{{$__BASE03}}}   # bright black
 bright1={{{$__BASE0F}}}   # bright red
 bright2={{{$__BASE05}}}   # bright green
 bright3={{{$__BASE09}}}   # bright yellow
-bright4={{{$__BASE04}}}   # bright blue
-bright5={{{$__BASE01}}}   # bright magenta
-bright6={{{$__BASE02}}}   # bright cyan
+bright4={{{$__BASE0D}}}   # bright blue
+bright5={{{$__BASE0E}}}   # bright magenta
+bright6={{{$__BASE0C}}}   # bright cyan
 bright7={{{$__BASE07}}}   # bright white
 
 ## dimmed colors (see foot.ini(5) man page)
