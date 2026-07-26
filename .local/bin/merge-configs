@@ -7,7 +7,7 @@ function mergevars
     set file_string $argv
 
     # get all marked fields in the file
-    for match in (string match -ra -- '\{\{\{[^\}]+\}\}\}' $file_string)
+    for match in (string match -ra -- '\{\{\{.+?\}\}\}' $file_string)
         set field (string trim -c '{}' -- $match)
 
         # if i flag was passed, skip on "custom" fields
