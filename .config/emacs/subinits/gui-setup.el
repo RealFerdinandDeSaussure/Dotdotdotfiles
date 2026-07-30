@@ -37,7 +37,7 @@
 
 ;; delimiter highlighting and matching
 (setq electric-pair-open-newline-between-pairs t)
-(dolist (hook '(prog-mode-hook text-mode-hook))
+(dolist (hook '(prog-mode-hook text-mode-hook ielm-mode-hook))
   (add-hook hook #'electric-pair-local-mode))
 
 (use-package dimmer
