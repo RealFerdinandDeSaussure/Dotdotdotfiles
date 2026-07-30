@@ -1,5 +1,10 @@
 ;; -*- lexical-binding: t -*-
 
+;; non-use-package stuff first
+(define-derived-mode lua-mode prog-mode "Lua"
+  "Dummy mode for Lua that doesn't implement any logic but can be used to
+  redirect to lua-ts-mode.")
+
 ;; language specific major modes and their settings
 ;; elisp helpers
 (use-package edebug
@@ -98,9 +103,6 @@
 ;; shell scripting
 ;; make shell scripts executable after save if they include a shebang
 (add-hook 'after-save-hook #'executable-make-buffer-file-executable-if-script-p)
-(use-package sh-script
-  :ensure nil
-  :hook (sh-mode . bash-ts-mode))
 
 (use-package fish-mode
   :defer t
@@ -134,8 +136,7 @@
 ;; python settings
 (use-package python
   :ensure nil
-  :hook ((python-mode . python-ts-mode)
-         (python-ts-mode . ++python-setup-local))
+  :hook (python-ts-mode . ++python-setup-local)
   :custom
   (python-fill-docstring-style 'symmetric)
   (python-indent-offset 4)
@@ -200,9 +201,7 @@ dedicated virtual environment."
 ;; golang settings
 (use-package go-ts-mode
   :ensure nil
-  :hook
-  (go-mode . go-ts-mode)
-  (go-ts-mode . #'+eglot-format-buffer-on-write-file)
+  :hook (go-ts-mode . #'+eglot-format-buffer-on-write-file)
   :custom
   (go-ts-mode-indent-offset 4)
   :config

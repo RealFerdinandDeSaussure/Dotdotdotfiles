@@ -31,7 +31,7 @@
 (defmacro +with-buffer-not-remote (&rest body)
   "Only evaluate BODY if current buffer does not point to a remote file."
   `(unless (and (buffer-file-name) (file-remote-p (buffer-file-name)))
-      ,@body))
+     ,@body))
 
 ;;;###autoload
 (defmacro +defun-newline-paste (func-name &rest open-funcs)
@@ -145,7 +145,7 @@ DIRECTION can be forward or backward.  Don't know what COUNT does."
 
 ;;;###autoload
 (defun +evil-lisp-first-non-blank ()
-    (interactive)
+  (interactive)
   (evil-first-non-blank)
   (while (and (equal (thing-at-point 'char) "(")
               (not (++in-string-p)))
@@ -177,8 +177,8 @@ DIRECTION can be forward or backward.  Don't know what COUNT does."
   "Go to first point of current syntax depth on the current line."
   (let ((depth (++syntax-depth))
         (line-beginning (save-excursion
-                      (beginning-of-line)
-                      (point))))
+                          (beginning-of-line)
+                          (point))))
 
     (when
         (catch 'beginning-of-depth
@@ -260,7 +260,7 @@ Start eshell if it isn't running already."
     (exchange-point-and-mark))
   (eval-region (mark) (point) t)
   (ignore-errors
-   (evil-normal-state)))
+    (evil-normal-state)))
 
 ;;;###autoload
 (defun +eval-line ()
@@ -281,8 +281,8 @@ Start eshell if it isn't running already."
       (while (not (or (string= point-char "(")
                       (string= point-char ")")))
         (ignore-errors
-            (backward-sexp))
-          (backward-char)
+          (backward-sexp))
+        (backward-char)
         (setq point-char (thing-at-point 'char)))
       (if (string= point-char "(")
           (setq reg-start (point))
@@ -420,6 +420,27 @@ Start eshell if it isn't running already."
   (if (string= (buffer-name) "*scratch*")
       (evil-switch-to-windows-last-buffer)
     (switch-to-buffer "*scratch*")))
+
+;;;###autoload
+(defun +mode-prefix ()
+  "Return a symbol of the current major mode name minus the \"-mode\" or \"-ts-mode\" suffix."
+  (let* ((mmode-str (symbol-name major-mode))
+         (str-end (string-match "\\(-ts\\\)?-mode$" mmode-str)))
+    (when str-end
+      (intern (substring mmode-str nil str-end)))))
+
+;;;###autoload
+(defun +treesit-mode-switch ()
+  "Switch to the tree-sitter variant of the current mode, installing its grammar before doing so."
+  (interactive)
+  (let ((lang (seq-find
+               (lambda (x) (eq (nth 1 x) major-mode))
+               +treesit-supported-languages)))
+    (unless (and
+             lang
+             (not (treesit-ready-p (car lang) t))
+             (treesit-install-language-grammar (car lang)))
+      (funcall (nth 2 lang)))))
 
 ;;;###autoload
 (defun +window-clear-side ()

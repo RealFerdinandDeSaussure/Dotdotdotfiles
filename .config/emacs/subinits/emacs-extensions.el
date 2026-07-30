@@ -27,6 +27,22 @@
 ;; clipboard settings
 (setq save-interprogram-paste-before-kill t)
 
+;; tree-sitter settings
+(defvar +treesit-supported-languages
+  '((bash sh-mode bash-ts-mode sh-mode-hook "https://github.com/tree-sitter/tree-sitter-bash")
+    (go go-mode go-ts-mode go-mode-hook "https://github.com/tree-sitter/tree-sitter-go")
+    (lua lua-mode lua-ts-mode lua-mode-hook "https://github.com/tree-sitter-grammars/tree-sitter-lua")
+    (markdown markdown-mode markdown-ts-mode markdown-mode-hook "https://github.com/tree-sitter-grammars/tree-sitter-markdown")
+    (python python-mode python-ts-mode python-mode-hook "https://github.com/tree-sitter/tree-sitter-python")
+    (yaml yaml-mode yaml-ts-mode yaml-mode-hook "https://github.com/tree-sitter-grammars/tree-sitter-yaml")))
+
+(setq treesit-language-source-alist
+      (mapcar (lambda (x) (list (car x) (nth 4 x))) +treesit-supported-languages))
+
+;; automatically switch to tree-sitter modes for all supported languages
+(dolist (lang +treesit-supported-languages)
+  (add-hook (nth 3 lang) #'+treesit-mode-switch))
+
 ;; get a more recent version of compat from ELPA in case any packages require it
 (unload-feature 'compat t)
 (use-package compat

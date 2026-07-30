@@ -11,7 +11,7 @@
 ;; mode associations
 (dolist (ext-mode
          '((".gitignore" . prog-mode)
-           (".lua" . lua-ts-mode)))
+           (".lua" . lua-mode)))
   (push ext-mode auto-mode-alist))
 
 ;; eldoc settings
