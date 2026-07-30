@@ -29,6 +29,13 @@
                                                      (blink-cursor-mode 1)
                                                    (blink-cursor-mode -1))))
 
+  ;; evil text objects
+  (evil-define-text-object °evil-inner-buffer-text (count &rest args)
+    "Select all the text in the current buffer."
+    :type inclusive
+    (list 1 (point-max)))
+  (keymap-set evil-inner-text-objects-map (kbd "A") #'°evil-inner-buffer-text)
+  
   ;; evil commands and ex-commands
   (evil-define-command +mv-buf-and-file (new-filename)
     "Renames both current buffer and file it's visiting to NEW-NAME."
