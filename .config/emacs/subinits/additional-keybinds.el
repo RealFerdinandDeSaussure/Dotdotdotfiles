@@ -17,6 +17,7 @@
 ;; global F-key binds
 (general-def
   :keymaps          'override
+  "<f9>"            'elpaca-manager
   "<f12>"           'elpaca-update-all)
 
 ;; window navigation
