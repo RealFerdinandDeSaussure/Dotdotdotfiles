@@ -11,6 +11,6 @@ function hex2rgb
         case -b
             printf '%d' 0x(string sub -s 5 -l 2 "$argv")
         case '*'
-            printf '%d' 0x$argv
+            printf '%d,' 0x(string sub -l 2 "$argv") 0x(string sub -s 3 -l 2 "$argv") 0x(string sub -s 5 -l 2 "$argv") | string trim -c,
     end
 end
