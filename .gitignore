@@ -71,11 +71,7 @@
 !.config/mpv/scripts/*
 
 !.config/nvim
-!.config/nvim/init.vim
-!.config/nvim/autoload/
-!.config/nvim/autoload/plug.vim
-!.config/nvim/colors/
-!.config/nvim/colors/base16-generic.vim
+!.config/nvim/init.lua
 
 !.config/pacman
 !.config/pacman/makepkg.conf
