@@ -16,6 +16,7 @@ vim.opt.wildmode = "longest,list,full"
 vim.opt.background = "light"
 vim.opt.termguicolors = false
 vim.opt.clipboard = "unnamedplus"
+vim.opt.linespace = 7 -- only relevant in a GUI
 
 -- keybinds
 vim.g.mapleader = " "
