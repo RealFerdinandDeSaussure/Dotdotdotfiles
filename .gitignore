@@ -48,10 +48,10 @@
 !.config/gnupg
 !.config/gnupg/gpg-agent.conf
 
-!.config/i3
-!.config/i3/scripts
-!.config/i3/scripts/*
-.config/i3/scripts/i3insert
+!.config/sway
+!.config/sway/scripts
+!.config/sway/scripts/*
+.config/sway/scripts/insert-mode
 
 !.config/ironbar
 !.config/ironbar/config.yaml

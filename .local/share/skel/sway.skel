@@ -60,7 +60,7 @@ set $ws10 "10  "
 
 # set other variables
 set $font {{{$FONT_SANS}}}
-set $i3scriptsdir $HOME/.config/i3/scripts
+set $scriptsdir $HOME/.config/sway/scripts
 set $i3blockletsdir $HOME/.config/i3blocks/blocklets
 set $mod Mod4
 set $i3b_up10 "pkill -RTMIN+10 i3blocks"
@@ -256,7 +256,7 @@ bindsym $mod+Mod1+Shift+Right move workspace to output right
 
 # jump to urgent window
 bindsym $mod+space [urgent=latest] focus
-# restart/reload i3 inplace
+# restart/reload sway inplace
 bindsym $mod+Shift+r exec sh -c 'merge-configs && swaymsg reload'
 
 # remove notifications
@@ -347,39 +347,39 @@ mode $mode_blocks {
 
 # insert text
 mode $mode_insert {
-        bindsym Shift+m exec $i3scriptsdir/i3insert M; mode "default"
-        bindsym m exec $i3scriptsdir/i3insert m; mode "default"
-        bindsym Shift+n exec $i3scriptsdir/i3insert N; mode "default"
-        bindsym n exec $i3scriptsdir/i3insert n; mode "default"
-        bindsym v exec $i3scriptsdir/i3insert v; mode "default"
-        bindsym s exec $i3scriptsdir/i3insert s; mode "default"
-        bindsym Shift+s exec $i3scriptsdir/i3insert S; mode "default"
-        bindsym p exec $i3scriptsdir/i3insert p; mode "default"
-        bindsym o exec $i3scriptsdir/i3insert o; mode "default"
-        bindsym f exec $i3scriptsdir/i3insert f; mode "default"
+        bindsym Shift+m exec $scriptsdir/insert-mode M; mode "default"
+        bindsym m exec $scriptsdir/insert-mode m; mode "default"
+        bindsym Shift+n exec $scriptsdir/insert-mode N; mode "default"
+        bindsym n exec $scriptsdir/insert-mode n; mode "default"
+        bindsym v exec $scriptsdir/insert-mode v; mode "default"
+        bindsym s exec $scriptsdir/insert-mode s; mode "default"
+        bindsym Shift+s exec $scriptsdir/insert-mode S; mode "default"
+        bindsym p exec $scriptsdir/insert-mode p; mode "default"
+        bindsym o exec $scriptsdir/insert-mode o; mode "default"
+        bindsym f exec $scriptsdir/insert-mode f; mode "default"
         # password retrieval
-        bindsym less exec $i3scriptsdir/pass_get -X; mode "default"
-        bindsym Alt+less exec $i3scriptsdir/pass_get -Xr; mode "default"
-        bindsym y exec $i3scriptsdir/pass_get -ux; mode "default"
-        bindsym Alt+y exec $i3scriptsdir/pass_get -uxr; mode "default"
-        bindsym Ctrl+y exec $i3scriptsdir/pass_get -uxm; mode "default"
-        bindsym Shift+y exec $i3scriptsdir/pass_get -u; mode "default"
-        bindsym Alt+Shift+y exec $i3scriptsdir/pass_get -ur; mode "default"
-        bindsym Ctrl+Shift+y exec $i3scriptsdir/pass_get -um; mode "default"
-        bindsym x exec $i3scriptsdir/pass_get -x; mode "default"
-        bindsym Alt+x exec $i3scriptsdir/pass_get -xr; mode "default"
-        bindsym Ctrl+x exec $i3scriptsdir/pass_get -xm; mode "default"
-        bindsym Shift+x exec $i3scriptsdir/pass_get; mode "default"
-        bindsym Alt+Shift+x exec $i3scriptsdir/pass_get -r; mode "default"
-        bindsym Ctrl+Shift+x exec $i3scriptsdir/pass_get; mode "default"
-        bindsym c exec $i3scriptsdir/pass_get -fx; mode "default"
-        bindsym Alt+c exec $i3scriptsdir/pass_get -fxr; mode "default"
-        bindsym Ctrl+c exec $i3scriptsdir/pass_get -fxm; mode "default"
-        bindsym Alt+Ctrl+c exec $i3scriptsdir/pass_get -fxmr; mode "default"
-        bindsym Shift+c exec $i3scriptsdir/pass_get -f; mode "default"
-        bindsym Alt+Shift+c exec $i3scriptsdir/pass_get -fr; mode "default"
-        bindsym Ctrl+Shift+c exec $i3scriptsdir/pass_get -fm; mode "default"
-        bindsym Alt+Ctrl+Shift+c exec $i3scriptsdir/pass_get -fmr; mode "default"
+        bindsym less exec $scriptsdir/pass_get -X; mode "default"
+        bindsym Alt+less exec $scriptsdir/pass_get -Xr; mode "default"
+        bindsym y exec $scriptsdir/pass_get -ux; mode "default"
+        bindsym Alt+y exec $scriptsdir/pass_get -uxr; mode "default"
+        bindsym Ctrl+y exec $scriptsdir/pass_get -uxm; mode "default"
+        bindsym Shift+y exec $scriptsdir/pass_get -u; mode "default"
+        bindsym Alt+Shift+y exec $scriptsdir/pass_get -ur; mode "default"
+        bindsym Ctrl+Shift+y exec $scriptsdir/pass_get -um; mode "default"
+        bindsym x exec $scriptsdir/pass_get -x; mode "default"
+        bindsym Alt+x exec $scriptsdir/pass_get -xr; mode "default"
+        bindsym Ctrl+x exec $scriptsdir/pass_get -xm; mode "default"
+        bindsym Shift+x exec $scriptsdir/pass_get; mode "default"
+        bindsym Alt+Shift+x exec $scriptsdir/pass_get -r; mode "default"
+        bindsym Ctrl+Shift+x exec $scriptsdir/pass_get; mode "default"
+        bindsym c exec $scriptsdir/pass_get -fx; mode "default"
+        bindsym Alt+c exec $scriptsdir/pass_get -fxr; mode "default"
+        bindsym Ctrl+c exec $scriptsdir/pass_get -fxm; mode "default"
+        bindsym Alt+Ctrl+c exec $scriptsdir/pass_get -fxmr; mode "default"
+        bindsym Shift+c exec $scriptsdir/pass_get -f; mode "default"
+        bindsym Alt+Shift+c exec $scriptsdir/pass_get -fr; mode "default"
+        bindsym Ctrl+Shift+c exec $scriptsdir/pass_get -fm; mode "default"
+        bindsym Alt+Ctrl+Shift+c exec $scriptsdir/pass_get -fmr; mode "default"
 
         # back to normal: mode shortcut or Escape
         bindsym Escape mode "default"

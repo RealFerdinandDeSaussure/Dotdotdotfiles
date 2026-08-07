@@ -1,7 +1,7 @@
-# %-LOCATION:$HOME/.config/i3/scripts/i3insert-% -*-sh-*-
+# %-LOCATION:$HOME/.config/sway/scripts/insert-mode-% -*-sh-*-
 # %-VARIABLE:INFO=(pass show random/persönliche_informationen)-% -*-sh-*-
 #!/bin/bash
-# DO EDITS HERE: $HOME/.local/share/skel/i3insert.skel
+# DO EDITS HERE: $HOME/.local/share/skel/insert-mode.skel
 function dotool {
     local tool
     local args
