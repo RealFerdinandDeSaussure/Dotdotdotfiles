@@ -1,0 +1,47 @@
+#!/bin/bash
+
+WIRED_INSTANCE=${1}
+WIFI_INSTANCE=${2}
+
+html_escape() {
+    sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g; s/"/\&quot;/g; s/'"'"'/\&#39;/g'
+}
+
+# wired connection
+if [[ -n $WIRED_INSTANCE ]]; then
+    STATE=$(cat /sys/class/net/${WIRED_INSTANCE}/operstate)
+
+    if [[ $STATE == "up" ]]; then
+        if [[ $(ip route | grep ${WIRED_INSTANCE}) ]]; then
+            wired="<span foreground=\"#${__BASE0B}\"></span>"
+        else
+            wired="<span foreground=\"#${__BASE0A}\"></span>"
+        fi
+    fi
+fi
+
+# wifi connection
+if [[ -n $WIFI_INSTANCE ]]; then
+    if [ $(($(cat /sys/class/net/${WIFI_INSTANCE}/flags) & 0x1)) -eq 0 ]; then
+        wifi=''
+    else
+        QUALITY=$(grep $WIFI_INSTANCE /proc/net/wireless | awk '{ print int($3 * 100 / 70) }')
+        WIFI_SSID=$(iwctl station $WIFI_INSTANCE show | perl -ne 'print if s/^\s*Connected network\s*(.+?)\s*$/\1/' | html_escape)
+            color="#${__BASE02}"
+
+        if [[ -z "$WIFI_SSID" ]]; then
+            color="#${__BASE03}"
+        elif [[ $QUALITY -ge 80 ]]; then
+            color="#${__BASE0B}"
+        elif [[ $QUALITY -ge 60 ]]; then
+            color="#${__BASE0A}"
+        elif [[ $QUALITY -ge 40 ]]; then
+            color="#${__BASE09}"
+        else
+            color="#${__BASE08}"
+        fi
+        wifi="<span foreground=\"${color}\"></span>"
+    fi
+fi
+
+echo "${wired}${wifi:+${wired:+ }$wifi${WIFI_SSID:+ <span size='small'>${WIFI_SSID}</span>}}${vpn:+ }$vpn"

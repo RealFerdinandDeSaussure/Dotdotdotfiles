@@ -1,0 +1,37 @@
+#!/bin/bash
+test -z "$WAYLAND_DISPLAY" && exit
+
+function setup_clip_cache {
+    export clip_cache="${HOME}/.cache/ironbar/clip_cache"
+    mkdir -p "$(dirname "$clip_cache")"
+    touch "$clip_cache"
+}
+
+function write_to_cache {
+    local clip_content="$1"
+    if grep -Fxq -- "$clip_content" "$clip_cache"; then
+        return
+    fi
+    old_cache=$(head -n 4 "$clip_cache")
+    echo "$clip_content" > "$clip_cache"
+    echo "$old_cache" >> "$clip_cache"
+}
+
+if [ -z "$CLIPBOARD_STATE" ]; then
+    setup_clip_cache
+
+    script_loc=$(dirname -- "$( readlink -f -- "$0"; )";)/$(basename "$0")
+    wl-paste --watch "$script_loc"
+else
+    clip_content="$(cat | tr -dc '[:graph:][:blank:]' | tr -d \&\'\"\<\>)"
+    if [[ -z "$clip_content" ]]; then
+        stdbuf -oL echo ""
+        exit
+    fi
+    
+    test "$CLIPBOARD_STATE" = "sensitive" && clip_content=$(echo -n "$clip_content" | tr "[:graph:]" "*")
+    write_to_cache "$clip_content"
+    clip_content="$(echo -n "$clip_content" | xargs)"
+    test ${#clip_content} -gt 15 && clip_content="${clip_content:0:15}…"
+    stdbuf -oL echo "$clip_content"
+fi

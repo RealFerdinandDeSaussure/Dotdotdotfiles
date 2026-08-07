@@ -53,6 +53,11 @@
 !.config/i3/scripts/*
 .config/i3/scripts/i3insert
 
+!.config/ironbar
+!.config/ironbar/config.yaml
+!.config/ironbar/scripts
+!.config/ironbar/scripts/*
+
 !.config/i3blocks
 !.config/i3blocks/blocklets/
 !.config/i3blocks/blocklets/*

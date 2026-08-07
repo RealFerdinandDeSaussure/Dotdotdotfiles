@@ -1,0 +1,54 @@
+ironvar_defaults:
+  swayidle_btn: "on"
+position: "top"
+height: 0
+popup_gap: 0
+popup_autohide: false
+start:
+  - type: "workspaces"
+    all_monitors: true
+    sort: "index"
+  - type: "label"
+    name: "dummy-widget-gradient"
+    label: ""
+  - type: "bindmode"
+center:
+  - type: "focused"
+    icon_size: 18
+    truncate: "middle"
+    show_title: true
+end:
+  - type: "custom"
+    bar:
+    - type: "button"
+      on_click: "popup:toggle"
+      widgets:
+      - type: "label"
+        label: " "
+      - type: "label"
+        name: "clipboard-contents"
+        label: "{{watch:$HOME/.config/ironbar/scripts/wl-clipboard}}"
+    popup:
+    - type: "box"
+      class: "clipboard-popup"
+      widgets:
+      - type: "button"
+        label: "hellooo"
+  - type: "music"
+    player_type: "mpd"
+    music_dir: "$HOME/Musik/"
+    marquee:
+      enable: true
+      max_length: 40
+      pause_duration: 10000
+  - type: "script"
+    cmd: "$HOME/.config/ironbar/scripts/network eno1 wlan0"
+    mode: "poll"
+    interval: 10000
+  - type: "bluetooth"
+    format:
+      disabled: ""
+      enabled: ""
+  - type: "clock"
+    format: " %H:%M"
+  - type: "tray"
