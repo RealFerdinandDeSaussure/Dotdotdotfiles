@@ -393,26 +393,7 @@ bindsym $mod+m mode $mode_music
 bindsym $mod+b mode $mode_blocks
 bindsym $mod+i mode $mode_insert
 
-# Start i3bar to display a workspace bar
-bar {
-        status_command i3blocks
-        position top
-        font pango:$font, FontAwesome
-
-        colors {
-            background $base00
-            separator  $base01
-            statusline $base04
-
-            # State             Border  BG      Text
-            focused_workspace   $base0D $base0D $base00
-            active_workspace    $base03 $base03 $base00
-            inactive_workspace  $base01 $base01 $base05
-            urgent_workspace    $base08 $base08 $base00
-            binding_mode        $base0A $base0A $base00
-        }
-}
-
+exec_always ironbar
 exec swayidle -w
-exec_always systemctl --user import-environment WAYLAND_DISPLAY
+exec systemctl --user import-environment WAYLAND_DISPLAY
 exec_always systemctl --user start sway-session.target
