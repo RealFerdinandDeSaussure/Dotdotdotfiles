@@ -87,6 +87,7 @@
 
 !.config/systemd
 !.config/systemd/user
+!.config/systemd/user/mpd-notify.service
 !.config/systemd/user/sway-session.target
 !.config/systemd/user/mpdscribble.service.d/
 !.config/systemd/user/mpdscribble.service.d/*

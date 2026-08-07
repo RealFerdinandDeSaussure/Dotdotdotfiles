@@ -1,0 +1,9 @@
+[Unit]
+Description=Notification daemon for mpd
+Requires=mpd.service
+
+[Service]
+ExecStart=%h/.local/bin/mpd-notify-daemon
+
+[Install]
+WantedBy=mpd.service
