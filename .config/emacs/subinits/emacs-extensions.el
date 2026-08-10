@@ -214,17 +214,30 @@
   (:keymaps         'override
    :states          '(motion emacs insert)
    "C-¼"            '+mistty-toggle)
-  ;; :custom
-  ;; (vterm-shell (concat "/" (file-name-concat "usr" "bin" "fish") " -C __vterm_setup"))
   :general-config
-  (:states          'emacs
-   :keymaps         'mistty-mode-map ;check
-   "C-h k"          'helpful-key
-   "C-c $"          '+mistty-toggle)
-  (:keymaps         'mistty-mode-map
-   "M-:"            'eval-expression)
+  (:states          'insert
+   :keymaps         'mistty-mode-map
+   "C-c"            'mistty-self-insert
+   "C-p"            'mistty-send-C-p
+   "C-n"            'mistty-send-C-n
+   "C-r"            'mistty-send-C-r
+   "S-<escape>"     (+mistty-send-key-function "<ESC>"))
 
   :config
+  (defvar +mistty--fish-to-emacs-kbds-alist
+    '(("space" . "<SPC>")
+      ("backspace" . "<DEL>")
+      ("return" . "<RET>"))
+    "A list of keys that should be replaced with their associated values when
+    converting fish to Emacs keybindings.")
+
+  (defmacro +mistty-send-key-function (key)
+    "Return an interactive function named +mistty-send-KEY that sends KEY to the
+mistty process."
+    `(defun ,(intern (concat "mistty-send-" key)) (&optional n)
+       (interactive "p")
+       (mistty-send-key n ,(kbd key))))
+
   (defun +mistty-toggle ()
     "Hide or show mistty window.
 Start terminal if it isn't running already."
@@ -237,8 +250,48 @@ Start terminal if it isn't running already."
             (pop-to-buffer mistty-buf)
           (mistty-other-window)))))
 
+  (defun +mistty--fish-to-emacs-kbd (binding)
+    "Convert the fish keybind BINDING to an Emacs kbd style keybinding and
+    return it."
+    (let ((repls '(("ctrl" . "C")
+                   ("alt" . "M")
+                   ("shift" . "S")))
+          (last-key (car (last (string-split binding "-")))))
+      (dolist (r repls)
+        (setq binding (string-replace (car r) (cdr r) binding)))
+      (unless (length= last-key 1)
+        (cl-dolist (r +mistty--fish-to-emacs-kbds-alist)
+          (when (string= last-key (car r))
+            (setq binding
+                  (concat
+                   (substring binding 0 (- (length binding) (length last-key)))
+                   (cdr r)))
+            (cl-return))))
+      (kbd binding)))
+
+  (iter-defun +mistty--generate-fish-keybindings (str)
+    ;; retrieve fish keybindings from str and generate emacs kbd
+    ;; representations for each of them
+    (let ((keybd-needle (rx "-M insert"
+                            (+ space)
+                            (group-n 1 (+ (not space))))))
+      (dolist (line (string-split str "\n"))
+        (when (string-match keybd-needle line)
+          (iter-yield
+           (+mistty--fish-to-emacs-kbd
+            (match-string 1 line)))))))
+  
+  (defun +mistty-clear-insert-fish-keybds ()
+    "Clear all keybindings defined for fish's insert mode in mistty's insert
+    state with the exception of escape."
+    (iter-do (fish-kbd (+mistty--generate-fish-keybindings
+                        (shell-command-to-string "fish -C fish_user_key_bindings -c 'bind -M insert'")))
+      (evil-define-key 'insert mistty-mode-map fish-kbd #'mistty-self-insert)))
+
+  (+mistty-clear-insert-fish-keybds)
   ;; delete mistty window on exit
-  (add-hook 'mistty-after-process-end-hook #'mistty-kill-buffer-and-window))
+  (add-hook 'mistty-after-process-end-hook #'mistty-kill-buffer-and-window)
+  (add-hook 'mistty-mode-hook #'evil-insert-state))
 
 
 (use-package vertico
@@ -250,8 +303,8 @@ Start terminal if it isn't running already."
   (read-file-name-completion-ignore-case t)
   :general-config
   (:keymaps         'vertico-map
-    "M-k"           'previous-history-element
-    "M-j"           'next-history-element)
+   "M-k"           'previous-history-element
+   "M-j"           'next-history-element)
   :config
   (evil-collection-vertico-setup))
 
