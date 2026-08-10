@@ -398,10 +398,22 @@ targets."
 (use-package embark-consult
   :after (consult embark))
 
-(use-package hotfuzz
-  :defer t
+(use-package fzf-native
+  :ensure (:type git
+           :host github
+           :repo "dangduc/fzf-native"
+           :files (:defaults "bin"))
+  :after (:any corfu consult)
   :init
-  (setq completion-styles '(hotfuzz)))
+  (setq fzf-native-always-compile-module t)
+  :config
+  (fzf-native-load-dyn))
+
+(use-package fussy
+  :after fzf-native
+  :config
+  (fussy-setup-fzf)
+  (fussy-eglot-setup))
 
 (use-package which-key
   :ensure nil
