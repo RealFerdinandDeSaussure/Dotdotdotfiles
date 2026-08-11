@@ -1,37 +1,77 @@
 #!/bin/bash
 test -z "$WAYLAND_DISPLAY" && exit
 
+CACHE_FILE="${HOME}/.cache/ironbar/clip_cache"
+
 function setup_clip_cache {
-    export clip_cache="${HOME}/.cache/ironbar/clip_cache"
-    mkdir -p "$(dirname "$clip_cache")"
-    touch "$clip_cache"
+    mkdir -p "$(dirname "$CACHE_FILE")"
+    touch "$CACHE_FILE"
 }
 
 function write_to_cache {
-    local clip_content="$1"
-    if grep -Fxq -- "$clip_content" "$clip_cache"; then
+    declare -a cache_content
+    cache_content=("$1")
+    if grep -Fxq -- "${cache_content[0]}" "$CACHE_FILE"; then
         return
     fi
-    old_cache=$(head -n 4 "$clip_cache")
-    echo "$clip_content" > "$clip_cache"
-    echo "$old_cache" >> "$clip_cache"
+    while read -r line; do cache_content+=("$line"); done < <(head -n5 "$CACHE_FILE")
+    printf "%s\n" "${cache_content[@]}" > "$CACHE_FILE"
 }
 
-if [ -z "$CLIPBOARD_STATE" ]; then
+function init_script {
     setup_clip_cache
 
     script_loc=$(dirname -- "$( readlink -f -- "$0"; )";)/$(basename "$0")
+    # kill all already running wl-paste commands launched from this script
+    pkill -f -- "wl-paste --watch $script_loc"
     wl-paste --watch "$script_loc"
-else
-    clip_content="$(cat | tr -dc '[:graph:][:blank:]' | tr -d \&\'\"\<\>)"
+}
+
+function update_ironvars {
+    test -f "$CACHE_FILE" || exit 1
+    counter=2
+    while read -r line; do
+        ironbar var set -- "clip${counter}" "$line" 2>/dev/null
+        ((counter++))
+    done < "$CACHE_FILE"
+}
+
+function cp_from_ironvars {
+    test -f "$CACHE_FILE" || exit 1
+    sed -n "${1}p" "$CACHE_FILE" | wl-copy
+}
+
+function update_widget {
+    clip_content="$(cat | perl -pE 's/[^\p{XPosixPrint}]//g')"
     if [[ -z "$clip_content" ]]; then
         stdbuf -oL echo ""
         exit
     fi
     
-    test "$CLIPBOARD_STATE" = "sensitive" && clip_content=$(echo -n "$clip_content" | tr "[:graph:]" "*")
-    write_to_cache "$clip_content"
+    if [ "$CLIPBOARD_STATE" = "sensitive" ]; then
+        clip_content=$(echo -n "$clip_content" | tr "[:graph:]" "*")
+    else
+        write_to_cache "$clip_content"
+    fi
+
     clip_content="$(echo -n "$clip_content" | xargs)"
     test ${#clip_content} -gt 15 && clip_content="${clip_content:0:15}…"
     stdbuf -oL echo "$clip_content"
+}
+
+if [ -n "$CLIPBOARD_STATE" ]; then
+    update_widget
+    exit
 fi
+
+case "$1" in
+    update)
+        update_ironvars
+        ;;
+    varcopy)
+        cp_from_ironvars "$2"
+        ;;
+    *)
+        init_script
+        ;;
+esac
