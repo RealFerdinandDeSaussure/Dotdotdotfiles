@@ -1,16 +1,18 @@
-ironvar_defaults:
-  swayidle_btn: "on"
+name: "main_bar"
 position: "top"
 height: 0
 popup_gap: 0
 popup_autohide: false
 start:
-  - type: "workspaces"
-    all_monitors: true
-    sort: "index"
-  - type: "label"
-    name: "dummy-widget-gradient"
-    label: ""
+  - type: "custom"
+    class: "widget-box"
+    bar:
+    - type: "workspaces"
+      all_monitors: true
+      sort: "index"
+    - type: "label"
+      name: "dummy-widget-gradient"
+      label: ""
   - type: "bindmode"
 center:
   - type: "focused"
@@ -19,9 +21,10 @@ center:
     show_title: true
 end:
   - type: "custom"
+    name: "clipboard"
     bar:
     - type: "button"
-      on_click: "popup:toggle"
+      on_click: "!$HOME/.config/ironbar/scripts/wl-clipboard widget main_bar clipboard"
       widgets:
       - type: "label"
         label: " "
@@ -30,10 +33,34 @@ end:
         label: "{{watch:$HOME/.config/ironbar/scripts/wl-clipboard}}"
     popup:
     - type: "box"
+      orientation: "vertical"
       class: "clipboard-popup"
       widgets:
       - type: "button"
-        label: "hellooo"
+        class: "popup-button"
+        show_if: "#clip2"
+        label: "#clip2"
+        on_click: "!$HOME/.config/ironbar/scripts/wl-clipboard varcopy 2"
+      - type: "button"
+        class: "popup-button"
+        show_if: "#clip3"
+        label: "#clip3"
+        on_click: "!$HOME/.config/ironbar/scripts/wl-clipboard varcopy 3"
+      - type: "button"
+        class: "popup-button"
+        show_if: "#clip4"
+        label: "#clip4"
+        on_click: "!$HOME/.config/ironbar/scripts/wl-clipboard varcopy 4"
+      - type: "button"
+        class: "popup-button"
+        show_if: "#clip5"
+        label: "#clip5"
+        on_click: "!$HOME/.config/ironbar/scripts/wl-clipboard varcopy 5"
+      - type: "button"
+        class: "popup-button"
+        show_if: "#clip6"
+        label: "#clip6"
+        on_click: "!$HOME/.config/ironbar/scripts/wl-clipboard varcopy 6"
   - type: "music"
     player_type: "mpd"
     music_dir: "$HOME/Musik/"

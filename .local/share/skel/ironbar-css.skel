@@ -21,6 +21,8 @@
     --wh-alpha: 0.55;
     --widget-pad-horiz: 0.65em;
     --bar-pad-vert: 0.14em;
+    --popup-pad-vert: 0.4em;
+    --popup-pad-horiz: 0.6em;
     --base00-rgb: 50,48,47;
     --base01-rgb: 60,56,54;
     --base02-rgb: 80,73,69;
@@ -68,6 +70,10 @@
     color: inherit;
 }
 
+.widget-box {
+    padding: 0;
+}
+
 button {
     color: inherit;
 }
@@ -95,7 +101,7 @@ button {
     transition: color 500ms ease, background-size 200ms ease, background-position 300ms ease;
 }
 
-#bar #end revealer:nth-child(odd) > .widget:hover {
+#bar #end revealer:nth-child(odd) .widget:hover {
     background:
         right
         no-repeat
@@ -118,7 +124,7 @@ button {
     transition: color 500ms ease, background-size 200ms ease, background-position 300ms ease;
 }
 
-#bar #end revealer:nth-child(even) > .widget:hover {
+#bar #end revealer:nth-child(even) .widget:hover {
     background:
         right
         no-repeat
@@ -131,15 +137,29 @@ button {
 }
 
 #bar #end revealer:nth-child(odd) .popup {
-    padding: 0.6em 0.8em;
+    padding: var(--popup-pad-vert) var(--popup-pad-horiz);
     background: radial-gradient(circle at 80% 120%, @base0c, @base03 70%, @base01);
     color: @base07;
 }
 
 #bar #end revealer:nth-child(even) .popup {
-    padding: 0.6em 0.8em;
+    padding: var(--popup-pad-vert) var(--popup-pad-horiz);
     background: radial-gradient(circle at 80% 120%, @base0d, @base03 70%, @base01);
     color: @base07;
+}
+
+.popup-button {
+    padding: 0;
+    border: 0.2em solid transparent;
+    border-radius: 0.2em;
+    transition-property: background, border;
+    transition-duration: 200ms;
+    transition-timing-function: ease;
+}
+
+.popup-button:hover {
+    border: 0.2em solid @base01;
+    background: @base01;
 }
 
 /* Styling of individual widgets and their popups */
@@ -154,6 +174,11 @@ button {
 #clipboard-contents {
     font-size: 0.8em;
     vertical-align: bottom;
+}
+
+.clipboard-popup {
+    min-width: 300px;
+    max-width: 500px;
 }
 
 .focused .label {
