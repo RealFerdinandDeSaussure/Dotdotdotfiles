@@ -394,6 +394,5 @@ bindsym $mod+b mode $mode_blocks
 bindsym $mod+i mode $mode_insert
 
 exec_always ironbar
+exec_always foot --server
 exec swayidle -w
-exec systemctl --user import-environment WAYLAND_DISPLAY
-exec_always systemctl --user start sway-session.target
