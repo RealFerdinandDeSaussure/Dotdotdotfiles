@@ -1,7 +1,7 @@
 name: "main_bar"
 position: "top"
 height: 0
-popup_gap: 0
+popup_gap: 6
 popup_autohide: false
 start:
   - type: "custom"
@@ -37,7 +37,7 @@ end:
       class: "clipboard-popup"
       widgets:
       - type: "button"
-        class: "popup-button"
+        class: "text-button"
         show_if: "#clip2"
         label: "#clip2"
         on_click: "!$HOME/.config/ironbar/scripts/wl-clipboard varcopy 2"
