@@ -1,5 +1,5 @@
 # %-LOCATION:$HOME/.config/gammastep/config.ini-% -*-conf-*-
-# DO EDITS HERE: $HOME/.local/share/skel/sway.skel
+# DO EDITS HERE: $HOME/.local/share/skel/gammastep.skel
 ; Global settings
 [general]
 ; Set the day and night screen temperatures
