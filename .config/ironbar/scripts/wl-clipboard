@@ -14,7 +14,7 @@ function write_to_cache {
     if grep -Fxq -- "${cache_content[0]}" "$CACHE_FILE"; then
         return
     fi
-    while read -r line; do cache_content+=("$line"); done < <(head -n5 "$CACHE_FILE")
+    while IFS= read -r line; do cache_content+=("$line"); done < <(head -n5 "$CACHE_FILE")
     printf "%s\n" "${cache_content[@]}" > "$CACHE_FILE"
 }
 
@@ -31,6 +31,7 @@ function update_ironvars {
     test -f "$CACHE_FILE" || exit 1
     counter=2
     while read -r line; do
+        test ${#line} -gt 30 && line="${line:0:30}…"
         ironbar var set -- "clip${counter}" "$line" >/dev/null 
         ((counter++))
     done < <(tail -n +2 "$CACHE_FILE")
