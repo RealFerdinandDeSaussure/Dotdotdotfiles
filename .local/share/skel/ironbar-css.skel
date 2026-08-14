@@ -169,11 +169,12 @@ tooltip box {
     transition: background, color;
     transition-duration: 200ms;
     transition-timing-function: ease;
+    color: @base05;
 }
 
 .popup .text-button:hover,
 .popup .image-button:hover {
-    color: @base00;
+    color: @base07;
 }
 
 #bar #end revealer:nth-child(odd) .popup .text-button:hover,
@@ -322,6 +323,21 @@ tooltip box {
 
 .popup-clock .calendar .other-month {
     color: rgba(var(--base07-rgb),0.6);
+}
+
+.power-button.image-button {
+    border: 4px solid @base00;
+    margin-right: 1.5em;
+    padding: 0.5em;
+    border-radius: 1em;
+}
+
+#popup-power box revealer:last-child .power-button {
+    margin-right: 0;
+}
+
+#bar #end revealer .popup .power-button.image-button:hover {
+    background-color: @base00;
 }
 
 .workspaces {
