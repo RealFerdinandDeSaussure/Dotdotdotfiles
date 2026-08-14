@@ -1,7 +1,7 @@
 name: "main_bar"
 position: "top"
 height: 0
-popup_gap: 6
+popup_gap: 12
 popup_autohide: true
 start:
   - type: "custom"

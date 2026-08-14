@@ -21,6 +21,7 @@
     --wh-alpha: 0.55;
     --bar-pad-vert: 0.37rem;
     --button-pad-vert: 0.28em;
+    --button-pad-horiz: 0.38em;
     --popup-pad-vert: 0.5em;
     --popup-pad-horiz: 1em;
     --widget-pad-horiz: 0.65em;
@@ -142,28 +143,54 @@ contents {
     background-color: transparent;
 }
 
-tooltip box {
-    background-color: @base01;
+tooltip box, .widget .menu contents {
+    border-radius: 4px;
+    padding: var(--popup-pad-vert) var(--popup-pad-horiz);
+    background-color: @base02;
+    color: @base06;
+}
+
+.widget .menu {
+    background-color: transparent;
+}
+
+.widget .menu radio:checked {
+    color: @base00;
+}
+
+.widget .menu separator {
+    background-color: @base04;
+}
+
+#bar #end > revealer:nth-child(odd) .menu > arrow {
+    background: linear-gradient(to bottom, @base0c, @base03 13px);
+}
+
+#bar #end > revealer:nth-child(even) .menu arrow {
+    background: linear-gradient(to bottom, @base0d, @base03 13px);
 }
 
 .popup {
     border-radius: 4px;
 }
 
-#bar #end > revealer:nth-child(odd) .popup {
+#bar #end > revealer:nth-child(odd) .popup,
+#bar #end > revealer:nth-child(odd) .menu contents {
     padding: var(--popup-pad-vert) var(--popup-pad-horiz);
     background: radial-gradient(circle at 80% 120%, @base0c, @base03 70%, @base01);
     color: @base07;
 }
 
-#bar #end > revealer:nth-child(even) .popup {
+#bar #end > revealer:nth-child(even) .popup,
+#bar #end > revealer:nth-child(even) .menu contents {
     padding: var(--popup-pad-vert) var(--popup-pad-horiz);
     background: radial-gradient(circle at 80% 120%, @base0d, @base03 70%, @base01);
     color: @base07;
 }
 
 .popup .text-button,
-.popup .image-button {
+.popup .image-button,
+.menu modelbutton {
     padding-top: var(--button-pad-vert);
     padding-bottom: var(--button-pad-vert);
     border-radius: 4px;
@@ -173,18 +200,31 @@ tooltip box {
     color: @base05;
 }
 
+.menu modelbutton > label {
+    padding-left: var(--button-pad-horiz);
+    padding-right: var(--button-pad-horiz);
+}
+
 .popup .text-button:hover,
-.popup .image-button:hover {
+.popup .image-button:hover,
+.menu modelbutton:hover {
     color: @base07;
+    font-weight: 700;
+}
+
+.menu modelbutton:focus {
+    background-color: transparent;
 }
 
 #bar #end > revealer:nth-child(odd) .popup .text-button:hover,
-#bar #end > revealer:nth-child(odd) .popup .image-button:hover {
+#bar #end > revealer:nth-child(odd) .popup .image-button:hover,
+#bar #end > revealer:nth-child(odd) .menu modelbutton:hover {
     background: @base0c;
 }
 
 #bar #end > revealer:nth-child(even) .popup .text-button:hover,
-#bar #end > revealer:nth-child(even) .popup .image-button:hover {
+#bar #end > revealer:nth-child(even) .popup .image-button:hover,
+#bar #end > revealer:nth-child(even) .menu modelbutton:hover {
     background: @base0d;
 }
 
