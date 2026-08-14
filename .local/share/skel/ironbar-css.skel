@@ -65,12 +65,6 @@
     color: @base06;
 }
 
-.widget {
-    padding-bottom: var(--bar-pad-vert);
-    padding-top: var(--bar-pad-vert);
-    color: inherit;
-}
-
 .widget-box {
     padding: 0;
 }
@@ -79,19 +73,22 @@ button {
     color: inherit;
 }
 
-#bar #end revealer .widget {
+#bar #end > revealer > .widget {
+    color: inherit;
+    padding-bottom: var(--bar-pad-vert);
+    padding-top: var(--bar-pad-vert);
     padding-left: var(--widget-pad-horiz);
     padding-right: var(--widget-pad-horiz);
     margin-left: 0.2em;
     margin-right: 0.2em;
 }
 
-#bar #end .widget:hover {
+#bar #end > revealer > .widget:hover {
     background-position: left;
     color: @base00;
 }
 
-#bar #end revealer:nth-child(odd) > .widget {
+#bar #end > revealer:nth-child(odd) > .widget {
     background:
         right
         no-repeat
@@ -102,7 +99,7 @@ button {
     transition: color 500ms ease, background-size 200ms ease, background-position 300ms ease;
 }
 
-#bar #end revealer:nth-child(odd) .widget:hover {
+#bar #end > revealer:nth-child(odd) > .widget:hover {
     background:
         right
         no-repeat
@@ -114,7 +111,7 @@ button {
     color: @base00;
 }
 
-#bar #end revealer:nth-child(even) > .widget {
+#bar #end > revealer:nth-child(even) > .widget {
     background:
         right
         no-repeat
@@ -125,7 +122,7 @@ button {
     transition: color 500ms ease, background-size 200ms ease, background-position 300ms ease;
 }
 
-#bar #end revealer:nth-child(even) .widget:hover {
+#bar #end > revealer:nth-child(even) > .widget:hover {
     background:
         right
         no-repeat
@@ -137,7 +134,7 @@ button {
     color: @base00;
 }
 
-#bar #end revealer:last-child .widget {
+#bar #end > revealer:last-child > .widget {
     margin-right: 0;
 }
 
@@ -153,13 +150,13 @@ tooltip box {
     border-radius: 4px;
 }
 
-#bar #end revealer:nth-child(odd) .popup {
+#bar #end > revealer:nth-child(odd) .popup {
     padding: var(--popup-pad-vert) var(--popup-pad-horiz);
     background: radial-gradient(circle at 80% 120%, @base0c, @base03 70%, @base01);
     color: @base07;
 }
 
-#bar #end revealer:nth-child(even) .popup {
+#bar #end > revealer:nth-child(even) .popup {
     padding: var(--popup-pad-vert) var(--popup-pad-horiz);
     background: radial-gradient(circle at 80% 120%, @base0d, @base03 70%, @base01);
     color: @base07;
@@ -181,13 +178,13 @@ tooltip box {
     color: @base07;
 }
 
-#bar #end revealer:nth-child(odd) .popup .text-button:hover,
-#bar #end revealer:nth-child(odd) .popup .image-button:hover {
+#bar #end > revealer:nth-child(odd) .popup .text-button:hover,
+#bar #end > revealer:nth-child(odd) .popup .image-button:hover {
     background: @base0c;
 }
 
-#bar #end revealer:nth-child(even) .popup .text-button:hover,
-#bar #end revealer:nth-child(even) .popup .image-button:hover {
+#bar #end > revealer:nth-child(even) .popup .text-button:hover,
+#bar #end > revealer:nth-child(even) .popup .image-button:hover {
     background: @base0d;
 }
 
@@ -250,25 +247,25 @@ tooltip box {
     border-radius: 0px 6px 6px 0px;
 }
 
-#bar #end revealer:nth-child(even) .popup-music .volume .slider trough highlight {
+#bar #end > revealer:nth-child(even) .popup-music .volume .slider trough highlight {
     background: linear-gradient(to top,
                                 rgba(var(--base0d-rgb),1) 50%,
                                 rgba(var(--base07-rgb),1));
 }
 
-#bar #end revealer:nth-child(even) .popup-music .progress .slider trough highlight {
+#bar #end > revealer:nth-child(even) .popup-music .progress .slider trough highlight {
     background: linear-gradient(to right,
                                 rgba(var(--base0d-rgb),1) 50%,
                                 rgba(var(--base07-rgb),1));
 }
 
-#bar #end revealer:nth-child(odd) .popup-music .volume .slider trough highlight {
+#bar #end > revealer:nth-child(odd) .popup-music .volume .slider trough highlight {
     background: linear-gradient(to top,
                                 rgba(var(--base0c-rgb),1) 50%,
                                 rgba(var(--base07-rgb),1));
 }
 
-#bar #end revealer:nth-child(odd) .popup-music .progress .slider trough highlight {
+#bar #end > revealer:nth-child(odd) .popup-music .progress .slider trough highlight {
     background: linear-gradient(to right,
                                 rgba(var(--base0c-rgb),1) 50%,
                                 rgba(var(--base07-rgb),1));
@@ -340,7 +337,7 @@ tooltip box {
     margin-right: 0;
 }
 
-#bar #end revealer .popup .power-button.image-button:hover {
+#bar #end > revealer .popup .power-button.image-button:hover {
     background-color: @base00;
 }
 
