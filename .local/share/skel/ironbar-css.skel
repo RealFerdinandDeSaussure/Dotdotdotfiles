@@ -137,6 +137,10 @@ button {
     color: @base00;
 }
 
+#bar #end revealer:last-child .widget {
+    margin-right: 0;
+}
+
 contents {
     background-color: transparent;
 }
