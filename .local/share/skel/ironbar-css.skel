@@ -19,10 +19,11 @@
 :root {
     --wh-size: 4px;
     --wh-alpha: 0.55;
-    --widget-pad-horiz: 0.65em;
-    --bar-pad-vert: 0.14em;
+    --bar-pad-vert: 0.37rem;
+    --button-pad-vert: 0.28em;
     --popup-pad-vert: 0.5em;
     --popup-pad-horiz: 1em;
+    --widget-pad-horiz: 0.65em;
     --base00-rgb: 50,48,47;
     --base01-rgb: 60,56,54;
     --base02-rgb: 80,73,69;
@@ -47,7 +48,7 @@
     margin: 0;
     background-image: none;
     font-family: sans-serif, "FontAwesome";
-    font-size: 12pt;
+    font-size: 1.1rem;
     padding: 0;
     transition: none;
     border-color: transparent;
@@ -160,16 +161,10 @@ tooltip box {
     color: @base07;
 }
 
-.popup-button {
-    padding: var(--bar-pad-vert);
-    border-radius: 0.2em;
-    transition-property: background;
-    transition-duration: 200ms;
-    transition-timing-function: ease;
-}
-
 .popup .text-button,
 .popup .image-button {
+    padding-top: var(--button-pad-vert);
+    padding-bottom: var(--button-pad-vert);
     border-radius: 4px;
     transition: background, color;
     transition-duration: 200ms;
@@ -198,11 +193,6 @@ tooltip box {
     padding-left: 2em;
     padding-right: 2em;
     background: linear-gradient(to right, transparent, @base0a 2em, @base0a calc(100% - 2em), transparent);
-}
-
-#clipboard-contents {
-    font-size: 0.8em;
-    vertical-align: bottom;
 }
 
 .clipboard-popup {
@@ -308,13 +298,9 @@ tooltip box {
     font-weight: 700;
 }
 
-.popup-clock .calendar .day-number.today {
-    background: @base0d;
-    color: @base07;
-}
-
+.popup-clock .calendar .day-number.today,
 .popup-clock .calendar .day-number.today:selected {
-    background: @base0d;
+    background: @base0b;
     color: @base07;
 }
 
