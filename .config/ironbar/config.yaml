@@ -2,7 +2,7 @@ name: "main_bar"
 position: "top"
 height: 0
 popup_gap: 6
-popup_autohide: false
+popup_autohide: true
 start:
   - type: "custom"
     class: "widget-box"
@@ -81,7 +81,7 @@ end:
     format_off: ''
   - type: "clock"
     name: "clock"
-    format: " %H:%M"
+    format: "%H:%M"
   - type: "tray"
   - type: "custom"
     name: "power"

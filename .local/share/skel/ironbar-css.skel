@@ -344,6 +344,14 @@ tooltip box {
     background-color: @base00;
 }
 
+.tray .item {
+    margin-right: var(--widget-pad-horiz);
+}
+
+.tray .item:last-child {
+    margin-right: 0;
+}
+
 .workspaces {
     margin: 0;
     padding: 0;
