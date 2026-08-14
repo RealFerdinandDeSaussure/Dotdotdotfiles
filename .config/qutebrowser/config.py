@@ -337,6 +337,8 @@ c.url.start_pages = [
 c.downloads.position = "bottom"
 # Open new tabs in background
 c.tabs.background = True
+# Position of tab bar
+c.tabs.position = "bottom"
 # Don't store cookies because I don't like them
 c.content.cookies.store = False
 # Use default Firefox HTTP_ACCEPT header
