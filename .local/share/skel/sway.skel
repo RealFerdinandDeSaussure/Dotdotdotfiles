@@ -291,7 +291,7 @@ for_window [class="Pinentry"] floating enable
 ## modes
 set $mode_resize " resize"
 set $mode_music " music"
-set $mode_blocks " blocks"
+set $mode_bar " bar"
 set $mode_insert " insert"
 
 # resize window (you can also use the mouse for this)
@@ -331,14 +331,13 @@ mode $mode_music {
 }
 
 # access i3blocks features without using the mouse
-mode $mode_blocks {
-        bindsym s exec BLOCK_BUTTON=1 $i3blockletsdir/shutdown; mode "default"
-        bindsym w exec BLOCK_BUTTON=2 $i3blockletsdir/shutdown; mode "default"
-        bindsym d exec BLOCK_BUTTON=3 $i3blockletsdir/time; mode "default"
-        bindsym c exec BLOCK_BUTTON=1 $i3blockletsdir/clipboard; mode "default"
-        bindsym n exec BLOCK_BUTTON=1 $i3blockletsdir/network; mode "default"
-        bindsym b exec BLOCK_BUTTON=1 $i3blockletsdir/battery; mode "default"
-        bindsym k exec BLOCK_BUTTON=1 $i3blockletsdir/caffeine; exec $i3b_up10; mode "default"
+mode $mode_bar {
+        bindsym p exec ironbar bar main_bar toggle-popup power; mode "default"
+        bindsym d exec ironbar bar main_bar toggle-popup clock; mode "default"
+        bindsym c exec ironbar bar main_bar toggle-popup clipboard; mode "default"
+        bindsym i exec ironbar bar main_bar toggle-popup inhibit; mode "default"
+        # bindsym n exec BLOCK_BUTTON=1 $i3blockletsdir/network; mode "default"
+        # bindsym b exec BLOCK_BUTTON=1 $i3blockletsdir/battery; mode "default"
 
         # back to normal: mode shortcut or Escape
         bindsym Escape mode "default"
@@ -390,7 +389,7 @@ mode $mode_insert {
 # bind modes to keys
 bindsym $mod+plus mode $mode_resize
 bindsym $mod+m mode $mode_music
-bindsym $mod+b mode $mode_blocks
+bindsym $mod+b mode $mode_bar
 bindsym $mod+i mode $mode_insert
 
 exec systemctl --user import-environment WAYLAND_DISPLAY
