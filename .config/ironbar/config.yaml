@@ -5,18 +5,39 @@ popup_gap: 12
 popup_autohide: true
 start:
   - type: "custom"
-    class: "widget-box"
+    name: "power"
     bar:
-    - type: "workspaces"
-      all_monitors: true
-      sort: "index"
-    - type: "label"
-      name: "dummy-widget-gradient"
-      label: ""
+    - type: "button"
+      label: ""
+      on_click: "popup:toggle"
+    popup:
+    - type: "box"
+      orientation: "horizontal"
+      widgets:
+      - type: "button"
+        class: "power-button image-button"
+        on_click: "!systemctl reboot"
+        widgets:
+        - type: "image"
+          src: "icon:system-reboot-symbolic"
+          size: 42
+      - type: "button"
+        class: "power-button image-button"
+        on_click: "!systemctl poweroff"
+        widgets:
+        - type: "image"
+          src: "icon:system-shutdown-symbolic"
+          size: 42
   - type: "bindmode"
+  - type: "workspaces"
+    all_monitors: true
+    sort: "index"
+center:
   - type: "focused"
+    name: "focused"
     icon_size: 18
     truncate: "middle"
+    max_length: 30
     show_title: true
 end:
   - type: "custom"
@@ -72,6 +93,7 @@ end:
     mode: "poll"
     interval: 10000
   - type: "bluetooth"
+    disable_popup: true
     format:
       disabled: ""
       enabled: ""
@@ -83,27 +105,3 @@ end:
     name: "clock"
     format: "%H:%M"
   - type: "tray"
-  - type: "custom"
-    name: "power"
-    bar:
-    - type: "button"
-      label: ""
-      on_click: "popup:toggle"
-    popup:
-    - type: "box"
-      orientation: "horizontal"
-      widgets:
-      - type: "button"
-        class: "power-button image-button"
-        on_click: "!systemctl reboot"
-        widgets:
-        - type: "image"
-          src: "icon:system-reboot-symbolic"
-          size: 42
-      - type: "button"
-        class: "power-button image-button"
-        on_click: "!systemctl poweroff"
-        widgets:
-        - type: "image"
-          src: "icon:system-shutdown-symbolic"
-          size: 42

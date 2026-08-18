@@ -17,14 +17,18 @@
 @define-color base0f #{{{$__BASE0F}}};
 
 :root {
+    --start-color: @base0e;
+    --end-color: @base0d;
     --wh-size: 4px;
     --wh-alpha: 0.55;
-    --bar-pad-vert: 0.37rem;
+    --bar-pad-vert: 0.15rem;
     --button-pad-vert: 0.28em;
     --button-pad-horiz: 0.38em;
     --popup-pad-vert: 0.5em;
     --popup-pad-horiz: 1em;
     --widget-pad-horiz: 0.65em;
+    --bar-gap-bottom: 8px;
+    --bar-gap-top: 4px;
     --base00-rgb: 50,48,47;
     --base01-rgb: 60,56,54;
     --base02-rgb: 80,73,69;
@@ -43,13 +47,14 @@
     --base0f-rgb: 214,93,14;
 }
 
+/* base styling */
 * {
     border: none;
     border-radius: 0;
     margin: 0;
     background-image: none;
     font-family: sans-serif, "FontAwesome";
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     padding: 0;
     transition: none;
     border-color: transparent;
@@ -62,87 +67,71 @@
 }
 
 #bar {
-    background: linear-gradient(to right, rgba(var(--base02-rgb),.8), rgba(var(--base00-rgb),.9) 33%, rgba(var(--base01-rgb),.9));
     color: @base06;
-}
-
-.widget-box {
-    padding: 0;
 }
 
 button {
     color: inherit;
 }
 
+#bar #start, #bar #end {
+    margin-top: var(--bar-gap-top);
+}
+
+#bar > * {
+    margin-bottom: var(--bar-gap-bottom);
+}
+
+#bar #end {
+    border-radius: 1rem 0 0 1rem;
+    border-width: 0.18rem 0 0.18rem 0.18rem;
+    border-color: var(--end-color);
+}
+
+#bar #start {
+    border-radius: 0 1rem 1rem 0;
+    border-width: 0.18rem 0.18rem 0.18rem 0;
+    border-color: var(--start-color);
+}
+
+#bar #end > revealer:first-child > .widget {
+    border-radius: 1rem 0 0 1rem;
+    border-left-width: 0;
+    padding-left: 2em;
+}
+
+#bar #start > revealer:last-child > .widget {
+    border-radius: 0 1rem 1rem 0;
+    border-right-width: 0;
+    padding-right: 1em;
+}
+
+/* the widgets in the start section take the full height of the section */
 #bar #end > revealer > .widget {
-    color: inherit;
-    padding-bottom: var(--bar-pad-vert);
     padding-top: var(--bar-pad-vert);
+    padding-bottom: var(--bar-pad-vert);
+}
+
+#bar #end > revealer > .widget {
+    background: rgba(var(--base01-rgb), .8);
+    color: inherit;
+    border-top: 0px;
+    border-bottom: 0px;
+    border-left-color: @base03;
+    border-left-width: 0.1em;
     padding-left: var(--widget-pad-horiz);
     padding-right: var(--widget-pad-horiz);
-    margin-left: 0.2em;
-    margin-right: 0.2em;
+    transition-property: color, background-color;
+    transition-duration: 300ms;
+    transition-timing-function: ease;
 }
 
 #bar #end > revealer > .widget:hover {
-    background-position: left;
+    background-color: var(--end-color);
     color: @base00;
 }
 
-#bar #end > revealer:nth-child(odd) > .widget {
-    background:
-        right
-        no-repeat
-        linear-gradient(to right,
-                        rgba(var(--base0c-rgb),var(--wh-alpha)) calc(50% + var(--wh-size)),
-                        transparent calc(50% + var(--wh-size)));
-    background-size: 200% 1.2em;
-    transition: color 500ms ease, background-size 200ms ease, background-position 300ms ease;
-}
-
-#bar #end > revealer:nth-child(odd) > .widget:hover {
-    background:
-        right
-        no-repeat
-        linear-gradient(to right,
-                        rgba(var(--base0c-rgb),1) calc(50% + var(--wh-size)),
-                        transparent calc(50% + var(--wh-size)));
-    background-position: left;
-    background-size: 200% 100%;
-    color: @base00;
-}
-
-#bar #end > revealer:nth-child(even) > .widget {
-    background:
-        right
-        no-repeat
-        linear-gradient(to right,
-                        rgba(var(--base0d-rgb),var(--wh-alpha)) calc(50% + var(--wh-size)),
-                        transparent calc(50% + var(--wh-size)));
-    background-size: 200% 1.2em;
-    transition: color 500ms ease, background-size 200ms ease, background-position 300ms ease;
-}
-
-#bar #end > revealer:nth-child(even) > .widget:hover {
-    background:
-        right
-        no-repeat
-        linear-gradient(to right,
-                        rgba(var(--base0d-rgb),1) calc(50% + var(--wh-size)),
-                        transparent calc(50% + var(--wh-size)));
-    background-position: left;
-    background-size: 200% 100%;
-    color: @base00;
-}
-
-#bar #end > revealer:last-child > .widget {
-    margin-right: 0;
-}
-
-contents {
-    background-color: transparent;
-}
-
+/* tool tip styling */
 tooltip box, .widget .menu contents {
     border-radius: 4px;
     padding: var(--popup-pad-vert) var(--popup-pad-horiz);
@@ -150,6 +139,8 @@ tooltip box, .widget .menu contents {
     color: @base06;
 }
 
+/* context menu styling, mainly relevant for the tray widget, some additional
+   styling further below together with popup styls */
 .widget .menu {
     background-color: transparent;
 }
@@ -162,32 +153,40 @@ tooltip box, .widget .menu contents {
     background-color: @base04;
 }
 
-#bar #end > revealer:nth-child(odd) .menu > arrow {
-    background: linear-gradient(to bottom, @base0c, @base03 13px);
+#bar #start > revealer .menu arrow {
+    background: linear-gradient(to bottom, var(--start-color), @base03 13px);
 }
 
-#bar #end > revealer:nth-child(even) .menu arrow {
-    background: linear-gradient(to bottom, @base0d, @base03 13px);
+#bar #end > revealer .menu arrow {
+    background: linear-gradient(to bottom, var(--end-color), @base03 13px);
 }
 
+/* popup styling */
 .popup {
     border-radius: 4px;
 }
 
-#bar #end > revealer:nth-child(odd) .popup,
-#bar #end > revealer:nth-child(odd) .menu contents {
+/* this prevents visible background behind a popup's rounded corners */
+contents {
+    background-color: transparent;
+}
+
+/* both popups should match the main color of the start and end sections */
+#bar #end > revealer .popup,
+#bar #end > revealer .menu contents {
     padding: var(--popup-pad-vert) var(--popup-pad-horiz);
-    background: radial-gradient(circle at 80% 120%, @base0c, @base03 70%, @base01);
+    background: radial-gradient(circle at 80% 120%, var(--end-color), @base03 70%, @base01);
     color: @base07;
 }
 
-#bar #end > revealer:nth-child(even) .popup,
-#bar #end > revealer:nth-child(even) .menu contents {
+#bar #start > revealer .popup,
+#bar #start > revealer .menu contents {
     padding: var(--popup-pad-vert) var(--popup-pad-horiz);
-    background: radial-gradient(circle at 80% 120%, @base0d, @base03 70%, @base01);
+    background: radial-gradient(circle at 80% 120%, var(--start-color), @base03 70%, @base01);
     color: @base07;
 }
 
+/* styling for buttons on both popups and context menus */
 .popup .text-button,
 .popup .image-button,
 .menu modelbutton {
@@ -216,29 +215,53 @@ tooltip box, .widget .menu contents {
     background-color: transparent;
 }
 
-#bar #end > revealer:nth-child(odd) .popup .text-button:hover,
-#bar #end > revealer:nth-child(odd) .popup .image-button:hover,
-#bar #end > revealer:nth-child(odd) .menu modelbutton:hover {
-    background: @base0c;
+#bar #end > revealer .popup .text-button:hover,
+#bar #end > revealer .popup .image-button:hover,
+#bar #end > revealer .menu modelbutton:hover {
+    background: var(--end-color);
 }
 
-#bar #end > revealer:nth-child(even) .popup .text-button:hover,
-#bar #end > revealer:nth-child(even) .popup .image-button:hover,
-#bar #end > revealer:nth-child(even) .menu modelbutton:hover {
-    background: @base0d;
+#bar #start > revealer .popup .text-button:hover,
+#bar #start > revealer .popup .image-button:hover,
+#bar #start > revealer .menu modelbutton:hover {
+    background: var(--start-color);
 }
 
+/* ---------------------------------------------- */
 /* Styling of individual widgets and their popups */
+#power {
+    background: linear-gradient(to right, @base00, @base01);
+    padding-left: var(--widget-pad-horiz);
+    padding-right: var(--widget-pad-horiz);
+    transition: background 300ms ease;
+}
+
+#power:hover {
+    background: linear-gradient(to right, var(--start-color) 90%, @base01);
+}
 
 .bindmode {
     color: @base00;
     padding-left: 2em;
     padding-right: 2em;
-    background: linear-gradient(to right, transparent, @base0a 2em, @base0a calc(100% - 2em), transparent);
+    background: linear-gradient(to right, @base01, @base0a 2em, @base0a calc(100% - 2em), @base01);
 }
 
 .clipboard-popup {
     min-width: 300px;
+}
+
+#focused {
+    background: radial-gradient(circle at 20% 120%, rgba(var(--base01-rgb),.9), rgba(var(--base03-rgb),.9) 40%, rgba(var(--base0d-rgb),.9));
+    margin-left: 1.5em;
+    margin-right: 1.5em;
+    padding-top: var(--bar-pad-vert);
+    padding-bottom: var(--bar-pad-vert);
+    padding-left: var(--widget-pad-horiz);
+    padding-right: var(--widget-pad-horiz);
+    border-radius: 0 0 4px 4px;
+    border-width: 0 2px 2px 2px;
+    border-color: @base01;
 }
 
 .focused .label {
@@ -287,27 +310,15 @@ tooltip box, .widget .menu contents {
     border-radius: 0px 6px 6px 0px;
 }
 
-#bar #end > revealer:nth-child(even) .popup-music .volume .slider trough highlight {
+#bar #end > revealer .popup-music .volume .slider trough highlight {
     background: linear-gradient(to top,
                                 rgba(var(--base0d-rgb),1) 50%,
                                 rgba(var(--base07-rgb),1));
 }
 
-#bar #end > revealer:nth-child(even) .popup-music .progress .slider trough highlight {
+#bar #end > revealer .popup-music .progress .slider trough highlight {
     background: linear-gradient(to right,
                                 rgba(var(--base0d-rgb),1) 50%,
-                                rgba(var(--base07-rgb),1));
-}
-
-#bar #end > revealer:nth-child(odd) .popup-music .volume .slider trough highlight {
-    background: linear-gradient(to top,
-                                rgba(var(--base0c-rgb),1) 50%,
-                                rgba(var(--base07-rgb),1));
-}
-
-#bar #end > revealer:nth-child(odd) .popup-music .progress .slider trough highlight {
-    background: linear-gradient(to right,
-                                rgba(var(--base0c-rgb),1) 50%,
                                 rgba(var(--base07-rgb),1));
 }
 
@@ -353,12 +364,12 @@ tooltip box, .widget .menu contents {
 
 .popup-clock .calendar .day-number:focus {
     background: transparent;
-    outline-color: @base0e;
+    outline-color: var(--start-color);
 }
 
 .popup-clock .calendar .day-number:selected:focus {
-    background-color: @base0e;
-    outline-color: @base0e;
+    background-color: var(--start-color);
+    outline-color: var(--start-color);
     color: inherit;
 }
 
@@ -377,7 +388,7 @@ tooltip box, .widget .menu contents {
     margin-right: 0;
 }
 
-#bar #end > revealer .popup .power-button.image-button:hover {
+revealer .popup .power-button.image-button:hover {
     background-color: @base00;
 }
 
@@ -389,32 +400,31 @@ tooltip box, .widget .menu contents {
     margin-right: 0;
 }
 
-.workspaces {
-    margin: 0;
-    padding: 0;
-    border-width: 0;
-    background: linear-gradient(to right, @base02, @base00);
-}
-
-#dummy-widget-gradient {
-    color: transparent;
-    border: 0;
-    margin: 0;
-    padding-right: 4em;
-    background: linear-gradient(to right, @base00, transparent);
+#bar #start > revealer > .workspaces {
+    background: @base01;
 }
 
 .workspaces .item {
-    padding: var(--bar-pad-vert) 0.40em;
+    min-width: 1.2em;
+    padding-left: 0.65rem;
+    padding-right: 0.65rem;
     transition: color 400ms ease, background 300ms ease;
+    border-radius: 0 1rem 1rem 0;
+    background: linear-gradient(to right, @base01, @base03);
 }
 
 .workspaces .item.focused {
-    color: @base00;
-    background: @base0d;
+    font-weight: 700;
+    color: @base07;
+    background: linear-gradient(to right, @base01, var(--start-color) 35%);
+}
+
+.workspaces .item:not(.focused):hover {
+    background: linear-gradient(to right, @base01, var(--start-color) 35%);
+    color: @base03;
 }
 
 .workspaces .item.urgent {
     color: @base00;
-    background: @base08;
+    background: linear-gradient(to right, @base01, @base08 35%);
 }
