@@ -29,22 +29,22 @@
     --widget-pad-horiz: 0.65em;
     --bar-gap-bottom: 8px;
     --bar-gap-top: 4px;
-    --base00-rgb: 50,48,47;
-    --base01-rgb: 60,56,54;
-    --base02-rgb: 80,73,69;
-    --base03-rgb: 102,92,84;
-    --base04-rgb: 189,174,147;
-    --base05-rgb: 213,196,161;
-    --base06-rgb: 235,219,178;
-    --base07-rgb: 251,241,199;
-    --base08-rgb: 251,73,52;
-    --base09-rgb: 254,128,25;
-    --base0a-rgb: 250,189,47;
-    --base0b-rgb: 184,187,38;
-    --base0c-rgb: 142,192,124;
-    --base0d-rgb: 131,165,152;
-    --base0e-rgb: 211,134,155;
-    --base0f-rgb: 214,93,14;
+    --base00-rgb: {{{(hex2rgb $__BASE00)}}};
+    --base01-rgb: {{{(hex2rgb $__BASE01)}}};
+    --base02-rgb: {{{(hex2rgb $__BASE02)}}};
+    --base03-rgb: {{{(hex2rgb $__BASE03)}}};
+    --base04-rgb: {{{(hex2rgb $__BASE04)}}};
+    --base05-rgb: {{{(hex2rgb $__BASE05)}}};
+    --base06-rgb: {{{(hex2rgb $__BASE06)}}};
+    --base07-rgb: {{{(hex2rgb $__BASE07)}}};
+    --base08-rgb: {{{(hex2rgb $__BASE08)}}};
+    --base09-rgb: {{{(hex2rgb $__BASE09)}}};
+    --base0a-rgb: {{{(hex2rgb $__BASE0A)}}};
+    --base0b-rgb: {{{(hex2rgb $__BASE0B)}}};
+    --base0c-rgb: {{{(hex2rgb $__BASE0C)}}};
+    --base0d-rgb: {{{(hex2rgb $__BASE0D)}}};
+    --base0e-rgb: {{{(hex2rgb $__BASE0E)}}};
+    --base0f-rgb: {{{(hex2rgb $__BASE0F)}}};
 }
 
 /* base styling */
