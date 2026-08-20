@@ -19,7 +19,7 @@
 	font = "serif"
 
 	# Point size of text.
-	font-size = 24
+	font-size = 28
 
 	# Comma separated list of OpenType font feature settings to apply,
 	# if supported by the chosen font. The format is similar to the CSS

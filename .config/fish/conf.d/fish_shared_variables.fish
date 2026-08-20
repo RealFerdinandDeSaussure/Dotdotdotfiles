@@ -59,8 +59,8 @@ set -x __BASE0E d3869b
 set -x __BASE0F d65d0e
 
 # setup font settings
-set -x FONT_SANS Gidole
-set -x FONT_SERIF Merriweather
+set -x FONT_SANS "Space Grotesk"
+set -x FONT_SERIF Fraunces
 set -x FONT_MONO "Iosevka Nerd Font"
 set -x FONT_TERMINAL "Iosevka Nerd Font"
 
