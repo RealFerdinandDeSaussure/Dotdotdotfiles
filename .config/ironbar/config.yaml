@@ -36,8 +36,9 @@ center:
   - type: "focused"
     name: "focused"
     icon_size: 18
-    truncate: "middle"
-    max_length: 30
+    truncate:
+      mode: "middle"
+      max_length: 40
     show_title: true
 end:
   - type: "custom"
