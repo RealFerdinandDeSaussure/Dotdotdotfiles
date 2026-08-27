@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 ;; base16-env-theme.el -- A base16 colorscheme
 
 ;;; Commentary:

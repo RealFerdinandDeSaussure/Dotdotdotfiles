@@ -2,8 +2,7 @@
 ;; %-CUSTOM:$HOME/.config/mu4e-contexts-%
 ;; %-VARIABLE:MY_MAIL=(pass field Email random/persönliche_informationen)-%
 ;; %-VARIABLE:MY_NAME=(pass field Vollname random/persönliche_informationen)-%
-;; DO EDITS HERE: $HOME/.local/share/skel/mu4e-setup.skel
-;; -*- lexical-binding: t -*-
+;; DO EDITS HERE: $HOME/.local/share/skel/mu4e-setup.skel -*- lexical-binding: t -*-
 ;; set mu4e as emacs default mail program
 (setq mail-user-agent #'mu4e-user-agent)
 
