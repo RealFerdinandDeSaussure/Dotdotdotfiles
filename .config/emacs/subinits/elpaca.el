@@ -1,5 +1,5 @@
-;; -*- lexical-binding: t -*-
-;; setup package management with elpaca and use-package
+;; Elpaca Installer -*- lexical-binding: t; -*-
+;; Copy below this line into your init.el
 (defvar elpaca-installer-version 0.12)
 (defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
 (defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
@@ -39,13 +39,6 @@
 (add-hook 'after-init-hook #'elpaca-process-queues)
 (elpaca `(,@elpaca-order))
 
-;; windows non-developer mode compatibility
-(when (eq system-type 'windows-nt)
-  (elpaca-no-symlink-mode))
-
-;; use-package integration
-(elpaca elpaca-use-package
-  (elpaca-use-package-mode))
-(setq use-package-always-ensure t)
-
-(provide 'package-management)
+;; Local Variables:
+;; no-byte-compile: t
+;; End:

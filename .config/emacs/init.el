@@ -1,6 +1,14 @@
 ;; -*- lexical-binding: t -*-
 
-(require 'package-management)
+;; package management: elpaca's most recent bootstrap script should always be in
+;; elpaca.el, additional settings for the package manager will be set here
+(load (expand-file-name "elpaca.el" emacs-subinit-dir))
+
+(when (eq system-type 'windows-nt) ; windows non-developer mode compatibility
+  (elpaca-no-symlink-mode))
+(elpaca elpaca-use-package ; use-package integration
+  (elpaca-use-package-mode))
+(setq use-package-always-ensure t)
 
 ;; require essential custom functions
 (require 'my-essential-functions)
