@@ -5,34 +5,36 @@ popup_gap: 12
 popup_autohide: true
 start:
   - type: "custom"
-    name: "power"
+    name: "start-bar"
     bar:
-    - type: "button"
-      label: ""
-      on_click: "popup:toggle"
-    popup:
-    - type: "box"
-      orientation: "horizontal"
-      widgets:
+    - type: "custom"
+      name: "power"
+      bar:
       - type: "button"
-        class: "power-button image-button"
-        on_click: "!systemctl reboot"
+        label: ""
+        on_click: "popup:toggle"
+      popup:
+      - type: "box"
+        orientation: "horizontal"
         widgets:
-        - type: "image"
-          src: "icon:system-reboot-symbolic"
-          size: 42
-      - type: "button"
-        class: "power-button image-button"
-        on_click: "!systemctl poweroff"
-        widgets:
-        - type: "image"
-          src: "icon:system-shutdown-symbolic"
-          size: 42
-  - type: "bindmode"
-  - type: "workspaces"
-    all_monitors: true
-    sort: "index"
-center:
+        - type: "button"
+          class: "power-button image-button"
+          on_click: "!systemctl reboot"
+          widgets:
+          - type: "image"
+            src: "icon:system-reboot-symbolic"
+            size: 42
+        - type: "button"
+          class: "power-button image-button"
+          on_click: "!systemctl poweroff"
+          widgets:
+          - type: "image"
+            src: "icon:system-shutdown-symbolic"
+            size: 42
+    - type: "bindmode"
+    - type: "workspaces"
+      all_monitors: true
+      sort: "index"
   - type: "focused"
     name: "focused"
     icon_size: 18

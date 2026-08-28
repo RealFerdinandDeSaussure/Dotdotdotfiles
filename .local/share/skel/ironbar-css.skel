@@ -19,8 +19,7 @@
 :root {
     --start-color: @base0e;
     --end-color: @base0d;
-    --wh-size: 4px;
-    --wh-alpha: 0.55;
+    --sec-bw: 0.18rem; /* section border width */
     --bar-pad-vert: 0.15rem;
     --button-pad-vert: 0.28em;
     --button-pad-horiz: 0.38em;
@@ -74,23 +73,20 @@ button {
     color: inherit;
 }
 
-#bar #start, #bar #end {
-    margin-top: var(--bar-gap-top);
-}
-
 #bar > * {
+    margin-top: var(--bar-gap-top);
     margin-bottom: var(--bar-gap-bottom);
 }
 
 #bar #end {
     border-radius: 1rem 0 0 1rem;
-    border-width: 0.18rem 0 0.18rem 0.18rem;
+    border-width: var(--sec-bw) 0 var(--sec-bw) var(--sec-bw);
     border-color: var(--end-color);
 }
 
-#bar #start {
+#start-bar {
     border-radius: 0 1rem 1rem 0;
-    border-width: 0.18rem 0.18rem 0.18rem 0;
+    border-width: var(--sec-bw) var(--sec-bw) var(--sec-bw) 0;
     border-color: var(--start-color);
 }
 
@@ -100,19 +96,17 @@ button {
     padding-left: 2em;
 }
 
-#bar #start > revealer:last-child > .widget {
+#start-bar > revealer:last-child > .widget {
     border-radius: 0 1rem 1rem 0;
     border-right-width: 0;
     padding-right: 1em;
 }
 
-/* the widgets in the start section take the full height of the section */
 #bar #end > revealer > .widget {
+    /* the widgets in the start section take the full height of the section, so */
+    /* their padding-top and -bottom values should be zero */
     padding-top: var(--bar-pad-vert);
     padding-bottom: var(--bar-pad-vert);
-}
-
-#bar #end > revealer > .widget {
     background: rgba(var(--base01-rgb), .8);
     color: inherit;
     border-top: 0px;
@@ -153,7 +147,7 @@ tooltip box, .widget .menu contents {
     background-color: @base04;
 }
 
-#bar #start > revealer .menu arrow {
+#start-bar > revealer .menu arrow {
     background: linear-gradient(to bottom, var(--start-color), @base03 13px);
 }
 
@@ -179,8 +173,8 @@ contents {
     color: @base07;
 }
 
-#bar #start > revealer .popup,
-#bar #start > revealer .menu contents {
+#start-bar > revealer .popup,
+#start-bar > revealer .menu contents {
     padding: var(--popup-pad-vert) var(--popup-pad-horiz);
     background: radial-gradient(circle at 80% 120%, var(--start-color), @base03 70%, @base01);
     color: @base07;
@@ -221,9 +215,9 @@ contents {
     background: var(--end-color);
 }
 
-#bar #start > revealer .popup .text-button:hover,
-#bar #start > revealer .popup .image-button:hover,
-#bar #start > revealer .menu modelbutton:hover {
+#start-bar > revealer .popup .text-button:hover,
+#start-bar > revealer .popup .image-button:hover,
+#start-bar > revealer .menu modelbutton:hover {
     background: var(--start-color);
 }
 
@@ -252,20 +246,14 @@ contents {
 }
 
 #focused {
-    background: radial-gradient(circle at 20% 120%, rgba(var(--base01-rgb),.9), rgba(var(--base03-rgb),.9) 40%, rgba(var(--base0d-rgb),.9));
-    margin-left: 1.5em;
+    margin-left: 0.5em;
     margin-right: 1.5em;
-    padding-top: var(--bar-pad-vert);
-    padding-bottom: var(--bar-pad-vert);
-    padding-left: var(--widget-pad-horiz);
-    padding-right: var(--widget-pad-horiz);
-    border-radius: 0 0 4px 4px;
-    border-width: 0 2px 2px 2px;
-    border-color: @base01;
+    padding: var(--bar-pad-vert) var(--widget-pad-horiz) var(--bar-pad-vert) var(--widget-pad-horiz);
 }
 
-.focused .label {
+#focused .label {
     font-weight: 700;
+    text-shadow: @base02 0.1em 0.15em 3px;
     font-stretch: expanded;
 }
 
@@ -400,7 +388,7 @@ revealer .popup .power-button.image-button:hover {
     margin-right: 0;
 }
 
-#bar #start > revealer > .workspaces {
+#start-bar > revealer > .workspaces {
     background: @base01;
 }
 
