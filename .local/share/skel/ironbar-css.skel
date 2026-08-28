@@ -51,7 +51,7 @@
     border: none;
     border-radius: 0;
     margin: 0;
-    background-image: none;
+    background-color: transparent;
     font-family: sans-serif, "FontAwesome";
     font-size: 1.05rem;
     padding: 0;
@@ -85,6 +85,7 @@ button {
 }
 
 #start-bar {
+    background-color: var(--start-color); /* this closes the gap between border and content */
     border-radius: 0 1rem 1rem 0;
     border-width: var(--sec-bw) var(--sec-bw) var(--sec-bw) 0;
     border-color: var(--start-color);
