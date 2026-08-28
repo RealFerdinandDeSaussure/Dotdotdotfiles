@@ -10,7 +10,7 @@
 !.config/aria2/*
 
 !.config/autostart
-!.config/autostart/*
+!.config/autostart/[0-9]*
 
 !.config/bpython
 !.config/bpython/config
