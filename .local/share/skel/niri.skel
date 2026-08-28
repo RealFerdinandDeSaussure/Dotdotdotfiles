@@ -1,5 +1,4 @@
 // %-LOCATION:$HOME/.config/niri/config.kdl-% -*-kdl-*-
-// %-CUSTOM:$HOME/.config/niri/custom-%
 // DO EDITS HERE: $HOME/.local/share/skel/niri.skel
 
 // Check the wiki for a full description of the configuration:
@@ -132,8 +131,8 @@ binds {
     // "Super" is a special modifier equal to Super when running on a TTY, and to Alt
     // when running as a winit window.
 
-    Super+Return { spawn "alacritty"; }
-    Super+Ctrl+Return { spawn "~/.config/niri/scripts/open_in_column" "alacritty"; }
+    Super+Return { spawn "{{{$TERMINAL}}}"; }
+    Super+Ctrl+Return { spawn "~/.config/niri/scripts/open_in_column" "{{{$TERMINAL}}}"; }
     Super+R { spawn-sh "tofi-drun | xargs niri msg action spawn -- "; }
 
     // close notifications
