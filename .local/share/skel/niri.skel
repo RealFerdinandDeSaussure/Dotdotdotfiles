@@ -290,3 +290,6 @@ hotkey-overlay {
 cursor {
     hide-after-inactive-ms 9000
 }
+
+spawn-at-startup "ironbar"
+spawn-at-startup "swaybg" "-i" "{{{$HOME}}}/Bilder/wallpaper.jpg"
