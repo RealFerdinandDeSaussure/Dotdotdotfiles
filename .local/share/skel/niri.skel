@@ -105,8 +105,17 @@ window-rule {
 }
 
 window-rule {
+    match is-floating=true
+    focus-ring {
+        width 2
+        active-color "{{{$__BASE04}}}"
+    }
+}
+
+window-rule {
     match app-id="emacs"
     open-maximized-to-edges true
+    open-maximized true
     open-on-workspace ""
 }
 
@@ -122,7 +131,13 @@ window-rule {
 window-rule {
     match app-id="org.qutebrowser.qutebrowser"
     open-maximized-to-edges true
+    open-maximized true
     open-on-workspace "󰖟"
+}
+
+window-rule {
+    match app-id="steam"
+    open-maximized true
 }
 
 binds {
