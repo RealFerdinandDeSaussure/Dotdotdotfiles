@@ -403,7 +403,7 @@ revealer .popup .power-button.image-button:hover {
 }
 
 .workspaces .item.focused {
-    font-weight: 700;
+    /* font-weight: 700; */
     color: @base07;
     background: linear-gradient(to right, @base01, var(--start-color) 35%);
 }

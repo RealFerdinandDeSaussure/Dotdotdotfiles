@@ -72,11 +72,12 @@ layout {
     }
 
     struts {
-        left 5
-        right 5
-        top 0
-        bottom 0
+        left 10
+        right 10
+        top -4
+        bottom -4
     }
+
 }
 
 // Animation settings.
@@ -105,14 +106,8 @@ window-rule {
 
 window-rule {
     match app-id="emacs"
-    open-maximized true
+    open-maximized-to-edges true
     open-on-workspace ""
-}
-
-window-rule {
-    match app-id="org.qutebrowser.qutebrowser"
-    open-maximized true
-    open-on-workspace "󰖟"
 }
 
 // Open the Firefox picture-in-picture player as floating by default.
@@ -122,6 +117,12 @@ window-rule {
     // - Flatpak Firefox (app-id is "org.mozilla.firefox")
     match app-id=r#"firefox$"# title="^Picture-in-Picture$"
     open-floating true
+}
+
+window-rule {
+    match app-id="org.qutebrowser.qutebrowser"
+    open-maximized-to-edges true
+    open-on-workspace "󰖟"
 }
 
 binds {
@@ -237,17 +238,15 @@ binds {
 
     Super+Tab { focus-workspace-previous; }
 
-    Super+Comma  { consume-or-expel-window-left; }
-    Super+Period { consume-or-expel-window-right; }
+    Super+Comma  { consume-window-into-column; }
+    Super+Period { expel-window-from-column; }
 
     Super+S { switch-preset-column-width; }
     Super+V { switch-preset-window-height; }
-    Super+Shift+V { reset-window-height; }
-    Super+F { maximize-column; }
-    Super+Shift+Return { fullscreen-window; }
-    Super+Ctrl+F { toggle-windowed-fullscreen; }
-
-    Super+Shift+F { expand-column-to-available-width; }
+    Super+Ctrl+J { reset-window-height; }
+    Super+Ctrl+L { maximize-column; }
+    Super+F { maximize-window-to-edges; }
+    Super+Shift+F { fullscreen-window; }
 
     Super+C { center-column; }
     Super+Shift+C { center-visible-columns; }
