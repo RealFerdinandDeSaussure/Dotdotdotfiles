@@ -45,19 +45,10 @@
 !.config/gnupg
 !.config/gnupg/gpg-agent.conf
 
-!.config/sway
-!.config/sway/scripts
-!.config/sway/scripts/*
-.config/sway/scripts/insert-mode
-
 !.config/ironbar
 !.config/ironbar/config.yaml
 !.config/ironbar/scripts
 !.config/ironbar/scripts/*
-
-!.config/i3blocks
-!.config/i3blocks/blocklets/
-!.config/i3blocks/blocklets/*
 
 !.config/khal
 !.config/khal/config
@@ -112,6 +103,10 @@
 .local/bin/dmenu
 
 !.local/share
+
+!.local/share/comp-scripts
+!.local/share/comp-scripts/*
+.local/share/comp-scripts/insert-mode
 
 !.local/share/qutebrowser
 !.local/share/qutebrowser/userscripts

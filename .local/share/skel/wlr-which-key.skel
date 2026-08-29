@@ -1,0 +1,180 @@
+# %-LOCATION:$HOME/.config/wlr-which-key/config.yaml-% -*-yaml-*-
+# DO EDITS HERE: $HOME/.local/share/skel/wlr-which-key.skel
+
+# Theming
+font: monospace
+background: "#{{{$__BASE03}}}CC"
+color: "#{{{$__BASE06}}}"
+border: "#{{{$__BASE0D}}}"
+separator: "  "
+border_width: 2
+corner_r: 4
+padding: 15 # Defaults to corner_r
+rows_per_column: 30 # No limit by default
+column_padding: 25 # Defaults to padding
+
+# Anchor and margin
+anchor: "bottom-right" # One of center, left, right, top, bottom, bottom-left, top-left, etc.
+# Only relevant when anchor is not center
+margin_right: -6
+margin_bottom: -6
+margin_left: 0
+margin_top: 0
+
+# Permits key bindings that conflict with compositor key bindings.
+# Default is `false`.
+inhibit_compositor_keyboard_shortcuts: true
+
+# Try to guess the correct keyboard layout to use. Default is `false`.
+auto_kbd_layout: true
+
+menu:
+  - key: "m"
+    desc: "music"
+    submenu:
+      - key: "space"
+        desc: "󰐎 "
+        cmd: "rmpc togglepause"
+      - key: "l"
+        desc: "󰒭 "
+        cmd: "rmpc next"
+      - key: "h"
+        desc: "󰒮 "
+        cmd: "rmpc prev"
+      - key: "r"
+        desc: " "
+        cmd: "rmpc random"
+        # volume control
+      - key: "plus"
+        desc: "󰝝  5%"
+        cmd: "wpctl set-volume %DEFAULT_SINK% volume 5%+"
+      - key: "minus"
+        desc: "󰝞  5%"
+        cmd: "wpctl set-volume %DEFAULT_SINK% volume 5%-"
+      - key: "Alt+plus"
+        desc: "󰝝  1%"
+        cmd: "wpctl set-volume %DEFAULT_SINK% volume 1%+"
+      - key: "Alt+minus"
+        desc: "󰝞  1%"
+        cmd: "wpctl set-volume %DEFAULT_SINK% volume 1%-"
+      - key: "0"
+        desc: "  max"
+        cmd: "wpctl set-volume %DEFAULT_SINK% volume 1"
+
+  - key: "b"
+    desc: "bar widgets"
+    submenu:
+    - key: "p"
+      desc: " "
+      submenu:
+        - key: "s"
+          desc: " "
+          cmd: "systemctl poweroff"
+        - key: "r"
+          desc: ""
+          cmd: "systemctl poweroff"
+    - key: "d"
+      desc: " "
+      cmd: "ironbar bar main_bar toggle-popup clock"
+    - key: "c"
+      desc: " "
+      cmd: "ironbar bar main_bar toggle-popup clipboard"
+    - key: "i"
+      desc: " "
+      cmd: "ironbar bar main_bar toggle-popup inhibit"
+
+  - key: "i"
+    desc: "insert"
+    submenu:
+    # personal info insert
+    - key: "m"
+      desc: " "
+      cmd: "{{{$HOME}}}/.local/share/comp-scripts/insert-mode m"
+    - key: "M"
+      desc: " alt"
+      cmd: "{{{$HOME}}}/.local/share/comp-scripts/insert-mode M"
+    - key: "N"
+      desc: " full"
+      cmd: "{{{$HOME}}}/.local/share/comp-scripts/insert-mode N"
+    - key: "n"
+      desc: " last"
+      cmd: "{{{$HOME}}}/.local/share/comp-scripts/insert-mode n"
+    - key: "v"
+      desc: " first"
+      cmd: "{{{$HOME}}}/.local/share/comp-scripts/insert-mode v"
+    - key: "s"
+      desc: " str"
+      cmd: "{{{$HOME}}}/.local/share/comp-scripts/insert-mode s"
+    - key: "p"
+      desc: " zip"
+      cmd: "{{{$HOME}}}/.local/share/comp-scripts/insert-mode p"
+    - key: "o"
+      desc: " "
+      cmd: "{{{$HOME}}}/.local/share/comp-scripts/insert-mode o"
+    - key: "f"
+      desc: " "
+      cmd: "{{{$HOME}}}/.local/share/comp-scripts/insert-mode f"
+
+  - key: "x"
+    desc: "secrets"
+    submenu:
+    - key: "less"
+      desc: " user+pass"
+      cmd: "{{{$HOME}}}/.local/share/comp-scripts/pass_get -X"
+    - key: "Alt+less"
+      desc: "  user+pass"
+      cmd: "{{{$HOME}}}/.local/share/comp-scripts/pass_get -Xr"
+    - key: "y"
+      desc: " user"
+      cmd: "{{{$HOME}}}/.local/share/comp-scripts/pass_get -ux"
+    - key: "Alt+y"
+      desc: "  user"
+      cmd: "{{{$HOME}}}/.local/share/comp-scripts/pass_get -uxr"
+    - key: "Ctrl+y"
+      desc: "  user"
+      cmd: "{{{$HOME}}}/.local/share/comp-scripts/pass_get -uxm"
+    - key: "Y"
+      desc: " user"
+      cmd: "{{{$HOME}}}/.local/share/comp-scripts/pass_get -u"
+    - key: "Alt+Y"
+      desc: "  user"
+      cmd: "{{{$HOME}}}/.local/share/comp-scripts/pass_get -ur"
+    - key: "Ctrl+Y"
+      desc: "  user"
+      cmd: "{{{$HOME}}}/.local/share/comp-scripts/pass_get -um"
+    - key: "x"
+      desc: " pass"
+      cmd: "{{{$HOME}}}/.local/share/comp-scripts/pass_get -x"
+    - key: "Alt+x"
+      desc: "  pass"
+      cmd: "{{{$HOME}}}/.local/share/comp-scripts/pass_get -xr"
+    - key: "Ctrl+x"
+      desc: "  pass"
+      cmd: "{{{$HOME}}}/.local/share/comp-scripts/pass_get -xm"
+    - key: "X"
+      desc: " pass"
+      cmd: "{{{$HOME}}}/.local/share/comp-scripts/pass_get"
+    - key: "Alt+X"
+      desc: "  pass"
+      cmd: "{{{$HOME}}}/.local/share/comp-scripts/pass_get -r"
+    - key: "Ctrl+X"
+      desc: "  pass"
+      cmd: "{{{$HOME}}}/.local/share/comp-scripts/pass_get"
+    - key: "c"
+      desc: " field"
+      cmd: "{{{$HOME}}}/.local/share/comp-scripts/pass_get -fx"
+    - key: "Alt+c"
+      desc: "  field"
+      cmd: "{{{$HOME}}}/.local/share/comp-scripts/pass_get -fxr"
+    - key: "Ctrl+c"
+      desc: "  field"
+      cmd: "{{{$HOME}}}/.local/share/comp-scripts/pass_get -fxm"
+    - key: "C"
+      desc: " field"
+      cmd: "{{{$HOME}}}/.local/share/comp-scripts/pass_get -f"
+    - key: "Alt+C"
+      desc: "  field"
+      cmd: "{{{$HOME}}}/.local/share/comp-scripts/pass_get -fr"
+    - key: "Ctrl+C"
+      desc: "  field"
+      cmd: "{{{$HOME}}}/.local/share/comp-scripts/pass_get -fm"

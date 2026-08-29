@@ -1,13 +1,9 @@
 // %-LOCATION:$HOME/.config/niri/config.kdl-% -*-kdl-*-
 // DO EDITS HERE: $HOME/.local/share/skel/niri.skel
 
-// Check the wiki for a full description of the configuration:
-// https://github.com/YaLTeR/niri/wiki/Configuration:-Introduction
-
 include optional=true "custom.kdl"
 
 // Input device configuration.
-// https://github.com/YaLTeR/niri/wiki/Configuration:-Input
 input {
     keyboard {
         xkb {
@@ -41,11 +37,9 @@ input {
 // by running `niri msg outputs` while inside a niri instance.
 // The built-in laptop monitor is usually called "eDP-1".
 // Find more information on the wiki:
-// https://github.com/YaLTeR/niri/wiki/Configuration:-Outputs
 
 // Settings that influence how windows are positioned and sized.
 // Find more information on the wiki:
-// https://github.com/YaLTeR/niri/wiki/Configuration:-Layout
 layout {
     gaps 12
 
@@ -86,22 +80,23 @@ layout {
 }
 
 // Animation settings.
-// https://github.com/YaLTeR/niri/wiki/Configuration:-Animations
 animations {
 }
 
 // Gestures are functions that are activated by cursor movement
 // For more info, see the wiki:
-// https://github.com/YaLTeR/niri/wiki/Configuration:-Gestures
 gestures {
     hot-corners {
         off
     }
 }
 
+// Named workspaces
+workspace "󰖟"
+workspace ""
+
 // Window rules let you adjust behavior for individual windows.
 // Find more information on the wiki:
-// https://github.com/YaLTeR/niri/wiki/Configuration:-Window-Rules
 window-rule {
     // enable rounded corners for all windows.
     geometry-corner-radius 2
@@ -111,11 +106,13 @@ window-rule {
 window-rule {
     match app-id="emacs"
     open-maximized true
+    open-on-workspace ""
 }
 
 window-rule {
     match app-id="org.qutebrowser.qutebrowser"
     open-maximized true
+    open-on-workspace "󰖟"
 }
 
 // Open the Firefox picture-in-picture player as floating by default.
@@ -272,11 +269,16 @@ binds {
     Super+F8 allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
 
     Alt+Pause { power-off-monitors; }
+
+    // mode-like keys with wlr-which-key
+    Super+i { spawn "wlr-which-key" "--initial-keys=i"; }
+    Super+m { spawn "wlr-which-key" "--initial-keys=m"; }
+    Super+b { spawn "wlr-which-key" "--initial-keys=b"; }
+    Super+x { spawn "wlr-which-key" "--initial-keys=x"; }
 }
 
 // And then all the options that do not fit into any of the existing categories
 // For more information see the wiki:
-// https://github.com/YaLTeR/niri/wiki/Configuration:-Miscellaneous
 
 prefer-no-csd
 screenshot-path "~/Bilder/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"

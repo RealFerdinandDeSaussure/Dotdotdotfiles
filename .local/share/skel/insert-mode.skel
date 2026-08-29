@@ -1,4 +1,4 @@
-# %-LOCATION:$HOME/.config/sway/scripts/insert-mode-% -*-sh-*-
+# %-LOCATION:$HOME/.local/share/comp-scripts/insert-mode-% -*-sh-*-
 # %-VARIABLE:INFO=(pass show random/persönliche_informationen)-% -*-sh-*-
 #!/bin/bash
 # DO EDITS HERE: $HOME/.local/share/skel/insert-mode.skel
