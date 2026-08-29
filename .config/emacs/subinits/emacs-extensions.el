@@ -44,7 +44,8 @@
   (add-hook (nth 3 lang) #'+treesit-mode-switch))
 
 ;; get a more recent version of compat from ELPA in case any packages require it
-(unload-feature 'compat t)
+(when (featurep 'compat)
+  (unload-feature 'compat t))
 (use-package compat
   :ensure (:source "ELPA"))
 
