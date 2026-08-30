@@ -55,12 +55,12 @@ layout {
     default-column-width { proportion 0.5; }
 
     focus-ring {
-
         width 3
-
         active-gradient from="#{{{$__BASE0E}}}" to="#{{{$__BASE0D}}}" angle=67 in="oklch decreasing hue"
-        inactive-color "#{{{$__BASE01}}}"
-        urgent-color "#{{{$__BASE08}}}"
+    }
+
+    border {
+        width 0
     }
 
     shadow {
@@ -105,6 +105,15 @@ window-rule {
 }
 
 window-rule {
+    // draw a red border around urgent windows
+    match is-urgent=true
+    border {
+        width 4
+        urgent-color "{{{$__BASE08}}}"
+    }
+}
+
+window-rule {
     match is-floating=true
     focus-ring {
         width 2
@@ -114,6 +123,7 @@ window-rule {
 
 window-rule {
     match app-id="emacs"
+    exclude title="(?i)question"
     open-maximized-to-edges true
     open-maximized true
     open-on-workspace ""
@@ -133,6 +143,11 @@ window-rule {
     open-maximized-to-edges true
     open-maximized true
     open-on-workspace "󰖟"
+}
+
+window-rule {
+    match app-id="(?i)pinentry.*"
+    open-floating true
 }
 
 window-rule {
