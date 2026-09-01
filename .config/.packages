@@ -15,11 +15,12 @@ fcitx5:fcitx
 foot
 gnu-free-fonts:FreeSans
 ironbar
-ttc-iosevka:Iosevka Nerd Font
 niri
 noto-fonts-cjk:Noto Sans CJK
+otf-font-awesome-4:FontAwesome
 pass
 swaybg
 swayidle
 tofi
+ttc-iosevka:Iosevka Nerd Font
 ttf-nerd-fonts-symbols:Symbols Nerd Font

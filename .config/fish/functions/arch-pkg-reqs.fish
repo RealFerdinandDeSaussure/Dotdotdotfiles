@@ -18,6 +18,7 @@ function arch-pkg-reqs
         set pkg (string split -m1 -f1 : "$line")
 
         if [ -n "$_flag_install" ]
+            pacman -Siq $pkg >/dev/null 2>&1 || echo "Package $pkg missing but not in pacman repos..." >&2
             set -a i_pkgs $pkg
             continue
         end
