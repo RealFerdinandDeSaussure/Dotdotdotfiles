@@ -1,11 +1,19 @@
 #!/bin/bash
 
-WIRED_INSTANCE=${1}
-WIFI_INSTANCE=${2}
-
 html_escape() {
     sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g; s/"/\&quot;/g; s/'"'"'/\&#39;/g'
 }
+
+# this will not work if there is more than one of either wired or wifi interface
+for d in /sys/class/net/*/device; do
+    dir="$(dirname "$d")"
+    if [ -d "$dir/wireless" ]; then
+        WIFI_INSTANCE="$(basename "$dir")"
+    else
+        WIRED_INSTANCE="$(basename "$dir")"
+    fi
+done
+
 
 # wired connection
 if [[ -n $WIRED_INSTANCE ]]; then
@@ -31,15 +39,15 @@ if [[ -n $WIFI_INSTANCE ]]; then
         if [[ -z "$WIFI_SSID" ]]; then
             wifi="󰤮"
         elif [[ $QUALITY -ge 80 ]]; then
-            wifi="<span weight='bold>󰤨</span>"
+            wifi="<span weight='bold'>󰤨</span>"
         elif [[ $QUALITY -ge 60 ]]; then
-            wifi="<span weight='bold>󰤥</span>"
+            wifi="<span weight='bold'>󰤥</span>"
         elif [[ $QUALITY -ge 40 ]]; then
-            wifi="<span weight='bold>󰤢</span>"
+            wifi="<span weight='bold'>󰤢</span>"
         else
-            wifi="<span weight='bold>󰤟</span>"
+            wifi="<span weight='bold'>󰤟</span>"
         fi
     fi
 fi
 
-echo "${wired}${wifi:+${wired:+ }$wifi${WIFI_SSID:+ <span size='small'>${WIFI_SSID}</span>}}${vpn:+ }$vpn"
+echo "${wired}${wifi:+${wired:+ }$wifi${WIFI_SSID:+ <span size='small'>${WIFI_SSID}</span>}}"
