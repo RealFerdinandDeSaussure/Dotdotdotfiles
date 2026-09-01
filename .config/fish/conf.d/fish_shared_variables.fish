@@ -61,8 +61,8 @@ set -x __BASE0F d65d0e
 # setup font settings
 set -x FONT_SANS "Space Grotesk"
 set -x FONT_SERIF Fraunces
-set -x FONT_MONO "Iosevka Nerd Font"
-set -x FONT_TERMINAL "Iosevka Nerd Font"
+set -x FONT_MONO "Iosevka"
+set -x FONT_TERMINAL "Iosevka"
 
 # set FZF options
 set -x FZF_DEFAULT_OPTS "--height 60% --border \
