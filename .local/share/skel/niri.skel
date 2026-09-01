@@ -124,7 +124,7 @@ window-rule {
 window-rule {
     match app-id="emacs"
     exclude title="(?i)question"
-    open-maximized-to-edges true
+    // open-maximized-to-edges true
     open-maximized true
     open-on-workspace ""
 }
@@ -140,7 +140,7 @@ window-rule {
 
 window-rule {
     match app-id="org.qutebrowser.qutebrowser"
-    open-maximized-to-edges true
+    // open-maximized-to-edges true
     open-maximized true
     open-on-workspace "󰖟"
 }
@@ -198,9 +198,9 @@ binds {
     Super+Shift+L     { move-column-right; }
 
     Super+less          { focus-column-first; }
-    Super+greater       { focus-column-last; }
+    Super+Y             { focus-column-last; }
     Super+Shift+less     { move-column-to-first; }
-    Super+Shift+greater  { move-column-to-last; }
+    Super+Shift+Y        { move-column-to-last; }
 
     // Super+Alt+Left  { focus-monitor-left; }
     // Super+Alt+Down  { focus-monitor-down; }
@@ -322,3 +322,4 @@ cursor {
 
 spawn-at-startup "ironbar"
 spawn-at-startup "swaybg" "-i" "{{{$HOME}}}/Bilder/wallpaper.jpg" "--mode=fill"
+spawn-at-startup "swayidle" "timeout" "300" "niri msg action power-off-monitors"
