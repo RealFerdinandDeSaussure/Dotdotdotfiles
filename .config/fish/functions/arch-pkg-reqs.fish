@@ -37,7 +37,7 @@ function arch-pkg-reqs
         end
     end < $pkg_file
 
-    if [ -n "$_flag_install" ]
-        sudo pacman -S --needed $i_pkgs
+    if [ -n "$_flag_install" -a (count $i_pkgs) -ne 0 ]
+        sudo pacman -S $i_pkgs
     end
 end
