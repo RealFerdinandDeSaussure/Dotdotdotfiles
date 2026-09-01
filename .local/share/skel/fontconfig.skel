@@ -51,6 +51,7 @@
     <family>monospace</family>
     <prefer>
       <family>{{{$FONT_MONO}}}</family>
+      <family>FreeMono</family>
       <family>Symbols Nerd Font</family>
       <family>Noto Sans CJK SC</family>
       <family>Noto Sans CJK TC</family>
