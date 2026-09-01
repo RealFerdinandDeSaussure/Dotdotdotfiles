@@ -300,10 +300,10 @@ binds {
     Alt+Pause { power-off-monitors; }
 
     // mode-like keys with wlr-which-key
-    Super+i { spawn "wlr-which-key" "--initial-keys=i"; }
-    Super+m { spawn "wlr-which-key" "--initial-keys=m"; }
-    Super+b { spawn "wlr-which-key" "--initial-keys=b"; }
-    Super+x { spawn "wlr-which-key" "--initial-keys=x"; }
+    Super+I { spawn "wlr-which-key" "--initial-keys=i"; }
+    Super+M { spawn "wlr-which-key" "--initial-keys=m"; }
+    Super+B { spawn "wlr-which-key" "--initial-keys=b"; }
+    Super+Shift+I { spawn "wlr-which-key" "--initial-keys=x"; }
 }
 
 // And then all the options that do not fit into any of the existing categories

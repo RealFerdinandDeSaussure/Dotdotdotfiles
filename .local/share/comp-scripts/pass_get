@@ -26,26 +26,14 @@ for exec in $required_execs
     end
 end
 
-# get name of currently active window
-# in wayland
-if [ -n "$WAYLAND_DISPLAY" ]
-    set active (swaymsg -t get_tree | jq -r '..|try select(.focused == true)')
-    set win_name "$(echo $active | jq -r '.name')"
-    set win_class "$(echo $active | jq -r '.app_id')"
-    if [ -z "$win_class" ]
-        set win_class (echo $active | jq -r '.class')
+
+function wayland_get_focused
+    if set -q NIRI_SOCKET
+        niri msg --json focused-window
+    else if set -q SWAYSOCK
+        swaymsg -t get_tree | jq -r '..|try select(.focused == true)'
     end
-else
-# in x11
-    set active_line (string match -ri '^_NET_ACTIVE_WINDOW\(WINDOW\).+' (xprop -root))
-    set active_id (string replace -r '^[^#]+#\s(\S+)' '$1' "$active_line")
-    set name_line (string match -r 'WM_NAME\([^)]+\).+' (xprop -id $active_id))
-    set class_line (string match -r 'WM_CLASS\([^)]+\).+' (xprop -id $active_id))
-    set win_name "$(string match -r '"[^"]+"$' "$name_line")"
-    set win_class "$(string match -r '"[^"]+"$' "$class_line")"
 end
-set win_name (string replace -a ' ' '_' "$win_name")
-set win_class (string replace -a ' ' '_' "$win_class")
 
 
 function dotool -a cmd
@@ -230,6 +218,27 @@ function main -S
         exit 1
     end
 end
+
+# get name of currently active window
+# in wayland
+if [ -n "$WAYLAND_DISPLAY" ]
+    set active (wayland_get_focused)
+    set win_name "$(echo $active | jq -r '.title')"
+    set win_class "$(echo $active | jq -r '.app_id')"
+    if [ -z "$win_class" ]
+        set win_class (echo $active | jq -r '.class')
+    end
+else
+# in x11
+    set active_line (string match -ri '^_NET_ACTIVE_WINDOW\(WINDOW\).+' (xprop -root))
+    set active_id (string replace -r '^[^#]+#\s(\S+)' '$1' "$active_line")
+    set name_line (string match -r 'WM_NAME\([^)]+\).+' (xprop -id $active_id))
+    set class_line (string match -r 'WM_CLASS\([^)]+\).+' (xprop -id $active_id))
+    set win_name "$(string match -r '"[^"]+"$' "$name_line")"
+    set win_class "$(string match -r '"[^"]+"$' "$class_line")"
+end
+set win_name (string replace -a ' ' '_' "$win_name")
+set win_class (string replace -a ' ' '_' "$win_class")
 
 if not status is-interactive
     main
