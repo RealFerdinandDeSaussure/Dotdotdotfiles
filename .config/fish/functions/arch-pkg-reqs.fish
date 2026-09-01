@@ -31,7 +31,7 @@ function arch-pkg-reqs
         end
 
         for q in query
-            git grep -q "$query" && continue
+            git grep -q "$query" -- ':!.config/.packages' && continue
             echo "$pkg not verified on system." >&2
         end
     end < $pkg_file

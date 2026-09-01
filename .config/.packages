@@ -1,0 +1,24 @@
+# -*- conf -*-
+# This is a list of Arch Linux packages required for the current configuration
+# to run properly. The fish function arch-pkg-reqs will git grep the Dotfiles
+# for every line in this file and offer to remove packages for which no matches
+# have been found.
+
+# To separate package names and search terms, separate them with a colon.
+# Multiple search terms can be separated by commas (leading and trailing
+# whitespace will be stripped).
+# <pkg-name>:<search-term1,search-term2,...>
+
+auracle
+dunst
+fcitx5:fcitx
+foot
+gnu-free-fonts:FreeSans
+ironbar
+niri
+noto-fonts-cjk:Noto Sans CJK
+pass
+swaybg
+swayidle
+tofi
+ttf-nerd-fonts-symbols:Symbols Nerd Font

@@ -2,6 +2,8 @@
 
 !.config/
 
+!.config/.packages
+
 !.config/alacritty
 !.config/alacritty/alacritty.toml
 !.config/alacritty/overlay.toml
