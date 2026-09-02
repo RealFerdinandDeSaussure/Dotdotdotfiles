@@ -15,6 +15,7 @@ fcitx5:fcitx
 foot
 gnu-free-fonts:FreeSans
 ironbar
+jq
 mpd
 niri
 noto-fonts-cjk:Noto Sans CJK
@@ -23,7 +24,9 @@ pass
 rmpc
 swaybg
 swayidle
-tofi
-ttc-iosevka:Iosevka Nerd Font
+tofi:dmenu
+ttc-iosevka:Iosevka
 ttf-nerd-fonts-symbols:Symbols Nerd Font
 wl-clipboard:wl-copy
+wlr-which-key
+wtype
