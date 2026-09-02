@@ -58,5 +58,8 @@ abbr -a -g uctl udisksctl
 abbr -a -g v nvim
 abbr -a -g wlc wl-copy
 abbr -a -g wlp wl-paste
+abbr -a -g wm wormhole
+abbr -a -g wmr wormhole receive
+abbr -a -g wms wormhole send
 abbr -a -g ytd yt-dlp
 abbr -a -g z zathura
