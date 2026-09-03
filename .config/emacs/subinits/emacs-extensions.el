@@ -185,14 +185,6 @@
   :init
   (recentf-mode))
 
-;; (use-package restart-emacs
-;;   :general
-;;   (:keymaps         'override
-;;    "M-<f12>"        'restart-emacs
-;;    "S-M-<f12>"      (general-l
-;;                       (shell-command "merge-configs")
-;;                       (restart-emacs))))
-
 (use-package saveplace
   :ensure nil
   :init

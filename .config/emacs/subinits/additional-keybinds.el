@@ -18,7 +18,11 @@
 (general-def
   :keymaps          'override
   "<f9>"            'elpaca-manager
-  "<f12>"           'elpaca-update-all)
+  "<f12>"           'elpaca-update-all
+  "M-<f12>"         'restart-emacs
+  "S-M-<f12>"       (general-l
+                      (shell-command "merge-configs")
+                      (restart-emacs)))
 
 ;; window navigation
 (general-def
