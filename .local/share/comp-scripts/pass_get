@@ -8,10 +8,10 @@ test -z $PASS_FALLBACK_USER && set PASS_FALLBACK_USER "User"
 
 
 # prerequisites
-set required_execs pass
+set required_execs pass dmenu
 # wayland and X11 specific setup
 if [ -n "$WAYLAND_DISPLAY" ]
-    set -a required_execs jq wl-copy
+    set -a required_execs jq wl-copy wtype
     set clip_in wl-copy
     set xytool wtype
 else

@@ -242,6 +242,10 @@ contents {
     background: linear-gradient(to right, @base01, @base0a 2em, @base0a calc(100% - 2em), @base01);
 }
 
+#bar #end .widget.bluetooth.enabled {
+    color: @base04;
+}
+
 .clipboard-popup {
     min-width: 300px;
 }
