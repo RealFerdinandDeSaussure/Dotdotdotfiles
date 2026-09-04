@@ -17,6 +17,7 @@ gnu-free-fonts:FreeSans
 ironbar
 jq
 mpd
+python-mpd2:MPDClient
 niri
 noto-fonts-cjk:Noto Sans CJK
 otf-font-awesome-4:FontAwesome

@@ -250,6 +250,10 @@ contents {
     min-width: 300px;
 }
 
+#clipboard-content {
+    font-size: small;
+}
+
 #focused {
     margin-left: 0.5em;
     margin-right: 1.5em;

@@ -72,7 +72,7 @@ function update_widget {
 
     clip_content="$(echo -n "$clip_content" | xargs)"
     test ${#clip_content} -gt 15 && clip_content="${clip_content:0:15}…"
-    stdbuf -oL echo "<span font-size='small'>$clip_content</span>"
+    stdbuf -oL echo "$clip_content"
 }
 
 if [ -n "$CLIPBOARD_STATE" ]; then

@@ -52,7 +52,7 @@ end:
       - type: "label"
         label: " "
       - type: "label"
-        name: "clipboard-contents"
+        name: "clipboard-content"
         label: "{{watch:$HOME/.config/ironbar/scripts/wl-clipboard}}"
     popup:
     - type: "box"
