@@ -15,13 +15,15 @@ fcitx5:fcitx
 foot
 gnu-free-fonts:FreeSans
 ironbar
+isync:mbsync
 jq
 mpd
-python-mpd2:MPDClient
+mu:mu4e
 niri
 noto-fonts-cjk:Noto Sans CJK
 otf-font-awesome-4:FontAwesome
 pass
+python-mpd2:MPDClient
 rmpc
 swaybg
 swayidle
