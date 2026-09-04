@@ -29,6 +29,9 @@
 !.config/emacs/themes
 !.config/emacs/themes/base16-env-theme.el
 
+!.config/fcitx5/
+!.config/fcitx5/config
+
 !.config/fish
 # config.fish is generated automatically if it's empty
 .config/fish/config.fish
