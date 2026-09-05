@@ -92,18 +92,25 @@ end:
       max_length: 40
       pause_duration: 10000
   - type: "script"
-    cmd: "$HOME/.config/ironbar/scripts/network eno1 wlan0"
+    cmd: "$HOME/.config/ironbar/scripts/network"
     mode: "poll"
     interval: 10000
   - type: "bluetooth"
     disable_popup: true
+    show_if: "systemctl is-active --quiet bluetooth.service"
     format:
       disabled: ""
       enabled: ""
+      connected: ""
+      connected_battery: " {device_battery_percent}%"
   - type: "inhibit"
     durations: ["00:30:00", "01:00:00", "inf"]
     format_on: ' {duration}'
     format_off: ''
+  - type: "battery"
+    show_if: "upower -b"
+    icon_size: 18
+    format: ""
   - type: "clock"
     name: "clock"
     format: "%H:%M"
