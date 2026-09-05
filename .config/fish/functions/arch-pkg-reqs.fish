@@ -20,9 +20,9 @@ function arch-pkg-reqs
         if set -q _flag_install
             test "$pkg" = "$on_system" && continue
             if not pacman -Siq $pkg >/dev/null 2>&1
-                test (count _flag_install -eq 1) && echo "Package \"$pkg\" missing but not in pacman repos
+                test (count $_flag_install) -eq 1 && echo "Package \"$pkg\" missing but not in pacman repos
 Supply the i flag twice to install the package with aurmake." >&2
-            test (count _flag_install -eq 2) && set -a aur_i_pkgs $pkg
+            test (count $_flag_install) -eq 2 && set -a aur_i_pkgs $pkg
             continue
             end
             set -a i_pkgs $pkg
