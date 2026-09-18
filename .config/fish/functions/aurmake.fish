@@ -10,7 +10,7 @@ function aurmake -w cower -d 'Build specified AUR package'
     test (count $pkg) -eq 1 || return 1
 
     set aur_rpc_info "https://aur.archlinux.org/rpc/v5/info?arg[]="
-    set response (curl "$aur_rpc_info$pkg" 2>/dev/null) || return 1
+    set response (curl --silent --show-error "$aur_rpc_info$pkg") || return 1
     set resultcount (echo "$response" | jq .resultcount) || return 1
 
     switch $resultcount

@@ -5,7 +5,7 @@ function aurinfo -a pkg -d "Get info from AUR for the provided package"
     set pkg $argv[1]
     set date_fields FirstSubmitted LastModified
     set aur_rpc_info "https://aur.archlinux.org/rpc/v5/info?arg[]="
-    set response (curl "$aur_rpc_info$pkg" 2>/dev/null)
+    set response (curl --silent --show-error "$aur_rpc_info$pkg") || return 1
 
     if [ (echo $response | jq '.resultcount') -ne 1 ]
         echo "Package $pkg not found in AUR." >&2
