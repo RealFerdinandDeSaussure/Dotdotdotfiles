@@ -9,8 +9,8 @@ function fish_user_key_bindings
     fish_hybrid_key_bindings
     
     # additional bindings that base fzf search in $MEDIA
-    bind -M insert alt-shift-c 'commandline $MEDIA; and fzf-cd-widget'
-    bind -M insert alt-t 'commandline -a $MEDIA; and fzf-file-widget'
+    bind -M insert alt-shift-c 'commandline $MEDIA && fzf-cd-widget'
+    bind -M insert alt-t 'commandline -a $MEDIA && fzf-file-widget'
 
     # history and completion bindings
     bind -M insert alt-k up-or-search
@@ -19,7 +19,7 @@ function fish_user_key_bindings
     bind -M insert alt-space accept-autosuggestion
 
     # paste with single quotes around clipboard contents
-    bind -M insert alt-ctrl-v 'commandline -i \\\'; and fish_clipboard_paste; and commandline -i \\\''
+    bind -M insert alt-ctrl-v 'commandline -i \\\' && fish_clipboard_paste && commandline -i \\\''
 
     # prepend/append commands by keypress
     bind -M insert alt-p __fish_pls_bind

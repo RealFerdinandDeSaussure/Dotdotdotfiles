@@ -3,7 +3,7 @@ abbr -a -g ansv ansible-vault
 abbr -a -g aurc aurclone
 abbr -a -g auri aurinfo
 abbr -a -g aurs aursearch
-abbr -a -g bgd 'bg; and disown'
+abbr -a -g bgd 'bg && disown'
 abbr -a -g bpy bpython
 abbr -a -g do disown
 abbr -a -g ff ffmpeg

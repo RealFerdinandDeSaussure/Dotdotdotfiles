@@ -19,7 +19,6 @@ function adbfsmount --description "Provide a adbfs mountpoint as $adbfsmnt"
     else
         set -g adbfsmnt (mktemp -d --tmpdir 'adbfs.XXXXXX')
         set_color -o; echo "Mounting under $adbfsmnt (\$adbfsmnt)..."; set_color normal
-        adbfs "$adbfsmnt"
-        or set -eg adbfsmnt
+        adbfs "$adbfsmnt" || set -eg adbfsmnt
     end
 end

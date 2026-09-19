@@ -17,7 +17,7 @@ function ffcut
     end
 
     printf 'file %s\n' "$vpart1" "$vpart2" > "$concat_file"
-    ffmpeg -to "$_flag_s" -i "$argv" -c copy "$vpart1"; or return 1
-    ffmpeg -ss "$_flag_t" -i "$argv" -c copy "$vpart2"; or return 1
-    ffmpeg -f concat -safe 0 -i "$concat_file" -c copy $vfname; or return 1
+    ffmpeg -to "$_flag_s" -i "$argv" -c copy "$vpart1" || return 1
+    ffmpeg -ss "$_flag_t" -i "$argv" -c copy "$vpart2" || return 1
+    ffmpeg -f concat -safe 0 -i "$concat_file" -c copy $vfname || return 1
 end
