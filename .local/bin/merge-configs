@@ -118,9 +118,9 @@ function process_skel -a skel_file
     end
 
     # write $file_string to file
-    safe_write "$location" $file_string
+    safe_write "$location" $file_string || return 1
     # copy permissions from skel file to destination
-    chmod $permissions "$location"
+    chmod $permissions "$location" || return 1
 end
 
 function prompt -a file
