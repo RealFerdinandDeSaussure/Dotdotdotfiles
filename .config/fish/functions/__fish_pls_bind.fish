@@ -6,7 +6,7 @@ function __fish_pls_bind
         set cmdln_old (history | head -n 1)
     end
 
-    # if the selected entry already has the keyword prepended, don't do any
+    # if the selected entry already has the keyword prefixed, don't do any
     # further modification
     if [ ! (string sub -l 5 -- "$cmdln_old") = "sudo " ]
         set -l cmdln_new 'sudo '"$cmdln_old"

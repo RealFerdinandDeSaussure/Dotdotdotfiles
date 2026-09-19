@@ -105,9 +105,8 @@ function loop_candidates -a prop
         set subs (string split "$PASS_SUBNAME_SPLIT_CHAR" "$barepass")
         if [ ! "$subs" = "$barepass" ]
             for sub in $subs
-                if not contains $password $candidates;
-                   and string match -qie "$sub" $prop
-                   set -a candidates $password
+                if not contains $password $candidates && string match -qie "$sub" $prop
+                    set -a candidates $password
                     continue
                 end
             end

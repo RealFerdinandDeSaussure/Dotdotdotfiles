@@ -1,4 +1,9 @@
 function arch-pkg-reqs
+    if ! git -C $HOME rev-parse --is-inside-work-tree 2>/dev/null >&2
+        echo "$HOME is not a git repository."
+        return 1
+    end
+
     argparse 'b/backquery' 'i/install' 'q/query' -- "$argv"
     if [ -z "$_flag_b$_flag_i$_flag_q" ]
         echo "Mode must be set: --query/--install" >&2
@@ -36,8 +41,8 @@ Supply the i flag twice to install the package with aurmake." >&2
             end
 
             for q in query
-                git grep -q "\b$query\b" -- ':!.config/.packages' && continue
-                echo "$pkg not verified on system." >&2
+                git -C $HOME grep -q "\b$query\b" -- ':!.config/.packages' && continue
+                echo "$pkg not verified  system." >&2
             end
         else if set -q _flag_backquery
             set i (contains -i $pkg $pkgs_on_system) || continue
@@ -49,7 +54,7 @@ Supply the i flag twice to install the package with aurmake." >&2
     if set -q _flag_install
         test (count $i_pkgs) -ne 0 && sudo pacman -S $i_pkgs
         for p in $aur_i_pkgs
-            aurmake $p
+            aurmake $p || return 1
         end
     end
 
