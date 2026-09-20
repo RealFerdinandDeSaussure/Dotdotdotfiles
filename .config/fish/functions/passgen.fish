@@ -6,9 +6,9 @@ function passgen
         return 1
     end
 
-    if [ -n "$_flag_randstring" ]
+    if set -q _flag_randstring
         set pass_in (randstring)
-    else if [ -n "$_flag_diceware" ]
+    else if set -q _flag_diceware
         set pass_in (diceware -d" " -w de) || return 1
     else
         echo "Please specify either --diceware or --randstring." >&2

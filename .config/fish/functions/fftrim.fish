@@ -5,10 +5,10 @@ function fftrim
     set vbase (string replace -r '\.[^.]+$' '' -- (basename "$argv"))
     set vext (string match -r '[^.]+$' -- (basename "$argv"))
 
-    if [ -n "$_flag_l" -a -n "$_flag_t" ]
-        ffmpeg -i "$argv" -ss "$_flag_t" -c copy "$vbase""_end"".$vext"
-    else if [ -n "$_flag_r" -a -n "$_flag_s" ]
-        ffmpeg -i "$argv" -to "$_flag_s" -c copy "$vbase""_start"".$vext"
+    if set -q _flag_left && set -q _flag_to
+        ffmpeg -i "$argv" -ss "$_flag_to" -c copy "$vbase""_end"".$vext"
+    else if set -q _flag_right && set -q _flag_ss
+        ffmpeg -i "$argv" -to "$_flag_ss" -c copy "$vbase""_start"".$vext"
     else
         return 1
     end

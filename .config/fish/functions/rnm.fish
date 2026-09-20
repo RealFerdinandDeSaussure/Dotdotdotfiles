@@ -26,7 +26,7 @@ function rnm
             set fname "$argv[$line_num]"
             set line_num (math $line_num + 1)
 
-            if [ -n "$_flag_n" ]
+            if set -q _flag_dry_run
                 echo "$fname --> $new_fname"
             else if [ "$fname" = "$new_fname" ]
                 :

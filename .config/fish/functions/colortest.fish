@@ -1,10 +1,12 @@
 function colortest
-    argparse 's/start=?!_validate_int --min 0 --max 15' 't/to=?!_validate_int --min 0 --max 15' -- $argv
+    argparse 's/start=!_validate_int --min 0 --max 15' 't/to=!_validate_int --min 0 --max 15' -- $argv || return 1
     
-    [ -z "$_flag_s" ] && set _flag_s 0
-    [ -z "$_flag_t" ] && set _flag_t 15
+    not set -q _flag_start && set _flag_start 0
+    not set -q _flag_to && set _flag_to 15
+    echo $_flag_start
+    echo $_flag_to
     
-    set width (seq "$_flag_s" "$_flag_t")
+    set width (seq "$_flag_start" "$_flag_to")
 
     for i in $width
         printf 'BASE0%X ' $i

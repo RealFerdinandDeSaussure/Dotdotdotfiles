@@ -2,13 +2,13 @@ function cdb -d "Browse through directory bookmarks."
     argparse -n cdb 'a/add' 'd/delete' -- $argv
     set bookmark_file "$__fish_user_data_dir/cdb_bookmarks"
 
-    if [ -n "$_flag_a" ]
+    if set -q _flag_add
         # add bookmark
         for location in $argv
             echo $location >> "$bookmark_file"
         end
         return
-    else if [ -n "$_flag_d" ]
+    else if set -q _flag_delete
         # delete bookmark
         for location in $argv
             set line_num (awk -v line="$location" '$0 == line {print NR}' "$bookmark_file")

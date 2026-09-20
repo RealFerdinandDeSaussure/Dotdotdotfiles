@@ -33,7 +33,7 @@ function ext_backup
     sync_folder "$BACKUP_LOCAL"/Bilder/Erlebnisse/ "$BACKUP_EXTERNAL"/Backup/Bilder/
 end
 
-if [ -n "$_flag_i" ]
+if set -q _flag_init
     initialize_folders
 else
     ext_backup
