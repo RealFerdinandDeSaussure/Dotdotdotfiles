@@ -10,7 +10,7 @@ function imath -d "Use math interactively"
             return
         end
 
-        set input (string replace -a '$$' "$result" -- "$input")
+        set input (string replace -a -- '$$' "$result" "$input")
         math "$input" && set result (math "$input")
     end
 end
