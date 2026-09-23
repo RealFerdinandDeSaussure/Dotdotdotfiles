@@ -1,5 +1,6 @@
 function aursearch
     argparse 'b/browser' 'v/sort-by-votes' -- $argv
+    test (count $argv) -eq 0 && return 1
 
     if set -q _flag_browser
         open "https://aur.archlinux.org/packages?O=0&K=$(string join + $argv)"
@@ -7,23 +8,29 @@ function aursearch
     end
 
     set aur_rpc_search https://aur.archlinux.org/rpc/v5/search/
-    set search_str (string join -- "%20" $argv)
-    set jq_filter '.results'
-    if set -q _flag_sort_by_votes
-        set jq_filter $jq_filter' | sort_by(.NumVotes)[] | [.Name, .Version, .NumVotes, .Description] | @tsv'
-    else
-        set jq_filter $jq_filter'[] | [.Name, .Version, .NumVotes, .Description] | @tsv'
-    end
-    set inst_pkgs (pacman -Qq)
+    set base_search $argv[1]
+    set -e argv[1]
 
-    set response (curl --silent --show-error {$aur_rpc_search}{$search_str}?by=name-desc) || return 1
-    set error (echo $response | jq -r '.error')
+    set inst_pkgs (pacman -Qq)
+    set response (curl --silent --show-error {$aur_rpc_search}{$base_search}?by=name-desc) || return 1
+    if set -q _flag_sort_by_votes
+        set results (echo $response | jq -r '.results | sort_by(.NumVotes)[]') || return 1
+    else
+        set results (echo $response | jq -r '.results[]') || return 1
+    end
+
+    set error (echo $response | jq -r '.error') || return 1
     if [ "$error" != "null" ]
         echo "$error"
         return 1
     end
 
-    echo -n $response | jq --raw-output0 $jq_filter | while read -z line
+    # drilling further down till we get the packages that match all search queries
+    for query in $argv
+        set results (echo $results | jq 'select(.Name, .Description | tostring | test("'"$query"'"))')
+    end
+
+    echo -n $results | jq --raw-output0 '[.Name, .Version, .NumVotes, .Description] | @tsv' | while read -z line
         set fields (string split \t $line)
         set_color -o magenta; echo -n aur/
         set_color -f normal; echo -n $fields[1]
