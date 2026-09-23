@@ -7,6 +7,8 @@
 ;; set up a separate location for backup and temp files
 (defconst emacs-backup-dir (expand-file-name "backups" user-emacs-directory))
 (defconst emacs-auto-save-dir (expand-file-name "auto-save" user-emacs-directory))
+(dolist (dir (list emacs-backup-dir emacs-auto-save-dir))
+  (make-directory dir t))
 (setq backup-directory-alist `(("." . ,emacs-backup-dir)))
 (setq auto-save-file-name-transforms
       `(("^/\\([^/]+/\\)*\\([^/]+\\)" ,(file-name-concat emacs-auto-save-dir "\\2") t)))
