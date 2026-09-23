@@ -9,7 +9,6 @@
 # whitespace will be stripped).
 # <pkg-name>:<search-term1,search-term2,...>
 
-mako:makoctl
 fcitx5:fcitx
 foot
 fzf
@@ -18,12 +17,15 @@ gnu-free-fonts:FreeSans
 ironbar
 isync:mbsync
 jq
+mako:makoctl
 mpd
 mu:mu4e
 niri
 noto-fonts-cjk:Noto Sans CJK
 otf-font-awesome-4:FontAwesome
 pass
+python-dbus:dbus.mainloop.glib
+python-gobject:gi.repository
 python-mpd2:MPDClient
 rmpc
 swaybg
