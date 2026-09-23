@@ -1,9 +1,18 @@
 function aurinfo -a pkg -d "Get info from AUR for the provided package"
-    argparse 'j/json' -- $argv
+    argparse j/json -- $argv
     test (count $argv) -ne 1 && return 1
 
+    set pr_keys Name Description Version Keywords URL \
+        Depends MakeDepends CheckDepends \
+        LastModified OutOfDate License Maintainer Submitter \
+        Popularity NumVotes
+    set pr_values
+    for none in (seq (count $pr_keys))
+        set pr_values ""
+    end
+
     set pkg $argv[1]
-    set date_fields FirstSubmitted LastModified
+    set date_fields FirstSubmitted LastModified OutOfDate
     set aur_rpc_info "https://aur.archlinux.org/rpc/v5/info?arg[]="
     set response (curl --silent --show-error {$aur_rpc_info}$pkg) || return 1
 
@@ -17,29 +26,30 @@ function aurinfo -a pkg -d "Get info from AUR for the provided package"
         return
     end
 
-    set keys Package
-    set values $pkg
-
     for l in (echo $response | jq -r '.results[0] |
         to_entries[] |
         [.key, if (.value | type) == "array" then (.value | @tsv) else (.value | tostring) end] |
         join(":")')
         set pair (string split -m1 ":" $l)
-        set -a keys "$pair[1]"
-        set -a values "$pair[2]"
+
+        if set -l i (contains -i $pair[1] $pr_keys)
+            set pr_values[$i] "$pair[2]"
+        end
     end
 
-    set keys (string pad -r $keys)
+    set pr_keys (string pad -r $pr_keys" ")
 
-    for i in (seq (count $keys))
-        set k $keys[$i]
-        set v (string split -- \t $values[$i])
+    for i in (seq (count $pr_keys))
+        set k $pr_keys[$i]
+        set v (string split -- \t $pr_values[$i])
         set_color -o; echo -n $k; set_color normal
         echo -n ": "
 
+        if [ "$v" = "null" ]
+            echo "-"
         # treat date fields in a special way
-        if contains (string trim $k) $date_fields
-            date -d "@$v" +%Y-%m-%d
+        else if contains (string trim $k) $date_fields
+            date -d "@$v" +%Y-%m-%d 2>/dev/null
         # special formatting if $v is (was) a multi-entry array
         else if [ (count $v) -gt 1 ]
             echo "- $v[1]"
