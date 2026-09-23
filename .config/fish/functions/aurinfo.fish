@@ -21,9 +21,9 @@ function aurinfo -a pkg -d "Get info from AUR for the provided package"
     set values $pkg
 
     for l in (echo $response | jq -r '.results[0] |
-                                      to_entries[] |
-                                      [.key, if (.value | type) == "array" then (.value | @tsv) else (.value | tostring) end] |
-                                      join(":")')
+        to_entries[] |
+        [.key, if (.value | type) == "array" then (.value | @tsv) else (.value | tostring) end] |
+        join(":")')
         set pair (string split -m1 ":" $l)
         set -a keys "$pair[1]"
         set -a values "$pair[2]"

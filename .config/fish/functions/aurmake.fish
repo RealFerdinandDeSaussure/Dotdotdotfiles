@@ -24,9 +24,11 @@ function aurmake -w cower -d 'Build specified AUR package'
             return 1
     end
 
-    for dep in (echo "$response" | jq '.results[0].Depends.[]?')
-        if pacman -Si $dep >/dev/null 2>&1
-            set_color -o; echo "Package $dep not in pacman repos. Trying AUR..." >&2; set_color normal
+    for dep in (echo "$response" | jq -r '.results[0] |
+        [.Depends[]?, .MakeDepends[]?, .CheckDepends[]?] |
+        join("\n")')
+        if not pacman -Si $dep >/dev/null 2>&1
+            set_color -o; echo "Dependency $dep not in pacman repos. Trying AUR..." >&2; set_color normal
             aurmake $dep || return 1
         end
     end
