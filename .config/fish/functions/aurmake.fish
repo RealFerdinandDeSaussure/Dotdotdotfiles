@@ -20,7 +20,7 @@ function aurmake -w cower -d 'Build specified AUR package'
         case 1
             :
         case '*'
-            echo -e "More than one RPC result found for package $pkg.\nWhat's going on?"
+            echo -e "More than one RPC result found for package $pkg.\nWhat's going on?" >&2
             return 1
     end
 
@@ -29,7 +29,12 @@ function aurmake -w cower -d 'Build specified AUR package'
         join("\n")')
         if not pacman -Si $dep >/dev/null 2>&1
             set_color -o; echo "Dependency $dep not in pacman repos. Trying AUR..." >&2; set_color normal
-            aurmake $dep || return 1
+            aurmake $dep && continue
+            while not string match -rq '[ynYN]'
+                read -l -p "set_color -o; echo -n 'Continue the build process for '$pkg' regardless? [y/n] '; set_color normal" -n1 answer || return 1
+                test "$(string lower $answer)" = "y" && break
+                test "$(string lower $answer)" = "n" && return 1
+            end
         end
     end
 
