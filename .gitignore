@@ -27,6 +27,9 @@
 
 !.config/fcitx5/
 !.config/fcitx5/config
+!.config/fcitx5/profile
+!.config/fcitx5/conf
+!.config/fcitx5/conf/pinyin.conf
 
 !.config/fish
 # config.fish is generated automatically if it's empty
