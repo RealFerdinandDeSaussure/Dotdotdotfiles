@@ -3,7 +3,7 @@
     email = inspectormustache@users.noreply.github.com
 
 [init]
-    defaultbranch = mister
+    defaultbranch = master
 
 [core]
     editor = nvim
