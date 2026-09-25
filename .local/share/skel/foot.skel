@@ -229,8 +229,8 @@ prompt-next=Control+Shift+numbersign
 [search-bindings]
 # cancel=Control+g Control+c Escape
 # commit=Return KP_Enter
-# find-prev=Control+r
-# find-next=Control+s
+find-prev=Control+Shift+r
+find-next=Control+r
 # cursor-left=Left Control+b
 # cursor-left-word=Control+Left Mod1+b
 # cursor-right=Right Control+f
