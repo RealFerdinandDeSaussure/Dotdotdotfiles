@@ -10,6 +10,7 @@
 # <pkg-name>:<search-term1,search-term2,...>
 
 fcitx5:fcitx
+fcitx5-chinese-addons:Name=pinyin
 foot
 fzf
 gcr:pinentry-gnome3
