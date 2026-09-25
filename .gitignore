@@ -61,6 +61,10 @@
 !.config/mpv/scripts
 !.config/mpv/scripts/*
 
+!.config/niri
+!.config/niri/scripts
+!.config/niri/scripts/*
+
 !.config/nvim
 !.config/nvim/init.lua
 

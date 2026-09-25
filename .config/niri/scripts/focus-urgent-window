@@ -1,0 +1,5 @@
+#!/bin/bash
+
+win_id="$(niri msg -j windows | jq -r 'map(select(.is_urgent == true))[0].id')"
+test "$win_id" = "null" && exit 1
+niri msg action focus-window --id "$win_id"

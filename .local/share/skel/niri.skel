@@ -108,7 +108,7 @@ window-rule {
     // draw a red border around urgent windows
     match is-urgent=true
     border {
-        width 4
+        width 3
         urgent-color "{{{$__BASE08}}}"
     }
 }
@@ -272,6 +272,7 @@ binds {
     Super+Shift+9 { move-column-to-workspace 9; }
 
     Super+Tab { focus-workspace-previous; }
+    Super+Space { spawn "{{{$HOME}}}/.config/niri/scripts/focus-urgent-window"; }
 
     Super+Comma  { consume-or-expel-window-left; }
     Super+Period { expel-window-from-column; }
