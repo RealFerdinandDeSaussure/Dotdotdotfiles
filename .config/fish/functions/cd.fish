@@ -25,9 +25,14 @@ function cd --description "Change directory"
     end
 
     # custom part: allow cd'ing to files by selecting their parent directory
-    test "$argv[1]" = "--" && set index 2 || set index 1
-    if [ -e "$argv[$index]" -a ! -d "$argv[$index]" ]
-        set argv (dirname $argv[$index])
+    if [ "$argv[1]" = "--" ]
+        set -f i 2
+    else
+        set -f i 1
+    end
+
+    if [ -e "$argv[$i]" -a ! -d "$argv[$i]" ]
+        set argv (dirname $argv[$i])
     end
     # end of custom part
 

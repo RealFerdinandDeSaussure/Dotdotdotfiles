@@ -13,7 +13,7 @@ function pyreqs -d "Install/Upgrade dependencies in an .in file and write their 
 
     for f in $argv
         pip install --upgrade --requirement $f
-        set txt_file (path change-extension "txt" $f)
+        set -f txt_file (path change-extension "txt" $f)
         rm -fv $txt_file
         pip-compile --generate-hashes $f --output-file $txt_file
     end

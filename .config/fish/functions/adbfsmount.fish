@@ -1,5 +1,5 @@
 function adbfsmount --description "Provide a adbfs mountpoint as $adbfsmnt"
-    set adbfs (findmnt -rnt fuse.adbfs | head -n1 | cut -d\  -f1)
+    set -f adbfs (findmnt -rnt fuse.adbfs | head -n1 | cut -d\  -f1)
 
     if not adb get-state >/dev/null 2>&1
         echo "No Android device connected."

@@ -2,10 +2,10 @@ function imath -d "Use math interactively"
     set_color -o && echo -n "imath: " && set_color normal
     echo 'Type "exit" to quit.  "$$" will be replaced with the result of the previous operation.'
 
-    set result
+    set -f result
 
     while true
-        read -p 'set_color blue; echo -n math; set_color normal; echo -n "> "' input
+        read -lp 'set_color blue; echo -n math; set_color normal; echo -n "> "' input
         if [ "$input" = "exit" -o $status -ne 0 ]
             return
         end

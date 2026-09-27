@@ -1,5 +1,6 @@
 function longless -d "Pipe to less unless output fits the screen"
-    cat | while read line
+    set -f output
+    cat | while read -l line
         set -a output $line
     end
 

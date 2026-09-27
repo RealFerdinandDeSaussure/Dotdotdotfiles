@@ -6,16 +6,16 @@ function passgen
         return 1
     end
 
-    if set -q _flag_randstring
-        set pass_in (randstring)
-    else if set -q _flag_diceware
-        set pass_in (diceware -d" " -w de) || return 1
+    if set -fq _flag_randstring
+        set -f pass_in (randstring)
+    else if set -fq _flag_diceware
+        set -f pass_in (diceware -d" " -w de) || return 1
     else
         echo "Please specify either --diceware or --randstring." >&2
         return 1
     end
 
-    set counter 2
+    set -f counter 2
     echo "$(set_color -o)Enter line 1$(set_color normal): **************"
     while true
         read -P "$(set_color -o)Enter line $counter$(set_color normal): " input

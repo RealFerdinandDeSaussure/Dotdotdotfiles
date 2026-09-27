@@ -1,3 +1,3 @@
 function mctl --wraps=rmpc --description 'alias mctl rmpc'
-    rmpc $argv; 
+    rmpc $argv
 end

@@ -1,5 +1,5 @@
 function qrit -d "Create a QR Code from the provided argument"
-    set -l str_out
+    set -f str_out
     switch (count $argv)
         case 0
             cat | read -z str_out

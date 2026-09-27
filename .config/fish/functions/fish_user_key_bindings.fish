@@ -22,9 +22,9 @@ function fish_user_key_bindings
     bind -M insert alt-ctrl-v 'commandline -i \\\' && fish_clipboard_paste && commandline -i \\\''
 
     # prepend/append commands by keypress
-    bind -M insert alt-p __fish_pls_bind
-    bind -M insert alt-a __fish_away_bind
-    bind -M insert ctrl-shift-g __fish_lass_bind
+    bind -M insert alt-p pls
+    bind -M insert alt-a shoo
+    bind -M insert ctrl-shift-g lass
 
     # only use kill-word, not kill-token
     bind -M insert ctrl-backspace backward-kill-word
@@ -54,7 +54,7 @@ function fish_user_key_bindings
     bind -M insert ctrl-shift-x 'cls; commandline -f repaint'
 
     # toggle shadow mode
-    bind -M insert alt-\? 'if set -q fish_private_mode; exec fish; else; exec fish --private; end'
+    bind -M insert alt-\? 'if set -gq fish_private_mode; exec fish; else; exec fish --private; end'
 
     # unbind Ctrl+L to use in terminal
     bind --erase -M insert --preset ctrl-l

@@ -5,12 +5,12 @@ function cdp -d "Browse through the file system with fzf."
         echo "$argv is not a directory." >&2 && return 1
     end
 
-    set orig_destination (pwd)
+    set -f orig_destination (pwd)
     true
     while true
-        set files *
+        set -l files *
         printf "%s\n" $files .. | fzf --preview="__fish_cdp_preview {}" \
-            --bind="ctrl-c:execute(cd \"$orig_destination\")+abort" | read selection
+            --bind="ctrl-c:execute(cd \"$orig_destination\")+abort" | read -l selection
         if [ -d "$selection" ]
             cd $selection
         else if [ -f "$selection" ]

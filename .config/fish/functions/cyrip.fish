@@ -11,7 +11,7 @@ function cyrip -w cyanrip
 
     if [ $status -eq 1 ]
         while true
-            read -P "Enter desired release number from list above: " selection
+            read -fP "Enter desired release number from list above: " selection
             test "$status" -ne 0 && return 1
             string match -rq '^\d+$' -- "$selection" && break
         end

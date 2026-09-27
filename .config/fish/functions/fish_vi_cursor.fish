@@ -4,5 +4,4 @@ function fish_vi_cursor --on-variable fish_bind_mode --on-event fish_prompt
     else
         echo -ne '\033[2 q'
     end
-            
 end

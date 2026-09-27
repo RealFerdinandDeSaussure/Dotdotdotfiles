@@ -6,14 +6,14 @@ function chksum
         return
     end
 
-    set -a _flag_hash sha256
-    set hash_exc {$_flag_hash[1]}sum
+    test -z "$_flag_hash" && set -f _flag_hash sha256
+    set -f hash_exc {$_flag_hash}sum
     if not command -q "$hash_exc"
         echo "No program $hash_exc found in \$PATH." >/dev/stderr
         return 1
     end
 
-    set filehash ($_flag_hash[1]sum "$argv[-1]" | awk '{print $1}') || return
+    set -f filehash ($_flag_hash[1]sum "$argv[-1]" | awk '{print $1}') || return
 
     if [ (string lower "$filehash") = (string lower "$argv[-2]") ]
         echo "OK: Checksum matches." > /dev/stderr

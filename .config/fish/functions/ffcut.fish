@@ -1,17 +1,17 @@
 function ffcut
     argparse -n ffcut -N 1 -X 1 's/ss=' 't/to=' -- $argv
     test -f "$argv"
-    and set -q _flag_ss
-    and set -q _flag_to
+    and set -fq _flag_ss
+    and set -fq _flag_to
     or return 1
     
-    set vbase (string replace -r '\.[^.]+$' '' -- (basename "$argv"))
-    set vext (string match -r '[^.]+$' -- (basename "$argv"))
-    set vpart1 (mktemp -u)".$vext"
-    set vpart2 (mktemp -u)".$vext"
-    set concat_file (mktemp)
+    set -f vbase (string replace -r '\.[^.]+$' '' -- (basename "$argv"))
+    set -f vext (string match -r '[^.]+$' -- (basename "$argv"))
+    set -f vpart1 (mktemp -u)".$vext"
+    set -f vpart2 (mktemp -u)".$vext"
+    set -f concat_file (mktemp)
 
-    set vfname "$argv"
+    set -f vfname "$argv"
     while [ -f "$vfname" ]
         set vfname "$vbase-new.$vext"
     end

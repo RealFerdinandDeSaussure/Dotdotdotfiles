@@ -1,7 +1,7 @@
 function rnm
     argparse 'n/dry-run' -- $argv
-    set rnm_file (mktemp)
-    set file_error 0
+    set -f rnm_file (mktemp)
+    set -f file_error 0
 
     for file in $argv
         if [ ! -f "$file" -a ! -d "$file" ]
@@ -21,12 +21,12 @@ function rnm
             return 1
         end
 
-        set line_num 1
+        set -l line_num 1
         while read -l new_fname
-            set fname "$argv[$line_num]"
+            set -l fname "$argv[$line_num]"
             set line_num (math $line_num + 1)
 
-            if set -q _flag_dry_run
+            if set -fq _flag_dry_run
                 echo "$fname --> $new_fname"
             else if [ "$fname" = "$new_fname" ]
                 :

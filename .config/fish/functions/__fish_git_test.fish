@@ -1,6 +1,6 @@
 function __fish_git_test
     # no git prompt if in home repository unless we're in the base folder
-    set -l git_toplevel (command git rev-parse --show-toplevel 2> /dev/null)
+    set -f git_toplevel (command git rev-parse --show-toplevel 2> /dev/null)
     if test "$git_toplevel" = $HOME
         if test (pwd) = $HOME
             return 2
