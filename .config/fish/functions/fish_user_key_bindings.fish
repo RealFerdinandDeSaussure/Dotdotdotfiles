@@ -40,8 +40,8 @@ function fish_user_key_bindings
     # keybindings for path navigation
     bind -M insert alt-shift-h 'prevd; commandline -f repaint'
     bind -M insert alt-shift-l 'nextd; commandline -f repaint'
-    bind -M insert alt-shift-k '__fish_cd_navigation up; commandline -f repaint'
-    bind -M insert alt-shift-j '__fish_cd_navigation down; commandline -f repaint'
+    bind -M insert alt-shift-k 'cdive up; commandline -f repaint'
+    bind -M insert alt-shift-j 'cdive down; commandline -f repaint'
     bind -M insert alt-~ 'cd $HOME; commandline -f repaint'
 
     # create a directory from the current token

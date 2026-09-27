@@ -1,4 +1,4 @@
-function __fish_cd_navigation -d 'Move up and down directories'
+function cdive -d 'Move up and down directories'
     if [ ! (count $argv) -eq 1 ]
         return 1
     end
