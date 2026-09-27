@@ -2,8 +2,8 @@ function __fish_pls_bind
     # operate either on the current commandline or the last history entry if the
     # current commandline is empty
     set -l cmdln_old (commandline)
-    if [ (commandline) = '' ]
-        set cmdln_old (history | head -n 1)
+    if [ $cmdln_old = '' ]
+        set cmdln_old $history[1]
     end
 
     # if the selected entry already has the keyword prefixed, don't do any

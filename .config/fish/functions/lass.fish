@@ -1,4 +1,3 @@
 function lass
-    commandline -r "$history[1] | less"
-    commandline -f execute
+    __fish_modify_commandline -c lass -s less
 end
