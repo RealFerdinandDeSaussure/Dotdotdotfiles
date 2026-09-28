@@ -16,8 +16,6 @@ function __fish_modify_commandline
             set i (math $i + 1)
         end
         set cmdline "$history[$i]"
-    else
-        return 1
     end
 
     if set -fq _flag_prefix
