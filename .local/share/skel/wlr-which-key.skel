@@ -1,4 +1,4 @@
-# %-LOCATION:$HOME/.config/wlr-which-key/config.yaml-% -*-yaml-*-
+# %-LOCATION:$HOME/.config/wlr-which-key/config.yaml-% -*-yaml-ts-*-
 # DO EDITS HERE: $HOME/.local/share/skel/wlr-which-key.skel
 
 # Theming
@@ -114,10 +114,6 @@ menu:
     - key: "f"
       desc: " "
       cmd: "{{{$HOME}}}/.local/share/comp-scripts/insert-mode f"
-
-  - key: "x"
-    desc: "secrets"
-    submenu:
     - key: "less"
       desc: " user+pass"
       cmd: "{{{$HOME}}}/.local/share/comp-scripts/pass-get -X"
