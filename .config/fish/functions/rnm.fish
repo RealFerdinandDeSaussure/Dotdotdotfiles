@@ -1,4 +1,5 @@
-function rnm
+function rnm -d "Rename files in bulk using $EDITOR"
+    # -n/--dry-run: don't rename anything, only print the expected result
     argparse 'n/dry-run' -- $argv
     set -f rnm_file (mktemp)
     set -f file_error 0

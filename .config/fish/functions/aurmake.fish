@@ -1,4 +1,4 @@
-function aurmake -w cower -d 'Build specified AUR package'
+function aurmake -w cower -d 'Build an AUR package'
     set -f makepkg_args
     set -f pkg
     for a in $argv

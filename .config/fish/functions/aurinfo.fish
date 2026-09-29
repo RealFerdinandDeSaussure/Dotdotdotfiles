@@ -1,5 +1,6 @@
-function aurinfo -a pkg -d "Get info from AUR for the provided package"
-    argparse j/json -- $argv
+function aurinfo -a pkg -d "Query the AUR for a given package"
+    # -j/--json: print JSON instead of human-readable output
+    argparse -n aurinfo 'j/json' -- $argv
     test (count $argv) -ne 1 && return 1
 
     set -f pr_keys Name Description Version Keywords URL \

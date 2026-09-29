@@ -1,4 +1,4 @@
-function imath -d "Use math interactively"
+function imath -d "Use the math builtin interactively"
     set_color -o && echo -n "imath: " && set_color normal
     echo 'Type "exit" to quit.  "$$" will be replaced with the result of the previous operation.'
 

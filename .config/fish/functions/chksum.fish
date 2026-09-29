@@ -1,4 +1,6 @@
-function chksum
+function chksum -d "Check a file against a hash provided on the command line"
+    # -h/--hash: type of hash, this must match an executable named ${hash}sum in
+    #            $PATH (default: sha256)
     argparse -n 'chksum' 'h/hash=' -- $argv || return
 
     if [ ! (count $argv) -eq 2  -o ! -f "$argv[-1]" ]

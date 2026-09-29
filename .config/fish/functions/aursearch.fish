@@ -1,5 +1,8 @@
-function aursearch
-    argparse 'b/browser' 'v/sort-by-votes' -- $argv
+function aursearch -d "Search the AUR for packages"
+    # -b/--browser: process the search query in the browser instead of printing
+    #               to the terminal
+    # -s/--sort-by-votes: sort results by votes
+    argparse -n aursearch 'b/browser' 's/sort-by-votes' -- $argv
     test (count $argv) -eq 0 && return 1
 
     if set -fq _flag_browser

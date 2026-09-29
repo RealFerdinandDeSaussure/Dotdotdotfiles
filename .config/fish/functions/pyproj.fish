@@ -1,5 +1,6 @@
 function pyproj -d "Activate python virtual environment for current project"
-    argparse 'd/delete' -- $argv
+    # -d/--delete: delete the virtual environment for the current project
+    argparse -n pyproj 'd/delete' -- $argv
     set -f first_run 0
 
     if functions -q __pyproj_fish_prompt

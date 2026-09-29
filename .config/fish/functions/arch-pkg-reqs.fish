@@ -1,10 +1,19 @@
-function arch-pkg-reqs
+function arch-pkg-reqs -d "Process $HOME/.config/.packages in various ways"
     if ! git -C $HOME rev-parse --is-inside-work-tree 2>/dev/null >&2
         echo "$HOME is not a git repository."
         return 1
     end
 
-    argparse 'b/backquery' 'i/install' 'q/query' -- "$argv"
+    # -b/--backquery: print all explicitly installed non-dependencies on the
+    #                 system (as pacman -Qet) excluding the packages in
+    #                 .packages
+    # -i/--install: install all packages in .packages not found on the system;
+    #               supply twice to use aurmake on packages not found in the
+    #               pacman repos
+    # -q/--query: list packages in .packages not on the system and packages that
+    #             git grep could not find in the $HOME repo (which can
+    #             potentially be -removed from .packages)
+    argparse -n arch-pkg-reqs 'b/backquery' 'i/install' 'q/query' -- "$argv"
     if [ -z "$_flag_b$_flag_i$_flag_q" ]
         echo "Mode must be set: --query/--install" >&2
         return 1

@@ -1,3 +1,3 @@
-function line --description "Print only one line from standard input."
+function line -d "Limit output to a specific line"
     sed -n {$argv[1]}p
 end

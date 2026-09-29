@@ -1,4 +1,4 @@
-function cdp -d "Browse through the file system with fzf."
+function cdp -d "Browse through the file system with fzf"
     if [ -d "$argv" ]
         cd "$argv"
     else if [ -n "$argv" ]

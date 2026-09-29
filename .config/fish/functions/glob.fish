@@ -1,5 +1,10 @@
-function glob
-    argparse -n 'glob' -x 'b,c,d,f,g,G,L,O,p,r,s,S,t,u,w,x' 'h/hidden' 'X/except=+' 'b/block' 'c/character' 'd/directory' 'g/group' 'G/Group' 'f/file' 'L/Link' 'O/Owned' 'p/pipe' 'r/readable' 's/size' 'S/Socket' 't/terminal' 'u/user' 'w/writable' 'x/xecutable' -- $argv || return 1
+function glob -d "Filter files and filepaths"
+    # any flag that fish's test builtin accepts for inspecting files can be
+    # passed to this function, additionally:
+    # -h/--hidden: include hidden files (files/directories prefixed with a dot)
+    # -X/--except: exclude specific files (can be specified more than once);
+    #              accepts quoted wildcards
+    argparse -n glob -x 'b,c,d,f,g,G,L,O,p,r,s,S,t,u,w,x' 'h/hidden' 'X/except=+' 'b/block' 'c/character' 'd/directory' 'g/group' 'G/Group' 'f/file' 'L/Link' 'O/Owned' 'p/pipe' 'r/readable' 's/size' 'S/Socket' 't/terminal' 'u/user' 'w/writable' 'x/xecutable' -- $argv || return 1
 
     # build list of files
     set -f all_files $argv

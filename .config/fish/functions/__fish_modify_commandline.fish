@@ -1,5 +1,8 @@
-function __fish_modify_commandline
-    argparse 'c/command=' 'p/prefix=' 's/suffix=' -- $argv
+function __fish_modify_commandline -d "Affix the current commandline or the previous command"
+    # -c/--command: name of the command to run when modifying the previous command
+    # -p/--prefix: prefix to add to commandline/previous command
+    # -s/--suffix: suffix to add to commandline/previous command
+    argparse -n __fish_modify_commandline 'c/command=' 'p/prefix=' 's/suffix=' -- $argv
     set -fq _flag_command || return 1
 
     set -f cmd $_flag_command

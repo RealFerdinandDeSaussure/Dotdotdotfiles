@@ -1,5 +1,8 @@
-function aurclone
-    argparse 'd/directory=' -- $argv
+function aurclone -d "Git-clone a package from the AUR"
+    # -d/--directory: clone the package to this path, by default this will be a
+    #                 directory with the package name in the current working
+    #                 directory
+    argparse -n aurclone 'd/directory=' -- $argv
     test (count $argv) -eq 1 || return 1
     set -f pkg $argv[1]
 

@@ -1,5 +1,7 @@
-function auroutd
-    argparse 'g/no-git' 'v/verbose' -- $argv
+function auroutd -d "List outdated AUR packages"
+    # -g/--no-git: don't check packages with names ending in -git
+    # -v/--verbose: print packages even if they are up-to-date
+    argparse -n auroutd 'g/no-git' 'v/verbose' -- $argv
     set -f aur_rpc_info "https://aur.archlinux.org/rpc/v5/info?arg[]="
     set -f pkgs (pacman --color=never -Qm)
     set -fq _flag_no_git && set pkgs (string match -v -- '*-git *' $pkgs)
