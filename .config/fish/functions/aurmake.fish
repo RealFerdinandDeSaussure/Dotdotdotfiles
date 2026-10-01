@@ -26,12 +26,15 @@ function aurmake -w cower -d 'Build an AUR package'
             return 1
     end
 
-    for dep in (echo "$response" | jq -r '.results[0] |
-        [.Depends[]?, .MakeDepends[]?, .CheckDepends[]?] |
-        join("\n")')
-        if not pacman -Si $dep >/dev/null 2>&1
-            set_color -o; echo "Dependency $dep not in pacman repos. Trying AUR..." >&2; set_color normal
-            aurmake $dep && continue
+    set -f deps (echo "$response" |
+    jq -r '.results[0] | [.Depends[]?, .MakeDepends[]?, .CheckDepends[]?] | join("\n")' |
+    string match -r '[\w\d.@_+\-]+' |
+    sort -u)
+
+    for d in $deps
+        if not pacman -Si $d >/dev/null 2>&1
+            set_color -o; echo "Dependency $d not in pacman repos. Trying AUR..." >&2; set_color normal
+            aurmake $d && continue
             while not string match -rq '[ynYN]'
                 read -l -p "set_color -o; echo -n 'Continue the build process for '$pkg' regardless? [y/n] '; set_color normal" -n1 answer || return 1
                 test "$(string lower $answer)" = "y" && break
