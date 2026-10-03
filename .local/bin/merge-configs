@@ -1,6 +1,4 @@
-#!/bin/fish
-
-set SKEL_FILES_PATH "$HOME/.local/share/skel"
+#!/usr/bin/env fish
 
 # override fish's command not found messages
 function fish_command_not_found
@@ -9,7 +7,6 @@ function fish_command_not_found
 end
 
 function mergevars
-    argparse i -- $argv
     set file_string $argv
 
     # get all marked fields in the file
@@ -18,11 +15,6 @@ function mergevars
         #  we need to reset repl for each iteration so we can test for a field
         #  that evaluated to nothing
         set repl
-
-        # if i flag was passed, skip on "custom" fields
-        if set -q _flag_i && [ "$field" = custom ]
-            continue
-        end
 
         set repl (eval printf "%s\n" $field)
         test -z "$repl" && echo -e "\e[1mWarning\e[0m: \"$field\" evaluated to empty string." >&2
@@ -35,12 +27,23 @@ end
 
 function inject_custom
     # inject the contents of custom_file into target_lines at the specified point
-    argparse 'c=' -- $argv
+    argparse 'c=' 's=' -- $argv
 
     set custom_file $_flag_c
+    set skel_file $_flag_s
     set target_lines $argv
 
-    # do the replacing
+    # check if a custom file actually exists
+    if [ ! -f "$custom" ]
+        echo -e "\e[1m$skel_file\e[0m points to a custom file that does not exist." >&2
+        echo -e "\tSkipping custom file merging..." >&2
+        # getting rid of custom fields as they will otherwise stay as is
+        # inside the skel file
+        string join -- \n (remove_custom_fields $target_lines)
+        return
+    end
+
+    # if we do have a custom file: inject its contents
     for line in $target_lines
         if string match -req -- '^\s*\{\{\{custom\}\}\}\s*$' $line
             for custom_line in (cat $custom_file)
@@ -66,11 +69,18 @@ function safe_write -a write_file
     end
 end
 
+function remove_custom_fields -a lines
+    string replace "{{{custom}}}" "" -- $lines
+end
+
 function get_meta_line -a line field
     string match -r -- '(?<=%-'$field':).+?(?=-%)' "$line"
 end
 
-function process_skel -a skel_file
+function process_skel
+    argparse C/skip-custom -- $argv
+    set skel_file "$argv[1]"
+
     # parse location line
     set file_string (cat $skel_file)
     if not set location (get_meta_line $file_string[1] LOCATION)
@@ -95,27 +105,24 @@ function process_skel -a skel_file
         end
     end
 
+    # save permissions of skel file
     set permissions (stat -c "%a" "$skel_file")
-    # resolve variables in string
+    # resolve variables in extracted lines
     set location (eval echo -n $location)
     set custom (eval echo -n $custom)
 
-    # variable substitution
-    if [ -z "$custom" ]
-        set file_string (mergevars -- $file_string) || return 1
-    else
-        # check if a custom file actually exists
-        if [ ! -f "$custom" ]
-            echo -e "\e[1m$skel_file\e[0m points to a custom file that does not exist." >&2
-            echo -e "\tSkipping custom file merging..." >&2
-            # getting rid of custom fields as they will otherwise stay as is
-            # inside the skel file
-            set file_string (string replace "{{{custom}}}" "" -- $file_string) # no return 1 here, this is allowed to fail
-        else
-            set file_string (inject_custom -c $custom -- $file_string) || return 1
-        end
-        set file_string (mergevars -i -- $file_string) || return 1
+    # handle the custom file line
+    if [ -n "$custom" ] && set -q _flag_skip_custom
+        # if there is a custom file line in the file but the skip-custom flag
+        # was specified, we need to remove the custom field
+        set file_string (remove_custom_fields $file_string)
+    else if [ -n "$custom" ]
+        # otherwise, try to inject the contents of the custom file
+        set file_string (inject_custom -s $skel_file -c $custom -- $file_string) || return 1
     end
+
+    # field substitution
+    set file_string (mergevars $file_string) || return 1
 
     # write $file_string to file
     safe_write "$location" $file_string || return 1
@@ -135,10 +142,18 @@ function prompt -a file
 end
 
 function main
-    argparse -n merge-configs p/prompt -- "$argv" || return 1
+    argparse -n merge-configs p/prompt d/directory C/skip-custom -- "$argv" || return 1
+
+    if set -q _flag_directory
+        set SKEL_FILES_PATH $_flag_directory
+    else if set -q MC_SKEL_FILES_PATH
+        set SKEL_FILES_PATH $MC_SKEL_FILES_PATH
+    else
+        set SKEL_FILES_PATH "$HOME/.local/share/skel"
+    end
 
     if [ ! -d "$SKEL_FILES_PATH" ]
-        echo -e "\e[1m$SKEL_FILES_PATH\e[0m is not a valid path..." >&2
+        echo -e "\e[1m$SKEL_FILES_PATH\e[0m is not a valid path." >&2
         return 1
     end
 
@@ -147,7 +162,7 @@ function main
             prompt "$file" || continue
         end
 
-        process_skel "$file"
+        process_skel $_flag_skip_custom -- "$file"
     end
 end
 
