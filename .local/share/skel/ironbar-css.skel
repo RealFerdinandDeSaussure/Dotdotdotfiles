@@ -418,10 +418,14 @@ revealer .popup .power-button.image-button:hover {
 
 .workspaces .item:not(.focused):hover {
     background: linear-gradient(to right, @base01, var(--start-color) 35%);
-    color: @base03;
+    color: @base00;
 }
 
 .workspaces .item.urgent {
     color: @base00;
     background: linear-gradient(to right, @base01, @base08 35%);
+}
+
+.workspaces .item.urgent.focused {
+    color: @base07;
 }

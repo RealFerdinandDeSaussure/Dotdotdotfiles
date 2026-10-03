@@ -109,7 +109,7 @@ window-rule {
     match is-urgent=true
     border {
         width 3
-        urgent-color "{{{$__BASE08}}}"
+        urgent-color "#{{{$__BASE08}}}"
     }
 }
 
@@ -117,7 +117,7 @@ window-rule {
     match is-floating=true
     focus-ring {
         width 2
-        active-color "{{{$__BASE04}}}"
+        active-color "#{{{$__BASE04}}}"
     }
 }
 
@@ -127,13 +127,11 @@ window-rule {
     // open-maximized-to-edges true
     open-maximized true
     open-on-workspace ""
+    open-focused false
 }
 
 // Open the Firefox picture-in-picture player as floating by default.
 window-rule {
-    // This app-id regular expression will work for both:
-    // - host Firefox (app-id is "firefox")
-    // - Flatpak Firefox (app-id is "org.mozilla.firefox")
     match app-id=r#"firefox$"# title="^Picture-in-Picture$"
     open-floating true
 }
@@ -143,6 +141,7 @@ window-rule {
     // open-maximized-to-edges true
     open-maximized true
     open-on-workspace "󰖟"
+    open-focused false
 }
 
 window-rule {
@@ -156,7 +155,7 @@ window-rule {
 }
 
 binds {
-    // "Super" is a special modifier equal to Super when running on a TTY, and to Alt
+    // "Mod" is a special modifier equal to Super when running on a TTY, and to Alt
     // when running as a winit window.
 
     Super+Return { spawn "{{{$TERMINAL}}}"; }
@@ -310,6 +309,26 @@ binds {
     Super+M { spawn "wlr-which-key" "--initial-keys=m"; }
     Super+B { spawn "wlr-which-key" "--initial-keys=b"; }
     Super+Shift+I { spawn "wlr-which-key" "--initial-keys=x"; }
+}
+
+// overview settings
+overview {
+    backdrop-color "#{{{$__BASE02}}}"
+}
+
+// settings for the recent-window switcher (reminiscent of Alt-Tab on other OSes)
+recent-windows {
+    binds {
+        Super+asciicircum       { next-window       scope="workspace"; }
+        Super+Shift+asciicircum { previous-window   scope="workspace"; }
+    }
+
+    highlight {
+        corner-radius 2
+        active-color "#{{{$__BASE0D}}}"
+        urgent-color "#{{{$__BASE08}}}"
+        padding 15
+    }
 }
 
 // And then all the options that do not fit into any of the existing categories
