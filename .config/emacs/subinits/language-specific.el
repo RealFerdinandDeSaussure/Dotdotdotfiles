@@ -201,7 +201,7 @@ dedicated virtual environment."
 ;; golang settings
 (use-package go-ts-mode
   :ensure nil
-  :hook (go-ts-mode . #'+eglot-format-buffer-on-write-file)
+  :hook (go-ts-mode . +eglot-format-buffer-on-write-file)
   :custom
   (go-ts-mode-indent-offset 4)
   :config
