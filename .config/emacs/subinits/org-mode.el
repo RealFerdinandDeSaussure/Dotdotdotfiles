@@ -37,8 +37,8 @@
     "o"             'evil-open-below
     "O"             'evil-open-above
     "t"             'org-todo
-    "d"             'org-deadline
-    "s"             'org-schedule
+    "C-d"           'org-deadline
+    "C-s"           'org-schedule
     "H"             'org-metaleft
     "L"             'org-metaright
     "J"             'org-metadown
