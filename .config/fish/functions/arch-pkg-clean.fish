@@ -8,7 +8,7 @@ function arch-pkg-clean -d "Remove all but the most recent packages from the Arc
     argparse -n arch-pkg-clean 'd/directory=*' 'i/interactive' 'k/keep=!_validate_int --min 1' 'v/verbose' -- $argv
     set -fq _flag_keep || set -f _flag_keep 3
     set -fq _flag_directory || set -f _flag_directory /var/cache/pacman/*
-    set keep -f -$_flag_keep
+    set -f keep -$_flag_keep
 
     for d in $_flag_directory
         test -d $d || continue
