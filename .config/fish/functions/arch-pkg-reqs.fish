@@ -1,9 +1,6 @@
 function arch-pkg-reqs -d "Process $HOME/.config/.packages in various ways"
-    if ! git -C $HOME rev-parse --is-inside-work-tree 2>/dev/null >&2
-        echo "$HOME is not a git repository."
-        return 1
-    end
-
+    # -f/--pkg-file: path to the package file to be used, by default this file
+    #                is assumed to be at ~/.config/.packages
     # -b/--backquery: print all explicitly installed non-dependencies on the
     #                 system (as pacman -Qet) excluding the packages in
     #                 .packages
@@ -12,14 +9,18 @@ function arch-pkg-reqs -d "Process $HOME/.config/.packages in various ways"
     #               pacman repos
     # -q/--query: list packages in .packages not on the system and packages that
     #             git grep could not find in the $HOME repo (which can
-    #             potentially be -removed from .packages)
+    #             potentially be removed from .packages)
     argparse -n arch-pkg-reqs 'b/backquery' 'i/install' 'q/query' -- "$argv"
     if [ -z "$_flag_b$_flag_i$_flag_q" ]
-        echo "Mode must be set: --query/--install" >&2
+        echo "Choose one of the available modes: --backquery, --install, or --query" >&2
         return 1
     end
 
-    set -f pkg_file $HOME/.config/.packages
+    if set -q _flag_pkg_file
+        set -f pkg_file $_flag_pkg_file
+    else
+        set -f pkg_file $HOME/.config/.packages
+    end
     test -f $pkg_file || return 1
     set -fq _flag_backquery && set -f pkgs_on_system (pacman -Qetq)
     set -f i_pkgs
@@ -42,6 +43,11 @@ Supply the i flag twice to install the package with aurmake." >&2
             set -a i_pkgs $pkg
             continue
         else if set -q _flag_query 
+
+            if ! git -C $HOME rev-parse --is-inside-work-tree 2>/dev/null >&2
+                echo "$HOME is not a git repository."
+                return 1
+            end
             test "$pkg" != "$on_system" && echo "$pkg not installed on system." >&2
             set -l query (string split -m1 -f2 : "$line")
 
@@ -53,7 +59,8 @@ Supply the i flag twice to install the package with aurmake." >&2
 
             for q in query
                 git -C $HOME grep -q "\b$query\b" -- ':!.config/.packages' && continue
-                echo "$pkg not verified on system." >&2
+                echo "No matches for query '$query'." >&2
+                echo "Package $pkg can potentially be removed from system." >&2
             end
         else if set -q _flag_backquery
             set -l i (contains -i $pkg $pkgs_on_system) || continue
