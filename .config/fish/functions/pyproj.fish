@@ -1,7 +1,12 @@
 function pyproj -d "Activate python virtual environment for current project"
     # -d/--delete: delete the virtual environment for the current project
-    argparse -n pyproj 'd/delete' -- $argv
+    argparse -n pyproj d/delete -- $argv
     set -f first_run 0
+
+    if not git rev-list HEAD >/dev/null 2>&1
+        echo "You need to be in a git controlled environment with at least one commit." >&2
+        return 1
+    end
 
     if functions -q __pyproj_fish_prompt
         functions -e fish_prompt
