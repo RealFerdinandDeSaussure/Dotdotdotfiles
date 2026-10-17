@@ -61,6 +61,7 @@
 (use-package eglot
   :ensure nil
   :hook ((python-ts-mode
+          fish-mode
           go-ts-mode
           bash-ts-mode
           lua-ts-mode) . (lambda () (+with-buffer-not-remote (eglot-ensure))))
