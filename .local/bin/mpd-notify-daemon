@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import json
+import html
 import os
 import subprocess
 import sys
@@ -26,16 +26,29 @@ class Song(TypedDict):
 
 def song_to_notification_args(song: Song) -> tuple:
     """Turn song into a tuple that can be used as args to notify-send."""
+    # sanitize fields for pango markup
+    song["title"] = html.escape(song["title"], quote=False)
+    song["artist"] = html.escape(song["artist"], quote=False)
+    song["album"] = html.escape(song["album"], quote=False)
     return (
         song["title"],
-        '''{artist}
-<i>{album}</i>'''.format(**song),
+        """{artist}
+<i>{album}</i>""".format(**song),
     )
 
 
 def run_dunstify(args: list):
     subprocess.run(
-        ["notify-send", "-c", "desktop.mpd", "-a", "mpd-notify", "-h", "string:x-canonical-private-synchronous:mpd-notify", *args],
+        [
+            "notify-send",
+            "-c",
+            "desktop.mpd",
+            "-a",
+            "mpd-notify",
+            "-h",
+            "string:x-canonical-private-synchronous:mpd-notify",
+            *args,
+        ],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
     )
@@ -43,9 +56,6 @@ def run_dunstify(args: list):
 
 def notify_song(mpc: MPDClient, song: Song):
     """Create notification with information contained in SONG."""
-    if not song:
-        return
-
     album_art = get_album_art(mpc, song)
     args = []
     if album_art:
@@ -63,7 +73,7 @@ def write_album_art(album_art: bytes):
         return True
 
 
-def get_album_art(mpc: MPDClient, song: Song) -> Optional[bytes]:
+def get_album_art(mpc: MPDClient, song: Song) -> bytes | None:
     try:
         pic = mpc.readpicture(song["file"])
         return pic["binary"]
