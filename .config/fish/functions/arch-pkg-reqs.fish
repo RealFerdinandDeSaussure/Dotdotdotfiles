@@ -16,7 +16,7 @@ function arch-pkg-reqs -d "Process $HOME/.config/.packages in various ways"
         return 1
     end
 
-    if set -q _flag_pkg_file
+    if set -fq _flag_pkg_file
         set -f pkg_file $_flag_pkg_file
     else
         set -f pkg_file $HOME/.config/.packages
@@ -32,7 +32,7 @@ function arch-pkg-reqs -d "Process $HOME/.config/.packages in various ways"
         set -l pkg (string split -m1 -f1 : "$line")
         pacman -Qq "$pkg" >/dev/null 2>&1 && set -l on_system "$pkg"
 
-        if set -qf _flag_install
+        if set -fq _flag_install
             test "$pkg" = "$on_system" && continue
             if not pacman -Siq $pkg >/dev/null 2>&1
                 test (count $_flag_install) -eq 1 && echo "Package \"$pkg\" missing but not in pacman repos
@@ -42,7 +42,7 @@ Supply the i flag twice to install the package with aurmake." >&2
             end
             set -a i_pkgs $pkg
             continue
-        else if set -q _flag_query 
+        else if set -fq _flag_query 
 
             if ! git -C $HOME rev-parse --is-inside-work-tree 2>/dev/null >&2
                 echo "$HOME is not a git repository."
@@ -62,7 +62,7 @@ Supply the i flag twice to install the package with aurmake." >&2
                 echo "No matches for query '$query'." >&2
                 echo "Package $pkg can potentially be removed from system." >&2
             end
-        else if set -q _flag_backquery
+        else if set -fq _flag_backquery
             set -l i (contains -i $pkg $pkgs_on_system) || continue
             set -e pkgs_on_system[$i]
         end

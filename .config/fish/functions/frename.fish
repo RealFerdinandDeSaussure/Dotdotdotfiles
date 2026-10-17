@@ -29,7 +29,7 @@ function frename -d "Rename files in bulk using replacement patterns"
     # do the renaming
     for file in $file_list
         set -l new_name (string replace $_flag_a $_flag_i $_flag_r -- $argv[1] $argv[2] "$file")
-        if set -qf _flag_dry_run
+        if set -fq _flag_dry_run
             echo "$file --> $new_name"
         else
             if [ "$file" != "$new_name" ]

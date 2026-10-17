@@ -1,13 +1,13 @@
 function pyproj -d "Activate python virtual environment for current project"
+    # -c/--create: create and activate a new virtual environment in the current
+    #              working directory, if one already exists, it will be
+    #              overwritten!
     # -d/--delete: delete the virtual environment for the current project
-    argparse -n pyproj d/delete -- $argv
+    argparse -n pyproj c/create d/delete -- $argv || return 1
     set -f first_run 0
+    set -f venv_base $HOME/.local/share/python/venv
 
-    if not git rev-list HEAD >/dev/null 2>&1
-        echo "You need to be in a git controlled environment with at least one commit." >&2
-        return 1
-    end
-
+    # deactivate the pyproj environment if it's currently active
     if functions -q __pyproj_fish_prompt
         functions -e fish_prompt
         functions -c __pyproj_fish_prompt fish_prompt
@@ -22,24 +22,40 @@ function pyproj -d "Activate python virtual environment for current project"
             end
         end
         # if the delete flag has been set, we should return after deleting the
-        # venv
+        # venv, not here
         if not set -fq _flag_delete
             return
         end
     end
 
-    set -f toplevel (git rev-parse --show-toplevel 2>/dev/null)
-    if [ "$toplevel" = "$HOME" ] && [ "$(pwd)" = "$HOME" ]
-        echo "Cannot use a virtual environment in the home folder."
-        return 1
-    else if [ "$toplevel" = "$HOME" ] || [ -z "$toplevel" ]
-        set -gx PYTHONPROJECTNAME (basename (pwd))
-    else
-        set -gx PYTHONPROJECTNAME (basename $toplevel)
-        set -f proj_id (git rev-list --parents HEAD | tail -n1) || return 1
+    set -f origin_dir (pwd)
+    set -f toplevel
+    while true
+        set toplevel (pwd -P)
+        if string match -qe "$toplevel" "$HOME"
+            echo "Reached \$HOME (or beyond) while looking for a project root."
+            cd $origin_dir
+            return 1
+        else if set -fq _flag_create
+            tr -dc '[:alnum:]' </dev/urandom | read -fn 30 proj_id
+            # although highly unlikely, this test ensures no duplicate proj_ids
+            test (count $venv_base/*-$proj_id) -ne 0 && continue
+            echo -n $proj_id >.pyproj
+            cd $origin_dir
+            break
+        else if [ -f .pyproj ]
+            set -f proj_id (cat .pyproj)
+            echo -n $proj_id | tr -dc '[:alnum:]' | string pad -w 30 | read -l sane_proj_id
+            test "$proj_id" = "$sane_proj_id" && break
+            echo ".pyproj file found at $(pwd) but does not contain valid project identifier."
+            cd $origin_dir
+            return 1
+        end
+        cd ..
     end
 
-    set -f venv_dir "$HOME/.local/share/python/venv/$PYTHONPROJECTNAME-$proj_id"
+    set -gx PYTHONPROJECTNAME (basename $toplevel)
+    set -f venv_dir $venv_base/$PYTHONPROJECTNAME-$proj_id
 
     if set -fq _flag_delete
         rm -rfv "$venv_dir"
