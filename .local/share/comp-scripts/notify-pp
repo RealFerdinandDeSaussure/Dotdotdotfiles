@@ -28,7 +28,7 @@ sub vol($change) {
 
 sub light($change) {
     my $n_text;
-    my ($light) = (`brightnessctl set ${change}` =~ /^\s*Current brightness[^(]+\((\d+)/m);
+    my ($light) = (`brightnessctl --min-value=1 set ${change}` =~ /^\s*Current brightness[^(]+\((\d+)/m);
     $n_text = " ${light}%";
 
     notify_pp_send("notify-pp-light", $light, $n_text);
