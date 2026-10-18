@@ -5,7 +5,7 @@ function arch-pkg-clean -d "Remove all but the most recent packages from the Arc
     # -i/--interactive: prompt before deleting
     # -k/--keep: number of most recent packages to retain, must be an integer
     # -v/--verbose: print all remove operations
-    argparse -n arch-pkg-clean 'd/directory=*' 'i/interactive' 'k/keep=!_validate_int --min 1' 'v/verbose' -- $argv
+    argparse -n arch-pkg-clean 'd/directory=*' i/interactive 'k/keep=!_validate_int --min 1' v/verbose -- $argv
     set -fq _flag_keep || set -f _flag_keep 3
     set -fq _flag_directory || set -f _flag_directory /var/cache/pacman/*
     set -f keep -$_flag_keep
@@ -15,24 +15,25 @@ function arch-pkg-clean -d "Remove all but the most recent packages from the Arc
 
         for f in (string split -r -m3 -f1 -- "-" $d/* | sort -u)
             set -l versions (string match -gr '('$f'(?:-[^\-]+){3}.pkg)' $f* | sort -uV)
-            test (count $versions) -le $_flag_keep && continue
+            set -l pkg_num (count $versions)
+            set -fq _flag_verbose && echo "$(path basename $f) has $pkg_num local packages." >&2
+            test "$pkg_num" -le $_flag_keep && continue
 
             # for interactive mode we need to retain the files we're gonna keep
             # to print them to the terminal
             set -fq _flag_interactive && set -l keepers $versions[$keep..]
             set -e versions[$keep..]
-
             if set -fq _flag_interactive
                 set -l answer
-                while [ "$answer" != "y" -o "$answer" != "n" ]
+                while [ "$answer" != y -o "$answer" != n ]
                     printf "-> %s\n" $versions*
                     printf "   %s\n" $keepers*
                     read -l -n1 -p 'set_color -o; echo -n "Delete the marked files? "; set_color normal; echo -n "[y/n] "' answer || return 1
 
-                    if [ "$answer" = "y" ]
+                    if [ "$answer" = y ]
                         sudo rm $_flag_verbose $versions* || return 1
                         break
-                    else if [ "$answer" = "n" ]
+                    else if [ "$answer" = n ]
                         break
                     end
                 end
