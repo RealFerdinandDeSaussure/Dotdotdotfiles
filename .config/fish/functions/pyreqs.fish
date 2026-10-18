@@ -14,7 +14,7 @@ function pyreqs -d "Install/Upgrade dependencies in an .in file and write their 
     for f in $argv
         pip install --upgrade --requirement $f
         set -f txt_file (path change-extension "txt" $f)
-        rm -fv $txt_file
-        pip-compile --generate-hashes $f --output-file $txt_file
+        echo "Generating hashes..." >&2
+        pip-compile --generate-hashes $f --output-file $txt_file --reuse-hashes
     end
 end
