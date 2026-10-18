@@ -2,7 +2,8 @@ function aursearch -d "Search the AUR for packages"
     # -b/--browser: process the search query in the browser instead of printing
     #               to the terminal
     # -s/--sort-by-votes: sort results by votes
-    argparse -n aursearch 'b/browser' 's/sort-by-votes' -- $argv
+    # -q/--quiet: only print package names and no additional information
+    argparse -n aursearch b/browser s/sort-by-votes q/quiet -- $argv
     test (count $argv) -eq 0 && return 1
 
     if set -fq _flag_browser
@@ -23,8 +24,8 @@ function aursearch -d "Search the AUR for packages"
     end
 
     set -f error (echo $response | jq -r '.error') || return 1
-    if [ "$error" != "null" ]
-        echo "$error"
+    if [ "$error" != null ]
+        echo "$error" >&2
         return 1
     end
 
@@ -35,13 +36,25 @@ function aursearch -d "Search the AUR for packages"
 
     echo -n $results | jq --raw-output0 '[.Name, .Version, .NumVotes, .Description] | @tsv' | while read -lz line
         set -l fields (string split \t $line)
-        set_color -o magenta; echo -n aur/
-        set_color -f normal; echo -n $fields[1]
-        set_color green; echo -n " $fields[2]"
-        if contains $fields[1] $inst_pkgs
-            set_color cyan; echo -n " [$(_ installed)]"
+
+        if set -fq _flag_quiet
+            echo $fields[1]
+            continue
         end
-        set_color normal; echo -n " ($fields[3])"
-        set_color normal; echo \n"    $fields[4]"
+
+        set_color -o magenta
+        echo -n aur/
+        set_color -f normal
+        echo -n $fields[1]
+        set_color green
+        echo -n " $fields[2]"
+        if contains $fields[1] $inst_pkgs
+            set_color cyan
+            echo -n " [$(_ installed)]"
+        end
+        set_color normal
+        echo -n " ($fields[3])"
+        set_color normal
+        echo \n"    $fields[4]"
     end
 end
