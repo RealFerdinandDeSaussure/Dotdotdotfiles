@@ -32,7 +32,7 @@ function aurmake -w cower -d 'Build an AUR package'
     sort -u)
 
     for d in $deps
-        if not pacman -Si $d >/dev/null 2>&1
+        if not pacman -Sp $d >/dev/null 2>&1
             set_color -o; echo "Dependency $d not in pacman repos. Trying AUR..." >&2; set_color normal
             aurmake $d && continue
             while not string match -rq '[ynYN]'
