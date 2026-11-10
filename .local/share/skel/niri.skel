@@ -47,9 +47,7 @@ layout {
 
     preset-column-widths {
         proportion 0.5
-        proportion 0.33333
-        proportion 0.66667
-
+        proportion 1.0
     }
 
     default-column-width { proportion 0.5; }
@@ -163,8 +161,7 @@ binds {
     // "Mod" is a special modifier equal to Super when running on a TTY, and to Alt
     // when running as a winit window.
 
-    Super+Return { spawn "{{{$TERMINAL}}}"; }
-    Super+Ctrl+Return { spawn "~/.config/niri/scripts/open_in_column" "{{{$TERMINAL}}}"; }
+    Super+Return { spawn "{{{$HOME}}}/.config/niri/scripts/open-terminal"; }
     Super+R { spawn-sh "tofi-drun | xargs niri msg action spawn -- "; }
 
     // close notifications
@@ -279,7 +276,7 @@ binds {
     Super+Space { spawn "{{{$HOME}}}/.config/niri/scripts/focus-urgent-window"; }
 
     Super+Comma  { consume-or-expel-window-left; }
-    Super+Period { expel-window-from-column; }
+    Super+Period { consume-or-expel-window-right; }
 
     Super+S { switch-preset-column-width; }
     Super+V { switch-preset-window-height; }
@@ -294,7 +291,7 @@ binds {
     Super+Minus { set-column-width "-10%"; }
     Super+Plus { set-column-width "+10%"; }
     Super+Shift+Minus { set-window-height "-10%"; }
-    Super+Shift+Equal { set-window-height "+10%"; }
+    Super+Shift+Plus { set-window-height "+10%"; }
 
     Super+T       { toggle-window-floating; }
     Super+Shift+T       { switch-focus-between-floating-and-tiling; }
@@ -313,7 +310,6 @@ binds {
     Super+I { spawn "wlr-which-key" "--initial-keys=i"; }
     Super+M { spawn "wlr-which-key" "--initial-keys=m"; }
     Super+B { spawn "wlr-which-key" "--initial-keys=b"; }
-    Super+Shift+I { spawn "wlr-which-key" "--initial-keys=x"; }
 }
 
 // overview settings
