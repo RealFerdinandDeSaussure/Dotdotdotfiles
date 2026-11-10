@@ -1,9 +1,15 @@
 function aursearch -d "Search the AUR for packages"
-    # -b/--browser: process the search query in the browser instead of printing
-    #               to the terminal
+    # -b/--browser: process the search query in the browser instead of printing to the terminal
     # -s/--sort-by-votes: sort results by votes
     # -q/--quiet: only print package names and no additional information
-    argparse -n aursearch b/browser s/sort-by-votes q/quiet -- $argv
+    # -h/--help: show this help and exit
+    argparse -n aursearch b/browser s/sort-by-votes q/quiet 'h/help' -- $argv
+
+    if set -fq _flag_help
+        funchelp (status function)
+        return
+    end
+
     test (count $argv) -eq 0 && return 1
 
     if set -fq _flag_browser

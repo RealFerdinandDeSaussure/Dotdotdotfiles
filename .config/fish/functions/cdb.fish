@@ -1,7 +1,14 @@
 function cdb -d "Browse through directory bookmarks"
     # -a/--add: add a bookmark
     # -d/--delete: delete a bookmark
-    argparse -n cdb 'a/add' 'd/delete' -- $argv
+    # -h/--help: show this help and exit
+    argparse -n cdb 'a/add' 'd/delete' 'h/help' -- $argv
+
+    if set -fq _flag_help
+        funchelp (status function)
+        return
+    end
+
     set -f bookmark_file "$__fish_user_data_dir/cdb_bookmarks"
 
     if set -fq _flag_add

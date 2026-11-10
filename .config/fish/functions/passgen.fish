@@ -1,7 +1,13 @@
 function passgen -d "Generate a password and insert it into the password store"
     # -d/--diceware: use diceware for generating a password
     # -r/--randstring: use randstring function for generating a password
-    argparse -n passgen -x 'diceware,randstring' 'd/diceware' 'r/randstring' -- $argv
+    # -h/--help: show this help and exit
+    argparse -n passgen -x 'diceware,randstring' 'd/diceware' 'r/randstring' 'h/help' -- $argv
+
+    if set -fq _flag_help
+        funchelp (status function)
+        return
+    end
 
     if [ -z "$argv" ]
         echo "Specify a password file name." >&2

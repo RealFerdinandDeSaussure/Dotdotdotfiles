@@ -1,6 +1,13 @@
 function aurinfo -a pkg -d "Query the AUR for a given package"
     # -j/--json: print JSON instead of human-readable output
-    argparse -n aurinfo 'j/json' -- $argv
+    # -h/--help: show this help and exit
+    argparse -n aurinfo 'j/json' 'h/help' -- $argv
+
+    if set -fq _flag_help
+        funchelp (status function)
+        return
+    end
+
     test (count $argv) -ne 1 && return 1
 
     set -f pr_keys Name Description Version Keywords URL \

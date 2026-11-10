@@ -1,7 +1,13 @@
 function colortest -d "Print an overview of all base16 colors set in the environment"
     # -s/--start: set a start value for a range of base16 colors to include
     # -t/--to: set an end value for a range of base16 colors to include
-    argparse -n colortest 's/start=!_validate_int --min 0 --max 15' 't/to=!_validate_int --min 0 --max 15' -- $argv || return 1
+    # -h/--help: show this help and exit
+    argparse -n colortest 's/start=!_validate_int --min 0 --max 15' 't/to=!_validate_int --min 0 --max 15' 'h/help' -- $argv || return 1
+
+    if set -fq _flag_help
+        funchelp (status function)
+        return
+    end
     
     not set -fq _flag_start && set -f _flag_start 0
     not set -fq _flag_to && set -f _flag_to 15

@@ -2,7 +2,14 @@ function hex2rgb -d "Convert hex color descriptions to their RGB equivalents"
     # -r: print only the value for red
     # -g: print only the value for green
     # -b: print only the value for blue
-    argparse -n hex2rgb -x 'r,g,b' 'r' 'g' 'b' -- $argv || return 1
+    # -h/--help: show this help and exit
+    argparse -n hex2rgb -x 'r,g,b' 'r' 'g' 'b' 'h/help' -- $argv || return 1
+
+    if set -fq _flag_help
+        funchelp (status function)
+        return
+    end
+
     test (count $argv) -eq 1 || return 1
     test (string length $argv) -eq 6 || return 1
 

@@ -5,7 +5,13 @@ function frename -d "Rename files in bulk using replacement patterns"
     # -n/--dry-run: don't rename anything, only print the expected result
     # -r/--regex: use PCRE2-style regular expressions in your pattern
     # -v/--verbose: print all rename operations to the terminal
-    argparse -n frename 'a/all' 'i/ignore-case' 'I/non-interactive' 'n/dry-run' 'r/regex' 'v/verbose' -- $argv
+    # -h/--help: show this help and exit
+    argparse -n frename 'a/all' 'i/ignore-case' 'I/non-interactive' 'n/dry-run' 'r/regex' 'v/verbose' 'h/help' -- $argv
+
+    if set -fq _flag_help
+        funchelp (status function)
+        return
+    end
 
     set -fq _flag_non-interactive || set -f _flag_interactive "--interactive"
 

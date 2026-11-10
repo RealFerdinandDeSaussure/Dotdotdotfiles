@@ -1,16 +1,16 @@
 function arch-pkg-reqs -d "Process $HOME/.config/.packages in various ways"
-    # -f/--pkg-file: path to the package file to be used, by default this file
-    #                is assumed to be at ~/.config/.packages
-    # -b/--backquery: print all explicitly installed non-dependencies on the
-    #                 system (as pacman -Qet) excluding the packages in
-    #                 .packages
-    # -i/--install: install all packages in .packages not found on the system;
-    #               supply twice to use aurmake on packages not found in the
-    #               pacman repos
-    # -q/--query: list packages in .packages not on the system and packages that
-    #             git grep could not find in the $HOME repo (which can
-    #             potentially be removed from .packages)
-    argparse -n arch-pkg-reqs 'b/backquery' 'i/install' 'q/query' -- "$argv"
+    # -f/--pkg-file: path to the package file to be used, by default this file is assumed to be at ~/.config/.packages
+    # -b/--backquery: print all explicitly installed non-dependencies on the system (as pacman -Qet) excluding the packages in .packages
+    # -i/--install: install all packages in .packages not found on the system; supply twice to use aurmake on packages not found in the pacman repos
+    # -q/--query: list packages in .packages not on the system and packages that git grep could not find in the $HOME repo (which can potentially be removed from .packages)
+    # -h/--help: show this help and exit
+    argparse -n arch-pkg-reqs 'b/backquery' 'i/install' 'q/query' 'h/help' -- "$argv"
+
+    if set -fq _flag_help
+        funchelp (status function)
+        return
+    end
+
     if [ -z "$_flag_b$_flag_i$_flag_q" ]
         echo "Choose one of the available modes: --backquery, --install, or --query" >&2
         return 1

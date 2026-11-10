@@ -1,10 +1,14 @@
 function glob -d "Filter files and filepaths"
-    # any flag that fish's test builtin accepts for inspecting files can be
-    # passed to this function, additionally:
     # -h/--hidden: include hidden files (files/directories prefixed with a dot)
-    # -X/--except: exclude specific files (can be specified more than once);
-    #              accepts quoted wildcards
-    argparse -n glob -x 'b,c,d,f,g,G,L,O,p,r,s,S,t,u,w,x' 'h/hidden' 'X/except=+' 'b/block' 'c/character' 'd/directory' 'g/group' 'G/Group' 'f/file' 'L/Link' 'O/Owned' 'p/pipe' 'r/readable' 's/size' 'S/Socket' 't/terminal' 'u/user' 'w/writable' 'x/xecutable' -- $argv || return 1
+    # -X/--except: exclude specific files (can be specified more than once); accepts quoted wildcards
+    # -xxx any flag that fish's test builtin accepts for inspecting files can also be passed to this function
+    # -h/--help: show this help and exit
+    argparse -n glob -x 'b,c,d,f,g,G,L,O,p,r,s,S,t,u,w,x' 'n/hidden' 'X/except=+' 'b/block' 'c/character' 'd/directory' 'g/group' 'G/Group' 'f/file' 'L/Link' 'O/Owned' 'p/pipe' 'r/readable' 's/size' 'S/Socket' 't/terminal' 'u/user' 'w/writable' 'x/xecutable' 'h/help' -- $argv || return 1
+
+    if set -fq _flag_help
+        funchelp (status function)
+        return
+    end
 
     # build list of files
     set -f all_files $argv

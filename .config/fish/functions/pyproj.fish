@@ -1,9 +1,14 @@
 function pyproj -d "Activate python virtual environment for current project"
-    # -c/--create: create and activate a new virtual environment in the current
-    #              working directory, if one already exists, it will be
-    #              overwritten!
+    # -c/--create: create and activate a new virtual environment in the current working directory, if one already exists, it will be overwritten!
     # -d/--delete: delete the virtual environment for the current project
-    argparse -n pyproj c/create d/delete -- $argv || return 1
+    # -h/--help: show this help and exit
+    argparse -n pyproj c/create d/delete 'h/help' -- $argv || return 1
+
+    if set -fq _flag_help
+        funchelp (status function)
+        return
+    end
+
     set -f first_run 0
     set -f venv_base $HOME/.local/share/python/venv
 

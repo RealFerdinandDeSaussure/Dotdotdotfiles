@@ -1,7 +1,13 @@
 function chksum -d "Check a file against a hash provided on the command line"
-    # -h/--hash: type of hash, this must match an executable named ${hash}sum in
-    #            $PATH (default: sha256)
-    argparse -n 'chksum' 'h/hash=' -- $argv || return
+    # -s/--hash: type of hash, this must match an executable named ${hash}sum in $PATH (default: sha256)
+    # -h/--help: show this help and exit
+    argparse -n 'chksum' 'h/hash=' 'h/help' -- $argv || return
+
+    if set -fq _flag_help
+        funchelp (status function)
+        return
+    end
+
 
     if [ ! (count $argv) -eq 2  -o ! -f "$argv[-1]" ]
         echo "syntax: chksum [-h HASH_TYPE] CHECKSUM FILE"
