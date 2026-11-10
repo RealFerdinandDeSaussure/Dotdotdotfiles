@@ -82,7 +82,7 @@
   (setopt eglot-workspace-configuration #'+eglot-workspace-configuration)
   ;; change default eglot servers or add ones not present in the default config
   (add-to-list 'eglot-server-programs
-               '(fish-mode . ("fish-lsp" "start")))
+               '(fish-mode . ("fish-lsp" "start" :initializationOptions (:fish_lsp_disabled_handlers ["typeFormatting"]))))
   (setf
    (alist-get '(python-mode python-ts-mode) eglot-server-programs nil nil #'equal)
    '("rass" "tyruff"))
